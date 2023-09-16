@@ -1,0 +1,21 @@
+version: "3"
+services:
+  caddy:
+    image: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+      - ~/.config/caddy:/root/.caddy
+    restart: always
+    environment:
+        - CLOUDFLARE_EMAIL=2742392377@qq.com
+        - CLOUDFLARE_API_KEY=your_api_key
+        - ACME_AGREE=true
+        - TZ=Asia/Shanghai
+    networks:
+      - frontend
+
+networks:
+  frontend:
