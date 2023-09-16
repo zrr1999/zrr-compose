@@ -1,0 +1,138 @@
+# The Caddyfile is an easy way to configure your Caddy web server.
+#
+# Unless the file starts with a global options block, the first
+# uncommented line is always the address of your site.
+#
+# To use your own domain name (with automatic HTTPS), first make
+# sure your domain's A/AAAA DNS records are properly pointed to
+# this machine's public IP, then replace ":80" below with your
+# domain name.
+www.bone6.top {
+  root * /home/ubuntu/MyBlog/
+  file_server
+}
+
+headscale.bone6.top {
+	reverse_proxy localhost:8080
+}
+
+api.bone6.top {
+	reverse_proxy localhost:6954
+}
+
+gjdb.bone6.top {
+	root * /home/ubuntu/slides/gjdb
+	encode gzip
+	try_files {path} /index.html
+}
+
+txlj.bone6.top {
+	reverse_proxy localhost:1234
+}
+
+jtdb.bone6.top {
+	reverse_proxy /home/ubuntu/slides/jtdb
+}
+
+mid-term.bone6.top {
+	reverse_proxy /home/ubuntu/bishe/mid-term
+}
+
+password.bone6.top {
+  # Uncomment this if you want to get a cert via ACME (Let's Encrypt or ZeroSSL).
+  # tls {$EMAIL}
+
+  # Or uncomment this if you're providing your own cert. You would also use this option
+  # if you're running behind Cloudflare.
+  # tls {$SSL_CERT_PATH} {$SSL_KEY_PATH}
+
+  # This setting may have compatibility issues with some browsers
+  # (e.g., attachment downloading on Firefox). Try disabling this
+  # if you encounter issues.
+  # encode gzip
+
+  # Uncomment to allow access to the admin interface only from local networks
+  # @insecureadmin {
+  #   not remote_ip 192.168.0.0/16 172.16.0.0/12 10.0.0.0/8
+  #   path /admin*
+  # }
+  # redir @insecureadmin /
+
+  # Notifications redirected to the websockets server
+  reverse_proxy /notifications/hub localhost:23012
+
+  # Proxy everything else to Rocket
+  # if located at a sub-path the reverse_proxy line will look like:
+  #   reverse_proxy /subpath/* <SERVER>:80
+  reverse_proxy localhost:20080 {
+    # Send the true remote IP to Rocket, so that vaultwarden can put this in the
+    # log, so that fail2ban can ban the correct IP.
+    header_up X-Real-IP 1.15.231.43
+  }
+}
+
+
+# server {
+# 	listen 80;
+# 	server_name www.bonetex.top;
+# 	location / {
+# 		proxy_pass http://localhost:8082;
+# 	}
+# }
+	
+
+# server {
+# 	listen 80;
+# 	server_name www.bone6.top;
+# 	location / {
+# 		root /home/ubuntu/MyBlog/;
+# 	}
+# }
+
+#   server {
+#         listen 443 ssl;
+#         server_name www.bonetex.top;
+#         ssl_certificate ./conf/www.bonetex.top_bundle.crt;
+#         ssl_certificate_key ./conf/www.bonetex.top.key;
+#         ssl_session_timeout 5m;
+#         ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+#         ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+#         ssl_prefer_server_ciphers on;
+#         location / {
+#     			root /home/ubuntu/MyBlog/;
+#     		}
+#     }
+
+
+# server {
+# 	listen 80;
+# 	server_name www.bonetex.top;
+# 	return 301 https://$host$request_uri;
+# }
+
+
+# server {
+# 	listen 80;
+# 	server_name slides.bone6.top;
+# 	location / {
+# 		proxy_pass http://localhost:1234/;
+# 	}
+# }
+
+# server {
+#     listen 80;
+#     server_name slides.bone6.top;
+# 	# root  /home/ubuntu/slides;
+# 	location / {
+# 			root  /home/ubuntu/slides/gjdb;
+# 	}
+# 	location /gjdb {
+# 			root  /home/ubuntu/slides/gjdb;
+# 	}
+#     location /mid-term {
+# 			root  mid-term;
+# 	}
+#     location /jtdb {
+# 			root  jtdb;
+# 	}
+# }
