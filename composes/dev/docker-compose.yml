@@ -10,9 +10,9 @@ services:
       - 10000:22
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
+      - '~/.ssh:/root/.ssh'
       - '~/workspace:/workspace'
       - '/mnt:/mnt:r'
-      - '~/.ssh:/root/.ssh:r'
     command: /bin/bash -c "/run.sh && zsh"
     restart: unless-stopped
 
@@ -26,8 +26,8 @@ services:
       - 10001:22
     volumes:
       - '~/workspace:/workspace'
+      - '~/.ssh:/root/.ssh'
       - '~/micromamba/envs/cuda118:/nvidia/cuda:r'
       - '/mnt:/mnt:r'
-      - '~/.ssh:/root/.ssh:r'
     command: /bin/bash -c "/run.sh && zsh"
     restart: unless-stopped
