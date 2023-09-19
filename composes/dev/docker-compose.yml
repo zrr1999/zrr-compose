@@ -10,11 +10,10 @@ services:
       - 10000:22
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
-      - '~/.ssh:/root/.ssh'
       - '~/workspace:/workspace'
       - '/mnt:/mnt:r'
     command: /bin/bash -c "/run.sh && zsh"
-    restart: unless-stopped
+    restart: true
 
   dev-paddle:
     image: zrr1999/zrr-paddle:latest
@@ -26,8 +25,7 @@ services:
       - 10001:22
     volumes:
       - '~/workspace:/workspace'
-      - '~/.ssh:/root/.ssh'
       - '~/micromamba/envs/cuda118:/nvidia/cuda:r'
       - '/mnt:/mnt:r'
     command: /bin/bash -c "/run.sh && zsh"
-    restart: unless-stopped
+    restart: true
