@@ -29,3 +29,10 @@ services:
       - '/mnt:/mnt:r'
     command: /bin/bash -c "/run.sh && zsh"
     restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
