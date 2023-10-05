@@ -6,7 +6,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/caddy/Caddyfile:/etc/Caddyfile
+      - /etc/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ~/.config/caddy:/root/.caddy
     restart: always
     environment:
