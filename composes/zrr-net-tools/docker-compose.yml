@@ -1,7 +1,0 @@
-version: '3.3'
-services:
-  zrr-tools:
-    image: zrr1999/zrr-tools:latest
-    ports:
-      - 20001:8000
-  

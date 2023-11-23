@@ -1,21 +1,14 @@
 version: "3"
 services:
   caddy:
-    image: caddy
-    ports:
-      - "80:80"
-      - "443:443"
+    image: zrr1999/zrr-caddy
+    network_mode: "host"
     volumes:
       - /etc/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ~/.config/caddy:/root/.caddy
     restart: always
     environment:
-      - CLOUDFLARE_EMAIL=2742392377@qq.com
-      - CLOUDFLARE_API_KEY=your_api_key
+      - DNSPOD_TOKEN=$DNSPOD_TOKEN
+      - DNSPOD_ID=$DNSPOD_ID
       - ACME_AGREE=true
       - TZ=Asia/Shanghai
-    networks:
-      - frontend
-
-networks:
-  frontend:
