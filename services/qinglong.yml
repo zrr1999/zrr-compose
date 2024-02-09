@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  qinglong:
+    image: whyour/qinglong:latest
+    volumes:
+      - ../volumes/qinglong:/ql/data
+    ports:
+      - 5700
+    environment:
+      QlBaseUrl: '/'
+    restart: always

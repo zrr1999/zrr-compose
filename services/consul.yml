@@ -1,0 +1,28 @@
+services:
+  consul:
+    image: consul:1.15
+    restart: always
+    volumes:
+      - ../volumes/consul/certs/:/consul/config/certs/
+      - ../volumes/consul/config/consul-acl.json:/consul/config/consul-acl.json:ro
+    networks:
+      - consul
+
+  server:
+    extends: consul
+    command: agent -bootstrap-expect=3
+
+  client:
+    extends: consul
+    command: agent
+
+  registrator:
+    image: gliderlabs/registrator:latest
+    restart: always
+    network_mode: host
+    env_file:
+      - path: ${AUTO_TOKEN_ENV_DIR}/consul.env
+        required: true
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    command: consul://localhost:8500

@@ -1,0 +1,16 @@
+version: "3"
+services:
+  caddy:
+    image: zrr1999/zrr-caddy
+    restart: always
+    network_mode: host
+    volumes:
+      - ../volumes/caddy/caddy/:/etc/caddy/
+      - ../volumes/caddy/data:/data
+      - ../volumes/caddy/config:/config
+    env_file:
+    - path: ${AUTO_TOKEN_ENV_DIR}/tencentcloud.env
+      required: false
+    environment:
+      - ACME_AGREE=true
+      - TZ=Asia/Shanghai
