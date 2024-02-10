@@ -72,6 +72,22 @@ services:
       file: services/vaultwarden.yml
       service: vaultwarden
 
+  one-api-db:
+    extends:
+      file: services/chat.yml
+      service: one-api-db
+
+  one-api:
+    extends:
+      file: services/chat.yml
+      service: one-api
+
+  lobe-chat:
+    container_name: lobe-chat
+    extends:
+      file: services/chat.yml
+      service: lobe-chat
+
 networks:
   consul:
     driver: bridge
