@@ -1,0 +1,46 @@
+services:
+  one-api-db:
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ONEAPI
+      MYSQL_USER: oneapi
+      MYSQL_PASSWORD: "123456"
+      MYSQL_DATABASE: one-api
+    volumes:
+      - ../volumes/one-api/db:/var/lib/mysql
+
+  one-api:
+    image: justsong/one-api:latest
+    restart: always
+    environment:
+      - PORT=3000
+      - SQL_DSN=oneapi:123456@tcp(one-api-db:3306)/one-api
+      - TZ=Asia/Shanghai
+    volumes:
+      - ../volumes/one-api/data:/data
+      - ../volumes/one-api/logs:/app/logs
+    ports:
+      - 3000
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q -O - http://localhost:3000/api/status | grep -o '\"success\":\\s*true' | awk -F: '{print $2}'",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: --log-dir /app/logs
+
+  lobe-chat:
+    image: lobehub/lobe-chat:latest
+    restart: always
+    ports:
+      - 3210
+    env_file:
+      - path: ${AUTO_TOKEN_ENV_DIR}/lobechat.env
+        required: false
+    container_name: lobe-chat
+
