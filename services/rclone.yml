@@ -1,0 +1,6 @@
+services:
+  rclone:
+    image: rclone/rclone
+    restart: always
+    volumes:
+      - ../volumes/rclone/:/config/rclone/

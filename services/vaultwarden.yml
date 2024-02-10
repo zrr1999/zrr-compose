@@ -1,0 +1,10 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    restart: always
+    volumes:
+      - ../volumes/vaultwarden/data:/data
+    ports:
+      - 80
+    environment:
+      SIGNUPS_ALLOWED: "false"
