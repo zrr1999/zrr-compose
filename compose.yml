@@ -57,6 +57,21 @@ services:
       file: services/caddy.yml
       service: caddy
 
+  rclone:
+    container_name: rclone
+    extends:
+      file: services/rclone.yml
+      service: rclone
+    command: sync /source/volumes/ onedrive:/rclone-backup/volumes/ -L
+    volumes:
+      - ../volumes/:/source/volumes/
+    
+  vaultwarden:
+    container_name: vaultwarden
+    extends:
+      file: services/vaultwarden.yml
+      service: vaultwarden
+
 networks:
   consul:
     driver: bridge

@@ -1,5 +1,5 @@
 services:
-  consul:
+  base:
     image: consul:1.15
     restart: always
     volumes:
@@ -9,11 +9,11 @@ services:
       - consul
 
   server:
-    extends: consul
+    extends: base
     command: agent -bootstrap-expect=3
 
   client:
-    extends: consul
+    extends: base
     command: agent
 
   registrator:

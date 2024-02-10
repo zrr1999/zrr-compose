@@ -1,4 +1,3 @@
-version: "3"
 services:
   caddy:
     image: zrr1999/zrr-caddy
