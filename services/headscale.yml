@@ -1,0 +1,25 @@
+services:
+  server:
+    image: headscale/headscale:latest
+    restart: always
+    volumes:
+      - ../volumes/headscale/config:/etc/headscale
+      - ../volumes/headscale/data:/var/lib/headscale
+    ports:
+      - 8080
+    command: headscale serve
+  derper:
+    image: fredliang/derper
+    restart: always
+    ports:
+      - 8080
+      - 3478:3478/udp
+    environment:
+      DERP_DOMAIN: ghk.derp.bone6.top
+      DERP_ADDR: ":8080"
+      DERP_VERIFY_CLIENTS: true
+    volumes:
+      - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
+  ui:
+    image: ghcr.io/gurucomputing/headscale-ui:latest
+    restart: always
