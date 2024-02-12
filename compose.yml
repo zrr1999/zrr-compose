@@ -62,9 +62,9 @@ services:
     extends:
       file: services/rclone.yml
       service: rclone
-    command: sync /source/volumes/ onedrive:/rclone-backup/volumes/ -L
+    command: sync /source/volumes/ onedrive:/rclone-backup/volumes/ --local-no-check-updated --ignore-size --ignore-checksum
     volumes:
-      - ../volumes/:/source/volumes/
+      - ./volumes:/source/volumes:ro
     
   vaultwarden:
     container_name: vaultwarden
