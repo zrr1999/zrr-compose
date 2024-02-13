@@ -3,58 +3,58 @@ services:
   consul-server1:
     container_name: consul-server1
     extends:
-      file: services/consul.yml
+      file: ../../services/consul.yml
       service: server
     ports:
       - 8500:8500
       - 8600:8600
     volumes:
-      - ./volumes/consul/config/server1.json:/consul/config/server1.json:ro
-      - ./volumes/consul/data1:/consul/data/
+      - ../../volumes/consul/config/server1.json:/consul/config/server1.json:ro
+      - ../../volumes/consul/data1:/consul/data/
 
   consul-server2:
     container_name: consul-server2
     extends:
-      file: services/consul.yml
+      file: ../../services/consul.yml
       service: server
     volumes:
-      - ./volumes/consul/config/server2.json:/consul/config/server2.json:ro
-      - ./volumes/consul/data2:/consul/data/
+      - ../../volumes/consul/config/server2.json:/consul/config/server2.json:ro
+      - ../../volumes/consul/data2:/consul/data/
   
   consul-server3:
     container_name: consul-server3
     extends:
-      file: services/consul.yml
+      file: ../../services/consul.yml
       service: server
     volumes:
-      - ./volumes/consul/config/server3.json:/consul/config/server3.json:ro
-      - ./volumes/consul/data3:/consul/data/
+      - ../../volumes/consul/config/server3.json:/consul/config/server3.json:ro
+      - ../../volumes/consul/data3:/consul/data/
     
   consul-client:
     extends:
-      file: services/consul.yml
+      file: ../../services/consul.yml
       service: client
     container_name: consul-client
     volumes:
-      - ./volumes/consul/config/client.json:/consul/config/client.json:ro
-      - ./volumes/consul/data4:/consul/data/
+      - ../../volumes/consul/config/client.json:/consul/config/client.json:ro
+      - ../../volumes/consul/data4:/consul/data/
 
   consul-registrator:
     extends:
-      file: services/consul.yml
+      file: ../../services/consul.yml
       service: registrator
     container_name: consul-registrator
 
   caddy:
     container_name: caddy
     extends:
-      file: services/caddy.yml
+      file: ../../services/caddy.yml
       service: caddy
 
   rclone:
     container_name: rclone
     extends:
-      file: services/rclone.yml
+      file: ../../services/rclone.yml
       service: rclone
     command: sync /source/volumes/ onedrive:/rclone-backup/volumes/ --local-no-check-updated --ignore-size --ignore-checksum
     volumes:
@@ -63,35 +63,35 @@ services:
   vaultwarden:
     container_name: vaultwarden
     extends:
-      file: services/vaultwarden.yml
+      file: ../../services/vaultwarden.yml
       service: vaultwarden
 
   one-api-db:
     extends:
-      file: services/chat.yml
+      file: ../../services/chat.yml
       service: one-api-db
 
   one-api:
     extends:
-      file: services/chat.yml
+      file: ../../services/chat.yml
       service: one-api
 
   lobe-chat:
     container_name: lobe-chat
     extends:
-      file: services/chat.yml
+      file: ../../services/chat.yml
       service: lobe-chat
 
   n8n-postgres:
     container_name: n8n-postgres
     extends:
-      file: services/n8n.yml
+      file: ../../services/n8n.yml
       service: n8n-postgres
   
   n8n:
     container_name: n8n
     extends:
-      file: services/n8n.yml
+      file: ../../services/n8n.yml
       service: n8n
     links:
       - n8n-postgres:postgres
@@ -99,33 +99,34 @@ services:
   illa:
     container_name: illa
     extends:
-      file: services/illa.yml
+      file: ../../services/illa.yml
       service: illa
 
   headscale:
     container_name: headscale
     extends:
-      file: services/headscale.yml
+      file: ../../services/headscale.yml
       service: server
   
   headscale-derper:
     container_name: headscale-derper
     extends:
-      file: services/headscale.yml
+      file: ../../services/headscale.yml
       service: derper
   
   headscale-ui:
     container_name: headscale-ui
     extends:
-      file: services/headscale.yml
+      file: ../../services/headscale.yml
       service: ui
   
   homepage:
     container_name: homepage
     extends:
-      file: services/homepage.yml
+      file: ../../services/homepage.yml
       service: base
-
+    volumes:
+      - ./configs/homepage:/app/config:ro
 networks:
   consul:
     driver: bridge

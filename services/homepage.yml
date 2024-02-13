@@ -1,10 +1,11 @@
 services:
   base:
-    image: 'ghcr.io/benphelps/homepage:latest'
-    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:latest
+    restart: always
     ports:
-      - '9333:3000'
+      - 3000
     volumes:
-      - '../configs/homepage:/app/config'
-      - '/var/run/docker.sock:/var/run/docker.sock'
-    restart: unless-stopped
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      caddy: homepage.bone6.top
+      caddy.reverse_proxy: "{{upstreams 3000}}"
