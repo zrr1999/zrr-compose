@@ -7,5 +7,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
-      caddy: homepage.bone6.top
       caddy.reverse_proxy: "{{upstreams 3000}}"

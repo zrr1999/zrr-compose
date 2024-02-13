@@ -33,6 +33,8 @@ services:
       timeout: 10s
       retries: 3
     command: --log-dir /app/logs
+    labels:
+      caddy.reverse_proxy: "{{upstreams 3000}}"
 
   lobe-chat:
     image: lobehub/lobe-chat:latest
@@ -43,4 +45,6 @@ services:
       - path: ${AUTO_TOKEN_ENV_DIR}/lobechat.env
         required: false
     container_name: lobe-chat
+    labels:
+      caddy.reverse_proxy: "{{upstreams 3210}}"
 

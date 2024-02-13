@@ -65,6 +65,8 @@ services:
     extends:
       file: ../../services/vaultwarden.yml
       service: vaultwarden
+    labels:
+      caddy: password.bone6.top pw.bone6.top
 
   one-api-db:
     extends:
@@ -75,13 +77,22 @@ services:
     extends:
       file: ../../services/chat.yml
       service: one-api
+    labels:
+      caddy: one-api.bone6.top
 
   lobe-chat:
     container_name: lobe-chat
     extends:
       file: ../../services/chat.yml
       service: lobe-chat
-
+    labels:
+      caddy: lobe.bone6.top
+      homepage.group: 智能
+      homepage.name: LobeChat
+      homepage.icon: https://lobe.bone6.top/favicon.ico
+      homepage.href: https://lobe.bone6.top
+      homepage.description: 开源的高性能聊天机器人框架 LobeChat。
+  
   n8n-postgres:
     container_name: n8n-postgres
     extends:
@@ -95,31 +106,46 @@ services:
       service: n8n
     links:
       - n8n-postgres:postgres
+    labels:
+      caddy: n8n.bone6.top
 
   illa:
     container_name: illa
     extends:
       file: ../../services/illa.yml
       service: illa
+    labels:
+      caddy: illa.bone6.top
 
   headscale:
     container_name: headscale
     extends:
       file: ../../services/headscale.yml
       service: server
-  
+    labels:
+      caddy: headscale.bone6.top
+
   headscale-derper:
     container_name: headscale-derper
     extends:
       file: ../../services/headscale.yml
       service: derper
+    labels:
+      caddy: ghk.derp.bone6.top
   
   headscale-ui:
     container_name: headscale-ui
     extends:
       file: ../../services/headscale.yml
       service: ui
-  
+    labels:
+      caddy: headscale.bone6.top
+      homepage.group: 网络
+      homepage.name: Headscale
+      homepage.icon: https://tailscale.com/favicon.ico
+      homepage.href: https://headscale.bone6.top
+      homepage.description: Headscale 组网管理
+
   homepage:
     container_name: homepage
     extends:
@@ -127,6 +153,10 @@ services:
       service: base
     volumes:
       - ./configs/homepage:/app/config:ro
+    labels:
+      caddy: homepage.bone6.top
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+
 networks:
   consul:
     driver: bridge
