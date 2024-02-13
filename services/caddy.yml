@@ -2,8 +2,11 @@ services:
   caddy:
     image: zrr1999/zrr-caddy
     restart: always
-    network_mode: host
+    ports:
+      - 80:80
+      - 443:443
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - ../volumes/caddy/caddy/:/etc/caddy/
       - ../volumes/caddy/data:/data
       - ../volumes/caddy/config:/config

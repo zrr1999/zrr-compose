@@ -1,0 +1,22 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/widgets
+
+- resources:
+    cpu: true
+    memory: true
+    # disk: "C://"
+
+- datetime:
+    text_size: xl
+    format:
+      timeStyle: short
+      
+- search:
+    provider: baidu
+    target: _blank
+
+- search:
+    provider: [brave, google, duckduckgo]
+    target: _blank
+
