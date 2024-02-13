@@ -45,12 +45,6 @@ services:
       service: registrator
     container_name: consul-registrator
 
-  qinglong:
-    container_name: qinglong
-    extends:
-      file: services/qinglong.yml
-      service: qinglong
-
   caddy:
     container_name: caddy
     extends:
@@ -125,6 +119,12 @@ services:
     extends:
       file: services/headscale.yml
       service: ui
+  
+  homepage:
+    container_name: homepage
+    extends:
+      file: services/homepage.yml
+      service: base
 
 networks:
   consul:
