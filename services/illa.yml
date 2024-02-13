@@ -1,0 +1,8 @@
+services:
+  illa:
+    image: illasoft/illa-builder:latest
+    restart: always
+    ports:
+      - 2022
+    volumes:
+      - ../volumes/illa/postgresql/:/var/lib/postgresql/

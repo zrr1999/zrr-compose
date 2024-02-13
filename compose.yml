@@ -102,6 +102,12 @@ services:
     links:
       - n8n-postgres:postgres
 
+  illa:
+    container_name: illa
+    extends:
+      file: services/illa.yml
+      service: illa
+
   headscale:
     container_name: headscale
     extends:
