@@ -8,6 +8,8 @@ services:
     ports:
       - 8080
     command: headscale serve
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8080}}"
   derper:
     image: fredliang/derper
     restart: always
@@ -20,6 +22,9 @@ services:
       DERP_VERIFY_CLIENTS: true
     volumes:
       - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
+    labels:
+      caddy.redir: / /web
+      caddy.reverse_proxy: "{{upstreams 8080}}"
   ui:
     image: ghcr.io/gurucomputing/headscale-ui:latest
     restart: always
@@ -27,4 +32,5 @@ services:
       - 8080
     environment:
       HTTP_PORT: 8080
-    
+    labels:
+      caddy.reverse_proxy: "/web* {{upstreams 8080}}"

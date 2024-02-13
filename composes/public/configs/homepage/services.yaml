@@ -2,86 +2,18 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/en/configs/services
 
-- 媒体:
-    - Jellyfin:
-        icon: jellyfin.png
-        href: http://j.home.bone6.top/
-        description: 家庭影音中心
-        widget:
-            type: jellyfin
-            url: http://192.168.2.101:8096
-            key: a07afbcd7a684dae8543c9ea5c4e1e60
-            # enableBlocks: false # optional, defaults to false
-            # enableNowPlaying: true # optional, defaults to true
-
-    - Jellyseerr:
-        icon: jellyseerr.png
-        href: http://s.home.bone6.top/
-        widget:
-            type: jellyseerr
-            fields: ["pending", "approved", "available"]
-            url: http://s.home.bone6.top
-            key: MTY3ODc5MjA4OTAyMWYzYzMzZTZkLWViZmYtNDY0Ni1hMmQyLTcxNzU5MTcwNGRhYw==
-
-    - Sonarr:
-        icon: sonarr.png
-        href: http://192.168.2.101:8989
-        widget:
-            type: sonarr
-            fileds: ["wanted", "missing", "queued", "movies"]
-            url: http://192.168.2.101:8989
-            key: 0fbdb6b2b74c4a06b34d4eac87de9fdf
-    
-    - Radarr:
-        icon: radarr.png
-        href: http://192.168.2.101:7878
-        widget:
-            type: radarr
-            fileds: ["wanted", "missing", "queued", "movies"]
-            url: http://192.168.2.101:7878
-            key: 2cd1e5a61477451dadead2c337906eca
-
+- 智能:
 - 工具:
-    - Portainer:
-        icon: portainer.png
-        href: https://portainer.home.bone6.top/
-        description: docker 管理工具
-        widget:
-            type: portainer
-            url: https://portainer.home.bone6.top
-            env: 2
-            key: ptr_9xxO8gyxC1xKX5RdjdClvOeYjdeKGRMhFQxGv0Ww1OE=
+    # - Portainer:
+    #     icon: portainer.png
+    #     href: https://portainer.home.bone6.top/
+    #     description: docker 管理工具
+    #     widget:
+    #         type: portainer
+    #         url: https://portainer.home.bone6.top
+    #         env: 2
+    #         key: ptr_9xxO8gyxC1xKX5RdjdClvOeYjdeKGRMhFQxGv0Ww1OE=
         
-    - Home Assistant:
-        icon: home-assistant.svg
-        href: https://hass.home.bone6.top/
-        description: 智能家居
-        widget:
-            type: homeassistant
-            url: https://hass.home.bone6.top
-            key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjNmM4ODNlMWIyMTY0ODUxOGE3MDc3ZWJjNTdlN2U3MCIsImlhdCI6MTY4NjkzNjE5MywiZXhwIjoyMDAyMjk2MTkzfQ.wjcvOW2HBeGrz8Kb6MW1YyaEnqbVCnvQRHSBdL5uWuU
-            custom:
-                - state: sensor.dced8372c06c_power
-                  label: 当前功率
-                - state: sensor.dced8372c06c_energy
-                  label: 今日能耗
-                # - state: states.sensor.openwrt_router_kib_s_sent
-                #   label: 上传速度
-                # # - template: "{{ states.switch|selectattr('state','equalto','on')|list|length }}"
-                # #   label: switches on
-                # - state: weather.forecast_home
-                #   label: wind speed
-                #   value: "{attributes.wind_speed} {attributes.wind_speed_unit}"
-
-    - npm:
-        icon: nginx.png
-        href: https://proxy.home.bone6.top/
-        description: nginx 代理工具
-        widget:
-            type: npm
-            url: https://proxy.home.bone6.top/
-            username: 2742392377@qq.com
-            password: "#Faufi6#2J9e#BGK3EyH"
     # - caddy:
     #     icon: nginx.png
     #     href: https://proxy.home.bone6.top/
@@ -91,26 +23,6 @@
     #         url: http://www.bone6.top:2019 # default admin port is 2019
 
 - 网络:
-    - qBittorent:
-        icon: qbittorrent.svg
-        href: http://192.168.2.101:8081
-        description: 下载器
-        widget:
-            type: qbittorrent
-            url: http://192.168.2.101:8081
-
-    - speedtest:
-        icon: librespeed.svg
-        href: http://192.168.2.101:8002
-        description: 最近网络速度
-        widget:
-            type: speedtest
-            url: http://192.168.2.101:8002
-    
-    - OpenWRT:
-        icon: openwrt.svg
-        href: https://lab.bone6.top
-        description: OpenWRT 软路由管理界面
 
     # ddns-go
     # smartdns

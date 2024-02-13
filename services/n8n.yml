@@ -30,3 +30,5 @@ services:
       - 5678
     volumes:
       - ../volumes/n8n/node:/home/node/.n8n
+    labels:
+      caddy.reverse_proxy: "{{upstreams 5678}}"

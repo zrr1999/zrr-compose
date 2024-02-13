@@ -6,3 +6,5 @@ services:
       - 2022
     volumes:
       - ../volumes/illa/postgresql/:/var/lib/postgresql/
+    labels:
+      caddy.reverse_proxy: "{{upstreams 2022}}"
