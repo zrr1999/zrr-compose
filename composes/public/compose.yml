@@ -157,6 +157,26 @@ services:
       caddy: homepage.bone6.top
       caddy.reverse_proxy: "{{upstreams 3000}}"
 
+  gitea-db:
+    container_name: gitea-db
+    extends:
+      file: ../../services/gitea.yml
+      service: db
+
+  gitea:
+    container_name: gitea
+    extends:
+      file: ../../services/gitea.yml
+      service: server
+    volumes:
+      - ./volumes:/source/volumes:ro
+    depends_on:
+      - gitea-db
+    links:
+      - gitea-db:db
+    labels:
+      caddy: gitea.bone6.top
+
 networks:
   consul:
     driver: bridge
