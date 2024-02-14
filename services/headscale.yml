@@ -23,7 +23,6 @@ services:
     volumes:
       - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
     labels:
-      caddy.redir: / /web
       caddy.reverse_proxy: "{{upstreams 8080}}"
   ui:
     image: ghcr.io/gurucomputing/headscale-ui:latest
@@ -33,4 +32,5 @@ services:
     environment:
       HTTP_PORT: 8080
     labels:
+      caddy.redir: / /web
       caddy.reverse_proxy: "/web* {{upstreams 8080}}"
