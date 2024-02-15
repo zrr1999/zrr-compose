@@ -1,7 +1,6 @@
 services:
   memos:
     image: neosmemo/memos:stable
-    container_name: memos
     volumes:
       - ../volumes/memos/:/var/opt/memos
     ports:
