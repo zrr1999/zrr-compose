@@ -1,0 +1,71 @@
+version: "3.7"
+services:
+  caddy:
+    container_name: caddy
+    extends:
+      file: ../../services/caddy.yml
+      service: caddy
+
+  homepage:
+    container_name: homepage
+    extends:
+      file: ../../services/homepage.yml
+      service: base
+    volumes:
+      - ./configs/homepage:/app/config:ro
+    labels:
+      caddy: homepage.lab.bone6.top
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+
+  qinglong:
+    container_name: qinglong
+    extends:
+      file: ../../services/qinglong.yml
+      service: qinglong
+    labels:
+      caddy: qinglong.bone6.top
+
+  speedtest-tracker:
+    container_name: speedtest-tracker
+    extends:
+      file: ../../services/speedtest.yml
+      service: speedtest-tracker
+    labels:
+      caddy: speedtest.lab.bone6.top
+
+  # dev-main:
+  #   image: zrr1999/zrr-main:latest
+  #   tty: true
+  #   privileged: true
+  #   pid: host
+  #   container_name: dev-main
+  #   ports:
+  #     - 10000:22
+  #   volumes:
+  #     - '/var/run/docker.sock:/var/run/docker.sock'
+  #     - '~/workspace:/workspace'
+  #     - '/mnt:/mnt:r'
+  #   command: /bin/bash -c "/run.sh && zsh"
+  #   restart: always
+
+  # dev-paddle:
+  #   image: zrr1999/zrr-paddle:latest
+  #   tty: true
+  #   privileged: true
+  #   pid: host
+  #   container_name: dev-paddle
+  #   ports:
+  #     - 10001:22
+  #   volumes:
+  #     - '~/workspace:/workspace'
+  #     - '~/micromamba/envs/cuda:/nvidia/cuda:r'
+  #     - '/mnt:/mnt:r'
+  #   command: /bin/bash -c "/run.sh && zsh"
+  #   restart: always
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
