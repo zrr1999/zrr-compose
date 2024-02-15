@@ -33,6 +33,17 @@ services:
     labels:
       caddy: speedtest.lab.bone6.top
 
+  scrutiny:
+    container_name: scrutiny
+    extends:
+      file: ../../services/scrutiny.yml
+      service: scrutiny
+    devices:
+      - "/dev/nvme0"
+      - "/dev/nvme1"
+    labels:
+      caddy: scrutiny.lab.bone6.top
+
   # dev-main:
   #   image: zrr1999/zrr-main:latest
   #   tty: true
