@@ -1,0 +1,27 @@
+---
+- 工具:
+    # - caddy:
+    #     icon: nginx.png
+    #     href: https://proxy.home.bone6.top/
+    #     description: npm
+    #     widget:
+    #         type: caddy
+    #         url: http://www.bone6.top:2019 # default admin port is 2019
+
+- 网络:
+    - speedtest:
+        icon: librespeed.svg
+        href: http://192.168.2.101:8002
+        description: 最近网络速度
+        widget:
+            type: speedtest
+            url: http://192.168.2.101:8002
+    
+    - OpenWRT:
+        icon: openwrt.svg
+        href: https://lab.bone6.top
+        description: OpenWRT 软路由管理界面
+
+    # ddns-go
+    # smartdns
+    # openclash
