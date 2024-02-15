@@ -1,0 +1,65 @@
+version: '3.7'
+services:
+  flaresolverr:
+    image: flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    ports:
+      - '8191:8191'
+    environment:
+      - LOG_LEVEL=info
+    restart: unless-stopped
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr
+    container_name: jellyseerr
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - '5055:5055'
+    volumes:
+      - '~/workspace/compose-config/jellyfin/config/jellyseerr:/app/config'
+    restart: unless-stopped
+
+  sonarr:
+    container_name: sonarr
+    image: lscr.io/linuxserver/sonarr:latest
+    ports:
+      - "8989:8989"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    volumes:
+      - ~/workspace/compose-config/jellyfin/config/sonarr:/config
+      - /mnt/d/jellyfin/tv:/tv
+      - /mnt/d/jellyfin/下载:/downloads
+    restart: unless-stopped
+
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr:latest
+    ports:
+      - "7878:7878"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Asia/Shanghai
+    volumes:
+      - ~/workspace/compose-config/jellyfin/config/radarr:/config
+      - /mnt/d/jellyfin/movies:/movies
+      - /mnt/d/jellyfin/下载:/downloads
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    ports:
+      - 9696:9696
+    volumes:
+      - ~/workspace/compose-config/jellyfin/config/prowlarr:/config
+    restart: unless-stopped
