@@ -1,0 +1,6 @@
+{
+	acme_dns tencentcloud {
+		secret_id {env.TENCENTCLOUD_SECRET_ID}
+		secret_key {env.TENCENTCLOUD_SECRET_KEY}
+	}
+}
