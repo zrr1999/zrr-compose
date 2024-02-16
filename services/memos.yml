@@ -7,4 +7,6 @@ services:
       - 5230
     labels:
       caddy.reverse_proxy: "{{upstreams 5230}}"
+      homepage.name: Memos
+      homepage.description: 一个开源、轻量级的笔记记录服务。
 

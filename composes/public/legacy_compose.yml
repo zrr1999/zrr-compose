@@ -44,3 +44,7 @@ services:
       file: ../../services/consul.yml
       service: registrator
     container_name: consul-registrator
+
+networks:
+  consul:
+    driver: bridge
