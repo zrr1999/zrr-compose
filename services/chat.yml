@@ -47,4 +47,6 @@ services:
     container_name: lobe-chat
     labels:
       caddy.reverse_proxy: "{{upstreams 3210}}"
+      homepage.name: LobeChat
+      homepage.description: 开源的高性能聊天机器人框架 LobeChat。
 
