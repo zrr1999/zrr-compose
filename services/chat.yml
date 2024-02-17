@@ -35,6 +35,8 @@ services:
     command: --log-dir /app/logs
     labels:
       caddy.reverse_proxy: "{{upstreams 3000}}"
+      homepage.name: One-api
+      homepage.description: GPT 代理。
 
   lobe-chat:
     image: lobehub/lobe-chat:latest
