@@ -3,11 +3,12 @@ services:
     image: headscale/headscale:latest
     restart: always
     volumes:
-      - ../volumes/headscale/config:/etc/headscale
-      - ../volumes/headscale/data:/var/lib/headscale
+      - ./configs/headscale:/etc/headscale
+      - ../volumes/headscale:/var/lib/headscale
+      - /var/run/headscale
     ports:
       - 8080
-    command: headscale serve
+    command: serve
     labels:
       caddy.reverse_proxy: "{{upstreams 8080}}"
   derper:
@@ -32,5 +33,7 @@ services:
     environment:
       HTTP_PORT: 8080
     labels:
-      caddy.redir: / /web
+      # caddy.redir: / /web
       caddy.reverse_proxy: "/web* {{upstreams 8080}}"
+      homepage.name: Headscale
+      homepage.description: Headscale 组网管理。

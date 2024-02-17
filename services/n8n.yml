@@ -32,3 +32,5 @@ services:
       - ../volumes/n8n/node:/home/node/.n8n
     labels:
       caddy.reverse_proxy: "{{upstreams 5678}}"
+      homepage.name: n8n
+      homepage.description: 流程自动化工具。

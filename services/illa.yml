@@ -8,3 +8,5 @@ services:
       - ../volumes/illa/postgresql/:/var/lib/postgresql/
     labels:
       caddy.reverse_proxy: "{{upstreams 2022}}"
+      homepage.name: illa
+      homepage.description: 低代码平台。

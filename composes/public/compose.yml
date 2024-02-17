@@ -5,6 +5,11 @@ services:
     extends:
       file: ../../services/caddy.yml
       service: caddy
+    labels:
+      caddy: caddy.bone6.top
+      homepage.group: 智能
+      homepage.icon: https://caddyserver.com/resources/images/favicon.png
+      homepage.widget.url: https://caddy.bone6.top
 
   rclone:
     container_name: rclone
@@ -22,18 +27,22 @@ services:
       service: vaultwarden
     labels:
       caddy: password.bone6.top pw.bone6.top
+      homepage.group: 工具
 
   one-api-db:
+    container_name: one-api-db
     extends:
       file: ../../services/chat.yml
       service: one-api-db
 
   one-api:
+    container_name: one-api
     extends:
       file: ../../services/chat.yml
       service: one-api
     labels:
       caddy: one-api.bone6.top
+      homepage.group: 智能
 
   lobe-chat:
     container_name: lobe-chat
@@ -61,6 +70,9 @@ services:
       - n8n-postgres:postgres
     labels:
       caddy: n8n.bone6.top
+      homepage.group: 工具
+      homepage.icon: https://n8n.bone6.top/favicon.ico
+      homepage.href: https://n8n.bone6.top
 
   illa:
     container_name: illa
@@ -69,6 +81,7 @@ services:
       service: illa
     labels:
       caddy: illa.bone6.top
+      homepage.group: 工具
 
   headscale:
     container_name: headscale
@@ -94,10 +107,8 @@ services:
     labels:
       caddy: headscale.bone6.top
       homepage.group: 网络
-      homepage.name: Headscale
       homepage.icon: https://tailscale.com/favicon.ico
       homepage.href: https://headscale.bone6.top
-      homepage.description: Headscale 组网管理
 
   homepage:
     container_name: homepage
@@ -108,7 +119,6 @@ services:
       - ./configs/homepage:/app/config:ro
     labels:
       caddy: homepage.bone6.top
-      caddy.reverse_proxy: "{{upstreams 3000}}"
 
   gitea-db:
     container_name: gitea-db
@@ -129,7 +139,8 @@ services:
       - gitea-db:db
     labels:
       caddy: gitea.bone6.top
-  
+      homepage.group: 工具
+
   memos:
     container_name: memos
     extends:
@@ -140,6 +151,3 @@ services:
       homepage.group: 工具
       homepage.icon: https://memos.bone6.top/apple-touch-icon.png
       homepage.href: https://memos.bone6.top
-  
-
-
