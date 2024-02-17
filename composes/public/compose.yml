@@ -17,7 +17,7 @@ services:
       service: rclone
     command: sync /source/volumes/ onedrive:/rclone-backup/volumes/ --local-no-check-updated --ignore-size --ignore-checksum
     volumes:
-      - ./volumes:/source/volumes:ro
+      - ../../volumes:/source/volumes:ro
     
   vaultwarden:
     container_name: vaultwarden
@@ -31,9 +31,16 @@ services:
   one-api-db:
     container_name: one-api-db
     extends:
-      file: ../../services/chat.yml
-      service: one-api-db
-
+      file: ../../services/database.yml
+      service: mysql
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_USER: oneapi
+      MYSQL_PASSWORD: "123456"
+      MYSQL_DATABASE: one-api
+    volumes:
+      - ../../volumes/one-api/db:/var/lib/mysql
+  
   one-api:
     container_name: one-api
     extends:
@@ -56,8 +63,12 @@ services:
   n8n-postgres:
     container_name: n8n-postgres
     extends:
-      file: ../../services/n8n.yml
-      service: n8n-postgres
+      file: ../../services/database.yml
+      service: postgres
+    environment:
+      POSTGRES_DB: zeabur
+    volumes:
+      - ../../volumes/n8n/db/pgdata:/var/lib/postgresql/data
   
   n8n:
     container_name: n8n
@@ -120,16 +131,18 @@ services:
   gitea-db:
     container_name: gitea-db
     extends:
-      file: ../../services/gitea.yml
-      service: db
-
+      file: ../../services/database.yml
+      service: postgres
+    environment:
+      - POSTGRES_DB=gitea
+    volumes:
+      - ../../volumes/gitea/postgres:/var/lib/postgresql/data
+  
   gitea:
     container_name: gitea
     extends:
       file: ../../services/gitea.yml
       service: server
-    volumes:
-      - ./volumes:/source/volumes:ro
     depends_on:
       - gitea-db
     links:

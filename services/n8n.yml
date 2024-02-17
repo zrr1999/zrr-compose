@@ -1,20 +1,4 @@
 services:
-  n8n-postgres:
-    image: postgres:16
-    restart: always
-    environment:
-      - POSTGRES_PASSWORD=Z5jox6A72cIKbU93P1nsJFwfki0E84uH
-      - POSTGRES_USER=root
-      - POSTGRES_DB=zeabur
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    volumes:
-      - ../volumes/n8n/db:/var/lib/postgresql/data
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -h localhost -U root -d Z5jox6A72cIKbU93P1nsJFwfki0E84uH']
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
   n8n:
     image: docker.n8n.io/n8nio/n8n
     restart: always

@@ -1,16 +1,4 @@
 services:
-  one-api-db:
-    image: mysql:8.2.0
-    restart: always
-    environment:
-      TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: ONEAPI
-      MYSQL_USER: oneapi
-      MYSQL_PASSWORD: "123456"
-      MYSQL_DATABASE: one-api
-    volumes:
-      - ../volumes/one-api/db:/var/lib/mysql
-
   one-api:
     image: justsong/one-api:latest
     restart: always
