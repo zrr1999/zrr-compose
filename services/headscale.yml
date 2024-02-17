@@ -10,6 +10,7 @@ services:
       - 8080
     command: serve
     labels:
+      caddy.redir: / /web
       caddy.reverse_proxy: "{{upstreams 8080}}"
   derper:
     image: fredliang/derper
@@ -33,7 +34,7 @@ services:
     environment:
       HTTP_PORT: 8080
     labels:
-      # caddy.redir: / /web
       caddy.reverse_proxy: "/web* {{upstreams 8080}}"
       homepage.name: Headscale
       homepage.description: Headscale 组网管理。
+      homepage.icon: https://tailscale.com/favicon.ico

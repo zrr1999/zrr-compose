@@ -26,3 +26,6 @@ services:
       # - "222:22"
     labels:
       caddy.reverse_proxy: "{{upstreams 3000}}"
+      homepage.name: Gitea
+      homepage.description: 自部署 git 服务。
+      homepage.icon: gitea.svg

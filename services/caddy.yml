@@ -23,5 +23,6 @@ services:
       caddy.reverse_proxy.header_up: Host localhost:2019 
       homepage.name: Caddy
       homepage.description: Caddy Web Server
-      homepage.widget.type: caddy
+      homepage.icon: https://caddyserver.com/resources/images/favicon.png
+      # homepage.widget.type: caddy
       
