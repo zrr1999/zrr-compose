@@ -12,3 +12,4 @@ services:
       caddy.reverse_proxy: "{{upstreams 80}}"
       homepage.name: vaultwarden
       homepage.description: 密码管理工具。
+      homepage.icon: bitwarden.svg

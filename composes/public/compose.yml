@@ -7,9 +7,8 @@ services:
       service: caddy
     labels:
       caddy: caddy.bone6.top
-      homepage.group: 智能
-      homepage.icon: https://caddyserver.com/resources/images/favicon.png
-      homepage.widget.url: https://caddy.bone6.top
+      homepage.group: 网络
+      # homepage.widget.url: https://caddy.bone6.top
 
   rclone:
     container_name: rclone
@@ -52,7 +51,6 @@ services:
     labels:
       caddy: lobe.bone6.top
       homepage.group: 智能
-      homepage.icon: https://registry.npmmirror.com/@lobehub/assets-favicons/1.4.0/files/assets/favicon.ico
       homepage.href: https://lobe.bone6.top
   
   n8n-postgres:
@@ -107,7 +105,6 @@ services:
     labels:
       caddy: headscale.bone6.top
       homepage.group: 网络
-      homepage.icon: https://tailscale.com/favicon.ico
       homepage.href: https://headscale.bone6.top
 
   homepage:
