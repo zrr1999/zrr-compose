@@ -7,6 +7,6 @@ services:
       - 5700
     environment:
       QlBaseUrl: '/'
-    restart: always
+    restart: unless-stopped
     labels:
       caddy.reverse_proxy: "{{upstreams 5700}}"

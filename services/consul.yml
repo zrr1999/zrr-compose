@@ -1,7 +1,7 @@
 services:
   base:
     image: consul:1.15
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../volumes/consul/certs/:/consul/config/certs/
       - ../volumes/consul/config/consul-acl.json:/consul/config/consul-acl.json:ro
@@ -18,7 +18,7 @@ services:
 
   registrator:
     image: gliderlabs/registrator:latest
-    restart: always
+    restart: unless-stopped
     network_mode: host
     env_file:
       - path: ${AUTO_TOKEN_ENV_DIR}/consul.env

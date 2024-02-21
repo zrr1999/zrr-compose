@@ -1,7 +1,7 @@
 services:
   rclone:
     image: rclone/rclone
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../volumes/rclone/:/root/.config/rclone/
     entrypoint: ["watch", "-n", "3600", "rclone"]

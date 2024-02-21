@@ -1,7 +1,7 @@
 services:
   vaultwarden:
     image: vaultwarden/server:latest
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../volumes/vaultwarden/data:/data
     ports:
