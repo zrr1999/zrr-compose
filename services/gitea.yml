@@ -1,7 +1,7 @@
 services:
   server:
     image: gitea/gitea:1.18.5
-    restart: always
+    restart: unless-stopped
     environment:
       - USER_UID=1000
       - USER_GID=1000

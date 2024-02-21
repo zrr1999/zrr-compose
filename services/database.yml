@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
@@ -14,6 +14,6 @@ services:
 
   mysql:
     image: mysql:8.2.0
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: password

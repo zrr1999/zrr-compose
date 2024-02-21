@@ -4,14 +4,3 @@ services:
     image: zrr1999/zrr-tools:latest
     ports:
       - 20001:8000
-  
-  qinglong:
-    image: whyour/qinglong:latest
-    container_name: qinglong
-    volumes:
-      - ~/workspace/compose-config/qinglong:/ql/data
-    ports:
-      - 5700:5700
-    environment:
-      QlBaseUrl: '/'
-    restart: unless-stopped

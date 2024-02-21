@@ -1,26 +1,11 @@
 ---
-# For configuration options and examples, please see:
-# https://gethomepage.dev/en/configs/services
-
 - 智能:
 - 工具:
-    # - Portainer:
-    #     icon: portainer.png
-    #     href: https://portainer.home.bone6.top/
-    #     description: docker 管理工具
-    #     widget:
-    #         type: portainer
-    #         url: https://portainer.home.bone6.top
-    #         env: 2
-    #         key: ptr_9xxO8gyxC1xKX5RdjdClvOeYjdeKGRMhFQxGv0Ww1OE=
-        
-    # - caddy:
-    #     icon: nginx.png
-    #     href: https://proxy.home.bone6.top/
-    #     description: npm
-    #     widget:
-    #         type: caddy
-    #         url: http://www.bone6.top:2019 # default admin port is 2019
+    - composerize:
+        name: Composerize
+        icon: https://www.composerize.com/favicon.ico
+        href: https://www.composerize.com/
+        description: Convert docker run commands to docker-compose files 
 
 - 网络:
 

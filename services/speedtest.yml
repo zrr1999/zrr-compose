@@ -1,7 +1,7 @@
 services:
   speedtest-tracker:
     image: lscr.io/linuxserver/speedtest-tracker:latest
-    restart: always
+    restart: unless-stopped
     container_name: speedtest-tracker
     ports:
       - 80

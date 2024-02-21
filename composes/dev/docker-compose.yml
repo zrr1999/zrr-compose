@@ -13,7 +13,7 @@ services:
       - '~/workspace:/workspace'
       - '/mnt:/mnt:r'
     command: /bin/bash -c "/run.sh && zsh"
-    restart: always
+    restart: unless-stopped
 
   dev-paddle:
     image: zrr1999/zrr-paddle:latest
@@ -28,7 +28,7 @@ services:
       - '~/micromamba/envs/cuda:/nvidia/cuda:r'
       - '/mnt:/mnt:r'
     command: /bin/bash -c "/run.sh && zsh"
-    restart: always
+    restart: unless-stopped
     deploy:
       resources:
         reservations:

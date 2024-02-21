@@ -1,7 +1,7 @@
 services:
   one-api:
     image: justsong/one-api:latest
-    restart: always
+    restart: unless-stopped
     environment:
       - PORT=3000
       - SQL_DSN=oneapi:123456@tcp(one-api-db:3306)/one-api
@@ -28,7 +28,7 @@ services:
 
   lobe-chat:
     image: lobehub/lobe-chat:latest
-    restart: always
+    restart: unless-stopped
     ports:
       - 3210
     env_file:
