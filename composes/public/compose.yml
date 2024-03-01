@@ -8,7 +8,7 @@ services:
     labels:
       caddy: caddy.bone6.top
       homepage.group: 网络
-      # homepage.widget.url: https://caddy.bone6.top
+      homepage.widget.url: https://caddy.bone6.top
 
   rclone:
     container_name: rclone
@@ -56,7 +56,7 @@ services:
       file: ../../services/chat.yml
       service: lobe-chat
     labels:
-      caddy: lobe.bone6.top
+      caddy: lobe.bone6.top chat.bone6.top
       homepage.group: 智能
       homepage.href: https://lobe.bone6.top
   
@@ -148,7 +148,7 @@ services:
     links:
       - gitea-db:db
     labels:
-      caddy: gitea.bone6.top
+      caddy: gitea.bone6.top git.bone6.top
       homepage.group: 工具
 
   memos:
