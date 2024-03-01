@@ -24,7 +24,8 @@ services:
     labels:
       caddy.reverse_proxy: "{{upstreams 3000}}"
       homepage.name: One API
-      homepage.description: GPT 代理。
+      homepage.description: GPT 统一代理。
+      homepage.icon: https://one-api.bone6.top/logo.png
 
   lobe-chat:
     image: lobehub/lobe-chat:latest
