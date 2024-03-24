@@ -5,6 +5,8 @@ services:
     extends:
       file: ../../services/caddy.yml
       service: caddy
+    volumes:
+      - ./configs/caddy/:/etc/caddy/
     labels:
       caddy: caddy.bone6.top
       homepage.group: 网络
@@ -161,4 +163,15 @@ services:
       homepage.group: 工具
       homepage.icon: https://memos.bone6.top/apple-touch-icon.png
       homepage.href: https://memos.bone6.top
+
+  it-tools:
+    container_name: it-tools
+    extends:
+      file: ../../services/it-tools.yml
+      service: it-tools
+    labels:
+      caddy: tools.bone6.top
+      homepage.group: 工具
+      homepage.icon: https://tools.bone6.top/favicon.ico
+      homepage.href: https://tools.bone6.top
 

@@ -5,6 +5,8 @@ services:
     extends:
       file: ../../services/caddy.yml
       service: caddy
+    volumes:
+      - ./configs/caddy/:/etc/caddy/
 
   homepage:
     container_name: homepage

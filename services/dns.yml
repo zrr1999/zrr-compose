@@ -1,0 +1,16 @@
+services:
+  mosdns:
+    image: irinesistiana/mosdns:latest
+    ports:
+      - 5053:53/udp
+      - 5053:53/tcp
+    volumes:
+      - /etc/mosdns:/etc/mosdns
+  smartdns:
+    container_name: smartdns
+    restart: always
+    ports:
+      - 5153:53/udp
+    volumes:
+      - /etc/smartdns:/etc/smartdns
+    image: pymumu/smartdns:latest

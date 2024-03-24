@@ -9,7 +9,6 @@ services:
       - 443:443/udp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./configs/caddy/:/etc/caddy/
       - ../volumes/caddy/data:/data
       - ../volumes/caddy/config:/config
     env_file:
