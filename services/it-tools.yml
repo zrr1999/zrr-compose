@@ -1,0 +1,11 @@
+services:
+  it-tools:
+    image: corentinth/it-tools:latest
+    ports:
+      - 80
+    restart: unless-stopped
+    container_name: it-tools
+    labels:
+      caddy.reverse_proxy: "{{upstreams 80}}"
+      homepage.name: IT-Tools
+      homepage.description: 为开发人员提供的方便的在线工具集合，具有出色的用户体验。
