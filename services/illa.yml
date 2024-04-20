@@ -1,6 +1,6 @@
 services:
   illa:
-    image: illasoft/illa-builder:latest
+    image: illasoft/illa-builder:v4.7.0
     restart: unless-stopped
     ports:
       - 2022
