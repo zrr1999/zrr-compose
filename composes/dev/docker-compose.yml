@@ -1,4 +1,3 @@
-version: "3"
 services:
   dev-main:
     image: zrr1999/zrr-main:latest
