@@ -4,3 +4,33 @@
 		secret_key {env.TENCENTCLOUD_SECRET_KEY}
 	}
 }
+
+openwrt.lab.bone6.top {
+	reverse_proxy 192.168.1.2:8080
+}
+
+ikuai.lab.bone6.top {
+	reverse_proxy 192.168.1.1
+}
+
+hass.lab.bone6.top {
+	reverse_proxy 192.168.1.10:8123
+}
+
+qinglong.lab.bone6.top {
+	reverse_proxy 192.168.1.102:5700
+}
+
+pve.lab.bone6.top {
+	reverse_proxy 192.168.1.5:8006 {
+		transport http {
+			tls_insecure_skip_verify
+		}
+	}
+}
+
+*.lab.bone6.top {
+    reverse_proxy {
+        to 192.168.1.105
+    }
+}
