@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   zrr-tools:
     image: zrr1999/zrr-tools:latest
