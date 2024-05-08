@@ -1,12 +1,10 @@
 services:
   qinglong:
     image: whyour/qinglong:latest
-    volumes:
-      - ../volumes/qinglong:/ql/data
-    ports:
-      - 5700
+    restart: unless-stopped
     environment:
       QlBaseUrl: '/'
-    restart: unless-stopped
+    volumes:
+      - ../volumes/qinglong:/ql/data
     labels:
       caddy.reverse_proxy: "{{upstreams 5700}}"
