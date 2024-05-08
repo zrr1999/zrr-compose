@@ -7,7 +7,7 @@ services:
     volumes:
       - ./configs/caddy/:/etc/caddy/
     labels:
-      caddy: caddy.bone6.top
+      caddy: caddy.lab.bone6.top
 
   homepage:
     container_name: homepage
