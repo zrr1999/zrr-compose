@@ -28,13 +28,13 @@ services:
     labels:
       caddy: qinglong.lab.bone6.top
 
-  speedtest-tracker:
-    container_name: speedtest-tracker
-    extends:
-      file: ../../services/speedtest.yml
-      service: speedtest-tracker
-    labels:
-      caddy: speedtest.lab.bone6.top
+  # speedtest-tracker:
+  #   container_name: speedtest-tracker
+  #   extends:
+  #     file: ../../services/speedtest.yml
+  #     service: speedtest-tracker
+  #   labels:
+  #     caddy: speedtest.lab.bone6.top
 
   scrutiny:
     container_name: scrutiny
