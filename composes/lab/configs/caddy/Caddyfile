@@ -17,10 +17,6 @@ hass.lab.bone6.top {
 	reverse_proxy 192.168.1.10:8123
 }
 
-qinglong.lab.bone6.top {
-	reverse_proxy 192.168.1.102:5700
-}
-
 pve.lab.bone6.top {
 	reverse_proxy 192.168.1.5:8006 {
 		transport http {
