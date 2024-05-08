@@ -6,6 +6,8 @@ services:
       service: caddy
     volumes:
       - ./configs/caddy/:/etc/caddy/
+    labels:
+      caddy: caddy.bone6.top
 
   homepage:
     container_name: homepage
@@ -14,25 +16,25 @@ services:
       service: base
     volumes:
       - ./configs/homepage:/app/config:ro
-    # labels:
-    #   caddy: homepage.lab.bone6.top
-    #   caddy.reverse_proxy: "{{upstreams 3000}}"
+    labels:
+      caddy: homepage.lab.bone6.top
+      caddy.reverse_proxy: "{{upstreams 3000}}"
 
   qinglong:
     container_name: qinglong
     extends:
       file: ../../services/qinglong.yml
       service: qinglong
-    # labels:
-    #   caddy: qinglong.lab.bone6.top
+    labels:
+      caddy: qinglong.lab.bone6.top
 
   speedtest-tracker:
     container_name: speedtest-tracker
     extends:
       file: ../../services/speedtest.yml
       service: speedtest-tracker
-    # labels:
-    #   caddy: speedtest.lab.bone6.top
+    labels:
+      caddy: speedtest.lab.bone6.top
 
   scrutiny:
     container_name: scrutiny
@@ -42,5 +44,5 @@ services:
     devices:
       - "/dev/nvme0"
       # - "/dev/nvme1"
-    # labels:
-    #   caddy: scrutiny.lab.bone6.top
+    labels:
+      caddy: scrutiny.lab.bone6.top
