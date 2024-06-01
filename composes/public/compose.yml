@@ -57,9 +57,9 @@ services:
       file: ../../services/chat.yml
       service: lobe-chat
     labels:
-      caddy: lobe.bone6.top chat.bone6.top
+      caddy: lobe.bone6.top chat.bone6.top lobe.bone6.com chat.bone6.com
       homepage.group: 智能
-      homepage.href: https://lobe.bone6.top
+      homepage.href: https://lobe.bone6.com
   
   n8n-postgres:
     container_name: n8n-postgres
@@ -127,7 +127,7 @@ services:
     volumes:
       - ./configs/homepage:/app/config:ro
     labels:
-      caddy: homepage.bone6.top
+      caddy: homepage.bone6.com
 
   gitea-db:
     container_name: gitea-db

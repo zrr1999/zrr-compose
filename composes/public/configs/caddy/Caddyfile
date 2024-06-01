@@ -3,4 +3,5 @@
 		secret_id {env.TENCENTCLOUD_SECRET_ID}
 		secret_key {env.TENCENTCLOUD_SECRET_KEY}
 	}
+	acme_dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
 }
