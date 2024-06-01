@@ -13,7 +13,8 @@ services:
       - ../volumes/caddy/config:/config
     env_file:
       - path: ${AUTO_TOKEN_ENV_DIR}/tencentcloud.env
-        required: false
+      - path: ${AUTO_TOKEN_ENV_DIR}/lexicon.env
+        required: true
     environment:
       - ACME_AGREE=true
       - TZ=Asia/Shanghai
