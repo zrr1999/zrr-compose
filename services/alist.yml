@@ -1,0 +1,25 @@
+services:
+  alist:
+    image: "xhofe/alist:latest"
+    container_name: alist
+    volumes:
+      - ../volumes/alist:/opt/alist/data
+    ports:
+      - 5244:5244
+    environment:
+      - PUID=0
+      - PGID=0
+      - UMASK=022
+    restart: unless-stopped
+    labels:
+      caddy.reverse_proxy: "{{upstreams 5244}}"
+  aria2-pro:
+    container_name: aria2
+    restart: always
+    ports:
+      - 6800:6800
+      - 6881:6881
+      - 6881:6881/udp
+    volumes:
+      - ../volumes/aria2:/root/.aria2
+    image: p3terx/aria2-pro
