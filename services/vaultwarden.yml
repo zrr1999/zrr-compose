@@ -4,8 +4,6 @@ services:
     restart: unless-stopped
     volumes:
       - ../volumes/vaultwarden/data:/data
-    ports:
-      - 80
     environment:
       SIGNUPS_ALLOWED: "false"
     labels:

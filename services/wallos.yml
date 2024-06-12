@@ -3,7 +3,7 @@ services:
     container_name: wallos
     image: bellamy/wallos:latest
     ports:
-      - 80
+      - 9981:80
     environment:
       TZ: 'Asia/Shanghai'
     volumes:

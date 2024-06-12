@@ -9,8 +9,6 @@ services:
     volumes:
       - ../volumes/one-api/data:/data
       - ../volumes/one-api/logs:/app/logs
-    ports:
-      - 3000
     healthcheck:
       test:
         [
@@ -30,8 +28,6 @@ services:
   lobe-chat:
     image: lobehub/lobe-chat:latest
     restart: unless-stopped
-    ports:
-      - 3210
     env_file:
       - path: ${AUTO_TOKEN_ENV_DIR}/lobechat.env
         required: false
