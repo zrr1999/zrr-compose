@@ -13,11 +13,10 @@ services:
     restart: unless-stopped
     labels:
       caddy.reverse_proxy: "{{upstreams 5244}}"
-  aria2-pro:
+  aria2:
     container_name: aria2
     restart: always
     ports:
-      - 6800
       - 6881:6881
       - 6881:6881/udp
     volumes:
