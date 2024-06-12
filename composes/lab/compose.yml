@@ -23,6 +23,14 @@ services:
       file: ../../services/alist.yml
       service: aria2 
     labels:
+      caddy: rpc.aria2.lab.bone6.top
+  
+  ariang:
+    container_name: ariang
+    extends:
+      file: ../../services/alist.yml
+      service: ariang 
+    labels:
       caddy: aria2.lab.bone6.top
   
   homepage:
