@@ -17,6 +17,14 @@ services:
     labels:
       caddy: alist.lab.bone6.top
   
+  aria2:
+    container_name: aria2
+    extends:
+      file: ../../services/alist.yml
+      service: aria2 
+    labels:
+      caddy: aria2.lab.bone6.top
+  
   homepage:
     container_name: homepage
     extends:
