@@ -10,8 +10,6 @@ services:
       - DB_POSTGRESDB_USER=root
       - DB_POSTGRESDB_PASSWORD=Z5jox6A72cIKbU93P1nsJFwfki0E84uH
       - WEBHOOK_URL=https://n8n.bone6.top
-    ports:
-      - 5678
     volumes:
       - ../volumes/n8n/node:/home/node/.n8n
     labels:

@@ -13,8 +13,7 @@ services:
     volumes:
       - ../volumes/gitea/data:/data
     ports:
-      - 3000
-      # - "222:22"
+      - "6022:22"
     labels:
       caddy.reverse_proxy: "{{upstreams 3000}}"
       homepage.name: Gitea

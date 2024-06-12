@@ -17,9 +17,11 @@ services:
     container_name: aria2
     restart: always
     ports:
-      - 6800:6800
+      - 6800
       - 6881:6881
       - 6881:6881/udp
     volumes:
       - ../volumes/aria2:/root/.aria2
     image: p3terx/aria2-pro
+    labels:
+      caddy.reverse_proxy: "{{upstreams 6800}}"

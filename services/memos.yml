@@ -3,8 +3,6 @@ services:
     image: neosmemo/memos:stable
     volumes:
       - ../volumes/memos/:/var/opt/memos
-    ports:
-      - 5230
     labels:
       caddy.reverse_proxy: "{{upstreams 5230}}"
       homepage.name: Memos

@@ -1,8 +1,6 @@
 services:
   it-tools:
     image: corentinth/it-tools:latest
-    ports:
-      - 80
     restart: unless-stopped
     container_name: it-tools
     labels:
