@@ -31,10 +31,10 @@ services:
     env_file:
       - path: ${AUTO_TOKEN_ENV_DIR}/lobechat.env
         required: false
-      - path: ${AUTO_TOKEN_ENV_DIR}/s3.env
-        required: false
-      - path: ${AUTO_TOKEN_ENV_DIR}/clerk.env
-        required: false
+      # - path: ${AUTO_TOKEN_ENV_DIR}/s3.env
+      #   required: false
+      # - path: ${AUTO_TOKEN_ENV_DIR}/clerk.env
+      #   required: false
     # environment:
     #   NEXT_PUBLIC_SERVICE_MODE: server
     #   NEXT_PUBLIC_S3_DOMAIN: https://basic-1256983506.cos.ap-beijing.myqcloud.com
