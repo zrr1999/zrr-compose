@@ -56,10 +56,20 @@ services:
     extends:
       file: ../../services/chat.yml
       service: lobe-chat
+    links:
+      - lobe-postgres:postgres
     labels:
       caddy: lobe.bone6.top chat.bone6.top lobe.bone6.com chat.bone6.com
       homepage.group: 智能
       homepage.href: https://lobe.bone6.com
+  
+  lobe-postgres:
+    container_name: lobe-postgres
+    extends:
+      file: ../../services/database.yml
+      service: postgres
+    volumes:
+      - ../../volumes/lobe/db/pgdata:/var/lib/postgresql/data
   
   n8n-postgres:
     container_name: n8n-postgres

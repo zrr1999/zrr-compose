@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     environment:
       - DB_TYPE=postgresdb
-      - DB_POSTGRESDB_HOST=n8n-postgres
+      - DB_POSTGRESDB_HOST=postgres
       - DB_POSTGRESDB_PORT=5432
       - DB_POSTGRESDB_DATABASE=zeabur
       - DB_POSTGRESDB_USER=root
