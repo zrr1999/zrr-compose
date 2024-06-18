@@ -5,11 +5,11 @@
 	}
 }
 
-openwrt.lab.bone6.top {
+openwrt.lab.bone6.top openwrt.lab.bone6.com {
 	reverse_proxy 192.168.1.2:8080
 }
 
-ikuai.lab.bone6.top {
+ikuai.lab.bone6.top ikuai.lab.bone6.com {
 	reverse_proxy 192.168.1.1
 }
 
@@ -17,7 +17,7 @@ hass.lab.bone6.top {
 	reverse_proxy 192.168.1.10:8123
 }
 
-pve.lab.bone6.top {
+pve.lab.bone6.top pve.lab.bone6.com {
 	reverse_proxy 192.168.1.5:8006 {
 		transport http {
 			tls_insecure_skip_verify
