@@ -102,7 +102,7 @@ services:
     labels:
       caddy: illa.bone6.top
       homepage.group: 工具
-      homepage.icon: https://illa.bone6.top/favicon.svg
+      homepage.icon: https://illa.bone6.top/cloud/favicon.ico
       homepage.href: https://illa.bone6.top
 
   headscale:
