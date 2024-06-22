@@ -1,11 +1,5 @@
 ---
-- 工具:
-    - composerize:
-        name: Composerize
-        icon: https://www.composerize.com/favicon.ico
-        href: https://www.composerize.com/
-        description: 用于将 docker run 命令转换为 docker-compose 的在线工具
-
+# - 工具:
 # - 智能:
 # - 网络:
     # ddns-go
