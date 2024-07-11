@@ -7,7 +7,7 @@ services:
     volumes:
       - ./configs/caddy/:/etc/caddy/
     labels:
-      caddy: caddy.bone6.top
+      caddy: caddy.bone6.top caddy.bone6.com
       homepage.group: 网络
       homepage.widget.url: https://caddy.bone6.top
 
@@ -26,7 +26,7 @@ services:
       file: ../../services/vaultwarden.yml
       service: vaultwarden
     labels:
-      caddy: password.bone6.top pw.bone6.top
+      caddy: password.bone6.top pw.bone6.com
       homepage.group: 工具
 
   one-api-db:
@@ -48,7 +48,7 @@ services:
       file: ../../services/chat.yml
       service: one-api
     labels:
-      caddy: one-api.bone6.top
+      caddy: one-api.bone6.top one-api.bone6.com
       homepage.group: 智能
 
   lobe-chat:
@@ -59,7 +59,7 @@ services:
     links:
       - lobe-postgres:postgres
     labels:
-      caddy: lobe.bone6.top chat.bone6.top lobe.bone6.com chat.bone6.com
+      caddy: lobe.bone6.top lobe.bone6.com chat.bone6.com
       homepage.group: 智能
       homepage.href: https://lobe.bone6.com
   
@@ -89,10 +89,10 @@ services:
     links:
       - n8n-postgres:postgres
     labels:
-      caddy: n8n.bone6.top
+      caddy: n8n.bone6.top n8n.bone6.com
       homepage.group: 工具
-      homepage.icon: https://n8n.bone6.top/favicon.ico
-      homepage.href: https://n8n.bone6.top
+      homepage.icon: https://n8n.bone6.com/favicon.ico
+      homepage.href: https://n8n.bone6.com
 
   illa:
     container_name: illa
@@ -100,10 +100,10 @@ services:
       file: ../../services/illa.yml
       service: illa
     labels:
-      caddy: illa.bone6.top
+      caddy: illa.bone6.top illa.bone6.com
       homepage.group: 工具
-      homepage.icon: https://illa.bone6.top/cloud/favicon.ico
-      homepage.href: https://illa.bone6.top
+      homepage.icon: https://illa.bone6.com/cloud/favicon.ico
+      homepage.href: https://illa.bone6.com
 
   headscale:
     container_name: headscale
@@ -111,7 +111,7 @@ services:
       file: ../../services/headscale.yml
       service: server
     labels:
-      caddy: headscale.bone6.top
+      caddy: headscale.bone6.top headscale.bone6.com
 
   headscale-derper:
     container_name: headscale-derper
@@ -119,7 +119,7 @@ services:
       file: ../../services/headscale.yml
       service: derper
     labels:
-      caddy: ghk.derp.bone6.top
+      caddy: ghk.derp.bone6.top ghk.derp.bone6.com
   
   headscale-ui:
     container_name: headscale-ui
@@ -161,7 +161,7 @@ services:
     links:
       - gitea-db:db
     labels:
-      caddy: gitea.bone6.top git.bone6.top
+      caddy: gitea.bone6.top git.bone6.top git.bone6.com
       homepage.group: 工具
 
   memos:
@@ -170,10 +170,10 @@ services:
       file: ../../services/memos.yml
       service: memos
     labels:
-      caddy: memos.bone6.top
+      caddy: memos.bone6.com
       homepage.group: 工具
-      homepage.icon: https://memos.bone6.top/apple-touch-icon.png
-      homepage.href: https://memos.bone6.top
+      homepage.icon: https://memos.bone6.com/apple-touch-icon.png
+      homepage.href: https://memos.bone6.com
 
   it-tools:
     container_name: it-tools
@@ -181,8 +181,8 @@ services:
       file: ../../services/it-tools.yml
       service: it-tools
     labels:
-      caddy: tools.bone6.top
+      caddy: tools.bone6.com
       homepage.group: 工具
-      homepage.icon: https://tools.bone6.top/favicon.ico
-      homepage.href: https://tools.bone6.top
+      homepage.icon: https://tools.bone6.com/favicon.ico
+      homepage.href: https://tools.bone6.com
 
