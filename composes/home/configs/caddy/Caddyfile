@@ -1,0 +1,27 @@
+{
+	acme_dns tencentcloud {
+		secret_id {env.TENCENTCLOUD_SECRET_ID}
+		secret_key {env.TENCENTCLOUD_SECRET_KEY}
+	}
+	acme_dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
+}
+
+ikuai.home.bone6.com {
+	reverse_proxy 192.168.10.1
+}
+
+clash.home.bone6.com {
+	reverse_proxy 192.168.10.2:9090
+}
+
+incus.home.bone6.com {
+	reverse_proxy 192.168.10.5:8443 {
+		transport http {
+			tls_insecure_skip_verify
+		}
+	}
+}
+
+hass.home.bone6.com {
+	reverse_proxy 192.168.10.10:8123
+}

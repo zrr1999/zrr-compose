@@ -1,0 +1,61 @@
+services:
+  caddy:
+    container_name: caddy
+    extends:
+      file: ../../services/caddy.yml
+      service: caddy
+    volumes:
+      - ./configs/caddy/:/etc/caddy/
+    labels:
+      caddy: caddy.home.bone6.com
+
+  alist:
+    container_name: alist
+    extends:
+      file: ../../services/alist.yml
+      service: alist 
+    labels:
+      caddy: alist.home.bone6.com
+  
+  aria2:
+    container_name: aria2
+    extends:
+      file: ../../services/alist.yml
+      service: aria2 
+    labels:
+      caddy: rpc.aria2.home.bone6.com
+  
+  ariang:
+    container_name: ariang
+    extends:
+      file: ../../services/alist.yml
+      service: ariang 
+    labels:
+      caddy: aria2.home.bone6.com
+  
+  homepage:
+    container_name: homepage
+    extends:
+      file: ../../services/homepage.yml
+      service: base
+    volumes:
+      - ./configs/homepage:/app/config:ro
+    labels:
+      caddy: homepage.home.bone6.com
+
+  qinglong:
+    container_name: qinglong
+    extends:
+      file: ../../services/qinglong.yml
+      service: qinglong
+    labels:
+      caddy: qinglong.home.bone6.com
+
+  speedtest-tracker:
+    container_name: speedtest-tracker
+    extends:
+      file: ../../services/speedtest.yml
+      service: speedtest-tracker
+    labels:
+      caddy: speedtest.home.bone6.com
+

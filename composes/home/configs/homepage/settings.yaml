@@ -1,0 +1,15 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/settings
+title: 导航主页
+language: zh-CN
+base: https://homepage.lab.bone6.com
+logpath: /logs
+
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: true
+  hideVisitURL: true
+# providers:
+#   openweathermap: openweathermapapikey
+#   weatherapi: weatherapiapikey
