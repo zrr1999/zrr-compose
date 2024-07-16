@@ -10,3 +10,7 @@ services:
       - ../volumes/speedtest:/config
     labels:
       caddy.reverse_proxy: "{{upstreams 80}}"
+      homepage.name: Speedtest
+      homepage.description: 最近网络速度
+      homepage.icon: librespeed.svg
+      homepage.widget.type: speedtest

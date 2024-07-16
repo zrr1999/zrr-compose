@@ -7,7 +7,7 @@ services:
     volumes:
       - ./configs/caddy/:/etc/caddy/
     labels:
-      caddy: caddy.lab.bone6.top
+      caddy: caddy.lab.bone6.com
 
   alist:
     container_name: alist
@@ -15,7 +15,7 @@ services:
       file: ../../services/alist.yml
       service: alist 
     labels:
-      caddy: alist.lab.bone6.top
+      caddy: alist.lab.bone6.com
   
   aria2:
     container_name: aria2
@@ -23,7 +23,7 @@ services:
       file: ../../services/alist.yml
       service: aria2 
     labels:
-      caddy: rpc.aria2.lab.bone6.top
+      caddy: rpc.aria2.lab.bone6.com
   
   ariang:
     container_name: ariang
@@ -31,7 +31,7 @@ services:
       file: ../../services/alist.yml
       service: ariang 
     labels:
-      caddy: aria2.lab.bone6.top
+      caddy: aria2.lab.bone6.com
   
   homepage:
     container_name: homepage
@@ -41,7 +41,7 @@ services:
     volumes:
       - ./configs/homepage:/app/config:ro
     labels:
-      caddy: homepage.lab.bone6.top
+      caddy: homepage.lab.bone6.com
 
   qinglong:
     container_name: qinglong
@@ -49,7 +49,7 @@ services:
       file: ../../services/qinglong.yml
       service: qinglong
     labels:
-      caddy: qinglong.lab.bone6.top
+      caddy: qinglong.lab.bone6.com
 
   speedtest-tracker:
     container_name: speedtest-tracker
@@ -57,7 +57,7 @@ services:
       file: ../../services/speedtest.yml
       service: speedtest-tracker
     labels:
-      caddy: speedtest.lab.bone6.top
+      caddy: speedtest.lab.bone6.com
 
   scrutiny:
     container_name: scrutiny
@@ -66,6 +66,5 @@ services:
       service: scrutiny
     devices:
       - "/dev/nvme0"
-      # - "/dev/nvme1"
     labels:
-      caddy: scrutiny.lab.bone6.top
+      caddy: scrutiny.lab.bone6.com
