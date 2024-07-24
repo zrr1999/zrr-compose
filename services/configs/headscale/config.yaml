@@ -1,15 +1,4 @@
 ---
-# headscale will look for a configuration file named `config.yaml` (or `config.json`) in the following order:
-#
-# - `/etc/headscale`
-# - `~/.headscale`
-# - current working directory
-
-# The url clients will connect to.
-# Typically this will be a domain like:
-#
-# https://myheadscale.example.com:443
-#
 server_url: https://headscale.bone6.com:443
 
 # Address to listen to / bind to on the server
@@ -50,7 +39,7 @@ noise:
   # from the legacy private key.
   private_key_path: /var/lib/headscale/noise_private.key
 
-ip_prefixes:
+prefixes:
   v6: fd7a:115c:a1e0::/48
   v4: 100.64.0.0/10
   
