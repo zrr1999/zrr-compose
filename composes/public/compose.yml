@@ -127,9 +127,9 @@ services:
       file: ../../services/headscale.yml
       service: ui
     labels:
-      caddy: headscale.bone6.top
+      caddy: headscale.bone6.top headscale.bone6.com
       homepage.group: 网络
-      homepage.href: https://headscale.bone6.top
+      homepage.href: https://headscale.bone6.com
 
   homepage:
     container_name: homepage
@@ -163,6 +163,7 @@ services:
     labels:
       caddy: gitea.bone6.top git.bone6.top git.bone6.com
       homepage.group: 工具
+      homepage.href: git.bone6.com
 
   memos:
     container_name: memos
