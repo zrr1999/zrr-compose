@@ -1,6 +1,6 @@
 services:
   n8n:
-    image: docker.n8n.io/n8nio/n8n
+    image: docker.n8n.io/n8nio/n8n:next
     restart: unless-stopped
     environment:
       - DB_TYPE=postgresdb
@@ -9,7 +9,7 @@ services:
       - DB_POSTGRESDB_DATABASE=zeabur
       - DB_POSTGRESDB_USER=root
       - DB_POSTGRESDB_PASSWORD=Z5jox6A72cIKbU93P1nsJFwfki0E84uH
-      - WEBHOOK_URL=https://n8n.bone6.top
+      - WEBHOOK_URL=https://n8n.bone6.com
     volumes:
       - ../volumes/n8n/node:/home/node/.n8n
     labels:
