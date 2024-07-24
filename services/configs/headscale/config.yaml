@@ -10,7 +10,7 @@
 #
 # https://myheadscale.example.com:443
 #
-server_url: https://headscale.bone6.top:443
+server_url: https://headscale.bone6.com:443
 
 # Address to listen to / bind to on the server
 #
@@ -50,18 +50,12 @@ noise:
   # from the legacy private key.
   private_key_path: /var/lib/headscale/noise_private.key
 
-# List of IP prefixes to allocate tailaddresses from.
-# Each prefix consists of either an IPv4 or IPv6 address,
-# and the associated prefix length, delimited by a slash.
-# It must be within IP ranges supported by the Tailscale
-# client - i.e., subnets of 100.64.0.0/10 and fd7a:115c:a1e0::/48.
-# See below:
-# IPv6: https://github.com/tailscale/tailscale/blob/22ebb25e833264f58d7c3f534a8b166894a89536/net/tsaddr/tsaddr.go#LL81C52-L81C71
-# IPv4: https://github.com/tailscale/tailscale/blob/22ebb25e833264f58d7c3f534a8b166894a89536/net/tsaddr/tsaddr.go#L33
-# Any other range is NOT supported, and it will cause unexpected issues.
 ip_prefixes:
-  - fd7a:115c:a1e0::/48
-  - 100.64.0.0/10
+  v6: fd7a:115c:a1e0::/48
+  v4: 100.64.0.0/10
+  
+  allocation: sequential
+
 
 # DERP is a relay system that Tailscale uses when a direct
 # connection cannot be established.
@@ -183,11 +177,6 @@ log:
   # Output formatting for logs: text or json
   format: text
   level: info
-
-# Path to a file containg ACL policies.
-# ACLs can be defined as YAML or HUJSON.
-# https://tailscale.com/kb/1018/acls/
-acl_policy_path: ""
 
 ## DNS
 #
