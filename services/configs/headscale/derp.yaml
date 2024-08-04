@@ -6,19 +6,7 @@ regions:
     nodes:
       - name: 1
         regionid: 901
-        hostname: ghk.derp.bone6.top
-        stunport: 3478
-        stunonly: false
-        derpport: 443
-
-  902:
-    regionid: 902
-    regioncode: tsh
-    regionname: Tencent Shanghai
-    nodes:
-      - name: 1
-        regionid: 902
-        hostname: tsh.derp.bone6.top
+        hostname: ghk.derp.bone6.com
         stunport: 3478
         stunonly: false
         derpport: 443

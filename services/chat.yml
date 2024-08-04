@@ -23,22 +23,22 @@ services:
       caddy.reverse_proxy: "{{upstreams 3000}}"
       homepage.name: One API
       homepage.description: GPT 统一代理。
-      homepage.icon: https://one-api.bone6.top/logo.png
+      homepage.icon: https://one-api.bone6.com/logo.png
 
   lobe-chat:
-    image: lobehub/lobe-chat:latest
+    image: lobehub/lobe-chat-database:latest
     restart: unless-stopped
     env_file:
+      - path: ${AUTO_TOKEN_ENV_DIR}/auth0.env
+        required: true
+      - path: ${AUTO_TOKEN_ENV_DIR}/nextauth.env
+        required: true
+      - path: ${AUTO_TOKEN_ENV_DIR}/s3.env
+        required: false
       - path: ${AUTO_TOKEN_ENV_DIR}/lobechat.env
         required: false
-      # - path: ${AUTO_TOKEN_ENV_DIR}/s3.env
-      #   required: false
-      # - path: ${AUTO_TOKEN_ENV_DIR}/clerk.env
-      #   required: false
-    # environment:
-    #   NEXT_PUBLIC_SERVICE_MODE: server
-    #   NEXT_PUBLIC_S3_DOMAIN: https://basic-1256983506.cos.ap-beijing.myqcloud.com
-    #   DATABASE_URL: postgres
+    environment:
+      DATABASE_URL: postgres://root:password@postgres:5432/postgres
     container_name: lobe-chat
     labels:
       caddy.reverse_proxy: "{{upstreams 3210}}"
