@@ -67,7 +67,7 @@ services:
     container_name: lobe-chat-db
     extends:
       file: ../../services/database.yml
-      service: postgres
+      service: pgvector
     volumes:
       - ../../volumes/lobe/db/pgdata:/var/lib/postgresql/data
   
