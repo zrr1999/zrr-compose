@@ -1,6 +1,6 @@
 services:
   one-api:
-    image: justsong/one-api:latest
+    image: calciumion/new-api:latest
     restart: unless-stopped
     environment:
       - PORT=3000

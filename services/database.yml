@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -h localhost -U root -d password']
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U root -d postgres']
       interval: 5s
       timeout: 5s
       retries: 10
@@ -20,7 +20,7 @@ services:
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -h localhost -U root -d password']
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U root -d postgres']
       interval: 5s
       timeout: 5s
       retries: 10
