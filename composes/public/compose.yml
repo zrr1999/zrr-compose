@@ -56,6 +56,8 @@ services:
     extends:
       file: ../../services/chat.yml
       service: lobe-chat
+    environment:
+      APP_URL: https://lobe.bone6.com
     links:
       - lobe-chat-db:postgres
     labels:
