@@ -1,0 +1,11 @@
+services:
+  miniflux:
+    image: miniflux/miniflux:latest
+    environment:
+      - DATABASE_URL=postgres://root:password@db:5432/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+      homepage.name: miniflux
+      homepage.description: RSS 服务。
+      homepage.icon: rss.svg

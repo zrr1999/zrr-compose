@@ -1,6 +1,14 @@
 services:
+  portkeyai:
+    image: "portkeyai/gateway:latest"
+    restart: unless-stopped
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8787}}"
+      homepage.name: Portkey-AI
+      homepage.description: LLM API 统一网关。
+
   one-api:
-    image: calciumion/new-api:latest
+    image: justsong/one-api:latest
     restart: unless-stopped
     environment:
       - PORT=3000
@@ -22,7 +30,7 @@ services:
     labels:
       caddy.reverse_proxy: "{{upstreams 3000}}"
       homepage.name: One API
-      homepage.description: GPT 统一代理。
+      homepage.description: LLM API 统一网关。
       homepage.icon: https://one-api.bone6.com/logo.png
 
   lobe-chat:
