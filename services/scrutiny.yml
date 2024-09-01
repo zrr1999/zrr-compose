@@ -11,4 +11,5 @@ services:
       - /run/udev:/run/udev:ro
       - ../volumes/scrutiny/config:/opt/scrutiny/config
       - ../volumes/scrutiny/influxdb:/opt/scrutiny/influxdb
-    
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8080}}"
