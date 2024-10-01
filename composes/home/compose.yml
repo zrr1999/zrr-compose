@@ -59,3 +59,11 @@ services:
     labels:
       caddy: speedtest.home.bone6.com
 
+  upsnap:
+    container_name: upsnap
+    extends:
+      file: ../../services/upsnap.yml
+      service: upsnap
+    labels:
+      caddy: upsnap.home.bone6.com
+
