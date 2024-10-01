@@ -28,6 +28,7 @@ services:
     labels:
       caddy: password.bone6.com pw.bone6.com
       homepage.group: 工具
+      homepage.href: https://pw.bone6.com
 
   one-api-db:
     container_name: one-api-db
@@ -50,6 +51,7 @@ services:
     labels:
       caddy: one-api.bone6.com
       homepage.group: 智能
+      homepage.href: https://one-api.bone6.com
 
   portkeyai:
     container_name: portkeyai
@@ -59,6 +61,7 @@ services:
     labels:
       caddy: llm-api.bone6.com
       homepage.group: 智能
+      homepage.href: https://llm-api.bone6.com
   
   lobe-chat-db:
     container_name: lobe-chat-db
@@ -104,6 +107,31 @@ services:
       homepage.group: 工具
       homepage.icon: https://n8n.bone6.com/favicon.ico
       homepage.href: https://n8n.bone6.com
+
+  langflow-db:
+    container_name: langflow-db
+    extends:
+      file: ../../services/database.yml
+      service: postgres
+    environment:
+      POSTGRES_USER: langflow
+      POSTGRES_PASSWORD: langflow
+      POSTGRES_DB: langflow
+    volumes:
+      - ../../volumes/langflow/db:/var/lib/postgresql/data
+  
+  langflow:
+    container_name: langflow
+    extends:
+      file: ../../services/langflow.yml
+      service: langflow
+    links:
+      - langflow-db:postgres
+    labels:
+      caddy: flow.bone6.com
+      homepage.group: 智能
+      homepage.icon: https://flow.bone6.com/favicon.ico
+      homepage.href: https://flow.bone6.com
 
   illa:
     container_name: illa
@@ -220,4 +248,5 @@ services:
     labels:
       caddy: miniflux.bone6.com rss.bone6.com
       homepage.group: 工具
-      homepage.href: rss.bone6.com
+      homepage.icon: https://rss.bone6.com/icon/icon-128.png
+      homepage.href: https://rss.bone6.com
