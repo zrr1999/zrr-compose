@@ -9,7 +9,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - UPSNAP_INTERVAL=@every 600s
-      - UPSNAP_SCAN_RANGE=192.168.0.0/18
+      - UPSNAP_SCAN_RANGE=192.168.0.0/16
       - UPSNAP_SCAN_TIMEOUT=500ms
       - UPSNAP_PING_PRIVILEGED=true
       - UPSNAP_WEBSITE_TITLE=UpSnap

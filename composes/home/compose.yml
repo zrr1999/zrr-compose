@@ -8,6 +8,8 @@ services:
       - ./configs/caddy/:/etc/caddy/
     labels:
       caddy: caddy.home.bone6.com
+      homepage.group: 网络
+      homepage.widget.url: https://caddy.home.bone6.com
 
   alist:
     container_name: alist
@@ -16,6 +18,7 @@ services:
       service: alist 
     labels:
       caddy: alist.home.bone6.com
+      homepage.group: 工具
   
   aria2:
     container_name: aria2
@@ -24,7 +27,7 @@ services:
       service: aria2 
     labels:
       caddy: rpc.aria2.home.bone6.com
-  
+      homepage.group: 工具
   ariang:
     container_name: ariang
     extends:
@@ -32,7 +35,8 @@ services:
       service: ariang 
     labels:
       caddy: aria2.home.bone6.com
-  
+      homepage.group: 工具
+
   homepage:
     container_name: homepage
     extends:
@@ -42,7 +46,6 @@ services:
       - ./configs/homepage:/app/config:ro
     labels:
       caddy: homepage.home.bone6.com
-
   qinglong:
     container_name: qinglong
     extends:
@@ -50,14 +53,28 @@ services:
       service: qinglong
     labels:
       caddy: qinglong.home.bone6.com
+      homepage.group: 工具
+      homepage.href: qinglong.home.bone6.com
+
+  speedtest:
+    container_name: speedtest
+    extends:
+      file: ../../services/speedtest.yml
+      service: speedtest
+    labels:
+      caddy: speedtest.home.bone6.com
 
   speedtest-tracker:
     container_name: speedtest-tracker
     extends:
       file: ../../services/speedtest.yml
       service: speedtest-tracker
+    environment:
+      - APP_URL=https://speedtest-tracker.home.bone6.com
     labels:
-      caddy: speedtest.home.bone6.com
+      caddy: speedtest-tracker.home.bone6.com
+      homepage.group: 工具
+      homepage.href: speedtest-tracker.home.bone6.com
 
   upsnap:
     container_name: upsnap
@@ -66,4 +83,6 @@ services:
       service: upsnap
     labels:
       caddy: upsnap.home.bone6.com
+      homepage.group: 工具
+      homepage.href: upsnap.home.bone6.com
 
