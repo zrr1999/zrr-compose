@@ -85,4 +85,3 @@ services:
       caddy: upsnap.home.bone6.com
       homepage.group: 工具
       homepage.href: upsnap.home.bone6.com
-
