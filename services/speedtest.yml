@@ -1,16 +1,26 @@
 services:
+  speedtest:
+    image: ghcr.io/librespeed/speedtest:latest
+    restart: unless-stopped
+    environment:
+      MODE: standalone
+      TITLE: "LibreSpeed"
+    labels:
+      caddy.reverse_proxy: "{{upstreams 80}}"
+
   speedtest-tracker:
     image: lscr.io/linuxserver/speedtest-tracker:latest
     restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
+      - APP_KEY=base64:GleUCbpBA2aoczZsxTHPmZkf5Pab5GCoAQBy6iunbCI=
       - DB_CONNECTION=sqlite
     volumes:
       - ../volumes/speedtest:/config
     labels:
       caddy.reverse_proxy: "{{upstreams 80}}"
-      homepage.name: Speedtest
+      homepage.name: Speedtest Tracker
       homepage.description: 最近网络速度
-      homepage.icon: librespeed.svg
+      homepage.icon: speedtest.svg
       homepage.widget.type: speedtest

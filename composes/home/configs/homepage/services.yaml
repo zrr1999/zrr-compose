@@ -9,16 +9,9 @@
             url: https://ikuai.home.bone6.com
     - clash:
         icon: librespeed.svg
-        href: https://clash.home.bone6.com
-        description: Clash
-        widget:
-            type: clash
-            url: https://clash.home.bone6.com
+        href: https://clash.home.bone6.com/ui
+        description: Clash Meta
     - incus:
         icon: librespeed.svg
         href: https://incus.home.bone6.com
         description: Incus
-        widget:
-            type: incus
-            url: https://incus.home.bone6.com
-
