@@ -1,5 +1,5 @@
 {
-	acme_dns cloudflare {env.TENCENTCLOUD_SECRET_KEY}
+	acme_dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
 }
 
 coolify.bone6.com {
