@@ -68,3 +68,45 @@ services:
       - "/dev/nvme0"
     labels:
       caddy: scrutiny.lab.bone6.com
+
+  immich-db:
+    container_name: immich-db
+    extends:
+      file: ../../services/database.yml
+      service: pgvecto-rs
+    environment:
+      - POSTGRES_DB=immich
+    volumes:
+      - ../../volumes/immich/postgres:/var/lib/postgresql/data
+
+  immich-redis:
+    container_name: immich-redis
+    extends:
+      file: ../../services/database.yml
+      service: redis
+
+  immich-server:
+    container_name: immich-server
+    extends:
+      file: ../../services/immich.yml
+      service: immich-server
+    depends_on:
+      - immich-db
+      - immich-redis
+    links:
+      - immich-db:database
+      - immich-redis:redis
+    environment:
+      - DB_PASSWORD=postgres
+      - DB_USERNAME=postgres
+      - DB_DATABASE_NAME=immich
+    labels:
+      caddy: immich.lab.bone6.com
+      homepage.group: 工具
+      homepage.href: https://immich.lab.bone6.com
+
+  immich-machine-learning:
+    container_name: immich-machine-learning
+    extends:
+      file: ../../services/immich.yml
+      service: immich-machine-learning
