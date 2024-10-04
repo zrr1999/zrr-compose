@@ -250,3 +250,16 @@ services:
       homepage.group: 工具
       homepage.icon: https://rss.bone6.com/icon/icon-128.png
       homepage.href: https://rss.bone6.com
+
+  searxng:
+    container_name: searxng
+    extends:
+      file: ../../services/searxng.yml
+      service: searxng
+    environment:
+      - BASE_URL=https://searx.bone6.com
+    labels:
+      caddy: searx.bone6.com
+      homepage.group: 工具
+      homepage.icon: https://searx.bone6.com/favicon.ico
+      homepage.href: https://searx.bone6.com

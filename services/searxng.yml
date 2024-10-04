@@ -1,0 +1,11 @@
+services:
+  searxng:
+    volumes:
+      - ../volumes/searxng:/etc/searxng
+    environment:
+      - INSTANCE_NAME=searxng
+    image: searxng/searxng
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+      homepage.name: SearxNG
+      homepage.description: 搜索
