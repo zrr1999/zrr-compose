@@ -257,9 +257,9 @@ services:
       file: ../../services/searxng.yml
       service: searxng
     environment:
-      - BASE_URL=https://searx.bone6.com
+      - BASE_URL=https://searxng.bone6.com
     labels:
-      caddy: searx.bone6.com
+      caddy: searxng.bone6.com
       homepage.group: 工具
-      homepage.icon: https://searx.bone6.com/favicon.ico
-      homepage.href: https://searx.bone6.com
+      homepage.icon: https://searxng.bone6.com/favicon.ico
+      homepage.href: https://searxng.bone6.com
