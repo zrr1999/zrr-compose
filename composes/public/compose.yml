@@ -108,41 +108,41 @@ services:
       homepage.icon: https://n8n.bone6.com/favicon.ico
       homepage.href: https://n8n.bone6.com
 
-  langflow-db:
-    container_name: langflow-db
-    extends:
-      file: ../../services/database.yml
-      service: postgres
-    environment:
-      POSTGRES_USER: langflow
-      POSTGRES_PASSWORD: langflow
-      POSTGRES_DB: langflow
-    volumes:
-      - ../../volumes/langflow/db:/var/lib/postgresql/data
+  # langflow-db:
+  #   container_name: langflow-db
+  #   extends:
+  #     file: ../../services/database.yml
+  #     service: postgres
+  #   environment:
+  #     POSTGRES_USER: langflow
+  #     POSTGRES_PASSWORD: langflow
+  #     POSTGRES_DB: langflow
+  #   volumes:
+  #     - ../../volumes/langflow/db:/var/lib/postgresql/data
   
-  langflow:
-    container_name: langflow
-    extends:
-      file: ../../services/langflow.yml
-      service: langflow
-    links:
-      - langflow-db:postgres
-    labels:
-      caddy: flow.bone6.com
-      homepage.group: 智能
-      homepage.icon: https://flow.bone6.com/favicon.ico
-      homepage.href: https://flow.bone6.com
+  # langflow:
+  #   container_name: langflow
+  #   extends:
+  #     file: ../../services/langflow.yml
+  #     service: langflow
+  #   links:
+  #     - langflow-db:postgres
+  #   labels:
+  #     caddy: flow.bone6.com
+  #     homepage.group: 智能
+  #     homepage.icon: https://flow.bone6.com/favicon.ico
+  #     homepage.href: https://flow.bone6.com
 
-  illa:
-    container_name: illa
-    extends:
-      file: ../../services/illa.yml
-      service: illa
-    labels:
-      caddy: illa.bone6.com
-      homepage.group: 工具
-      homepage.icon: https://illa.bone6.com/cloud/favicon.ico
-      homepage.href: https://illa.bone6.com
+  # illa:
+  #   container_name: illa
+  #   extends:
+  #     file: ../../services/illa.yml
+  #     service: illa
+  #   labels:
+  #     caddy: illa.bone6.com
+  #     homepage.group: 工具
+  #     homepage.icon: https://illa.bone6.com/cloud/favicon.ico
+  #     homepage.href: https://illa.bone6.com
 
   headscale:
     container_name: headscale
