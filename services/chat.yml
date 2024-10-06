@@ -6,6 +6,7 @@ services:
       caddy.reverse_proxy: "{{upstreams 8787}}"
       homepage.name: Portkey-AI
       homepage.description: LLM API 统一网关。
+      homepage.icon: https://framerusercontent.com/images/pkFK3AGXHirogqiN67JGtlnMVM.png
 
   one-api:
     image: justsong/one-api:latest
@@ -31,7 +32,6 @@ services:
       caddy.reverse_proxy: "{{upstreams 3000}}"
       homepage.name: One API
       homepage.description: LLM API 统一网关。
-      homepage.icon: https://one-api.bone6.com/logo.png
 
   lobe-chat:
     image: lobehub/lobe-chat-database:latest

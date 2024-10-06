@@ -48,10 +48,13 @@ services:
     extends:
       file: ../../services/chat.yml
       service: one-api
+    links:
+      - one-api-db:db
     labels:
       caddy: one-api.bone6.com
       homepage.group: 智能
       homepage.href: https://one-api.bone6.com
+      homepage.icon: https://one-api.bone6.com/logo.png
 
   portkeyai:
     container_name: portkeyai
