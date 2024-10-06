@@ -11,6 +11,15 @@ services:
       homepage.group: 网络
       homepage.widget.url: https://caddy.home.bone6.com
 
+  rclone:
+    container_name: rclone
+    extends:
+      file: ../../services/rclone.yml
+      service: rclone
+    command: sync /source/volumes/ onedrive:/rclone-volumes-backup/home/ --local-no-check-updated --ignore-size --ignore-checksum
+    volumes:
+      - ../../volumes:/source/volumes:ro
+    
   alist:
     container_name: alist
     extends:
