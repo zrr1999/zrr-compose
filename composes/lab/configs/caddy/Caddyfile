@@ -2,16 +2,12 @@
 	acme_dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
 }
 
-openwrt.lab.bone6.com {
-	reverse_proxy 192.168.1.2:8080
-}
-
 ikuai.lab.bone6.com {
 	reverse_proxy 192.168.1.1
 }
 
-hass.lab.bone6.com {
-	reverse_proxy 192.168.1.10:8123
+openwrt.lab.bone6.com {
+	reverse_proxy 192.168.1.2:8080
 }
 
 pve.lab.bone6.com {
@@ -20,4 +16,12 @@ pve.lab.bone6.com {
 			tls_insecure_skip_verify
 		}
 	}
+}
+
+hass.lab.bone6.com {
+	reverse_proxy 192.168.1.10:8123
+}
+
+omv.lab.bone6.com {
+	reverse_proxy 192.168.1.11:80
 }
