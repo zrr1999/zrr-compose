@@ -17,7 +17,6 @@ services:
       caddy.reverse_proxy: "{{upstreams 5000}}"
       homepage.name: UpSnap
       homepage.description: A simple wake on lan web app written with SvelteKit, Go and PocketBase.
-      homepage.icon: https://github.com/seriousm4x/UpSnap/blob/master/frontend/static/gopher.svg
     entrypoint: /bin/sh -c "./upsnap serve --http 0.0.0.0:5000"
     healthcheck:
       test: curl -fs "http://localhost:5000/api/health" || exit 1
