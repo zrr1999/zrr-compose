@@ -84,7 +84,7 @@ services:
       caddy: speedtest-tracker.home.bone6.com
       homepage.group: 工具
       homepage.href: https://speedtest-tracker.home.bone6.com
-      homepage.widget.type: https://speedtest-tracker.home.bone6.com
+      homepage.widget.url: https://speedtest-tracker.home.bone6.com
 
   upsnap:
     container_name: upsnap

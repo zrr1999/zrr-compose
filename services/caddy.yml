@@ -19,8 +19,8 @@ services:
       - ACME_AGREE=true
       - TZ=Asia/Shanghai
     labels:
-      caddy.reverse_proxy: "{{upstreams 2019}}"
-      caddy.reverse_proxy.header_up: Host localhost:2019 
+      caddy.reverse_proxy: "127.0.0.1:2019"
+      caddy.reverse_proxy.header_up: Host 127.0.0.1:2019
       homepage.name: Caddy
       homepage.description: Caddy Web Server
       homepage.icon: https://caddyserver.com/resources/images/favicon.png
