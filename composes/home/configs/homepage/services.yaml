@@ -1,17 +1,14 @@
 ---
 - 网络:
     - ikuai:
-        icon: librespeed.svg
+        icon: router.svg
         href: https://ikuai.home.bone6.com
         description: 主路由 iKuai
-        widget:
-            type: ikuai
-            url: https://ikuai.home.bone6.com
     - clash:
-        icon: librespeed.svg
+        # icon: clash.svg
         href: https://clash.home.bone6.com/ui
         description: Clash Meta
     - incus:
-        icon: librespeed.svg
+        # icon: incus.svg
         href: https://incus.home.bone6.com
         description: Incus
