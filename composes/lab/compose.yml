@@ -73,8 +73,11 @@ services:
     extends:
       file: ../../services/speedtest.yml
       service: speedtest-tracker
+    environment:
+      - APP_URL=https://speedtest-tracker.lab.bone6.com
     labels:
       caddy: speedtest-tracker.lab.bone6.com
+      homepage.widget.type: https://speedtest-tracker.lab.bone6.com
 
   scrutiny:
     container_name: scrutiny

@@ -63,7 +63,7 @@ services:
     labels:
       caddy: qinglong.home.bone6.com
       homepage.group: 工具
-      homepage.href: qinglong.home.bone6.com
+      homepage.href: https://qinglong.home.bone6.com
 
   speedtest:
     container_name: speedtest
@@ -83,7 +83,8 @@ services:
     labels:
       caddy: speedtest-tracker.home.bone6.com
       homepage.group: 工具
-      homepage.href: speedtest-tracker.home.bone6.com
+      homepage.href: https://speedtest-tracker.home.bone6.com
+      homepage.widget.type: https://speedtest-tracker.home.bone6.com
 
   upsnap:
     container_name: upsnap
@@ -93,4 +94,5 @@ services:
     labels:
       caddy: upsnap.home.bone6.com
       homepage.group: 工具
-      homepage.href: upsnap.home.bone6.com
+      homepage.href: https://upsnap.home.bone6.com
+      homepage.icon: https://upsnap.home.bone6.com/gopher.svg
