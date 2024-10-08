@@ -1,6 +1,6 @@
 services:
   server:
-    image: headscale/headscale:unstable
+    image: headscale/headscale:stable
     restart: unless-stopped
     volumes:
       - ./configs/headscale:/etc/headscale
