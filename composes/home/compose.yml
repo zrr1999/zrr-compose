@@ -16,7 +16,7 @@ services:
     extends:
       file: ../../services/rclone.yml
       service: rclone
-    command: sync /source/volumes/ onedrive:/rclone-volumes-backup/home/ --local-no-check-updated --ignore-size --ignore-checksum
+    command: sync /source/volumes/ onedrive:/rclone-volumes-backup/home/ --exclude "cache/" --local-no-check-updated --ignore-size --ignore-checksum
     volumes:
       - ../../volumes:/source/volumes:ro
     
