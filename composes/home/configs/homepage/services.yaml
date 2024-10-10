@@ -12,3 +12,8 @@
         # icon: incus.svg
         href: https://incus.home.bone6.com
         description: Incus
+- 家庭:
+    - Home Assistant:
+        # icon: hass.svg
+        href: https://hass.home.bone6.com
+        description: Home Assistant
