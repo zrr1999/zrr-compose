@@ -10,6 +10,6 @@
       timeStyle: short
       
 - search:
-    provider: [baidu, brave, google, duckduckgo]
+    provider: [baidu, brave, google]
     target: _blank
 

@@ -122,7 +122,7 @@ services:
       - DB_DATABASE_NAME=immich
     labels:
       caddy: immich.lab.bone6.com
-      homepage.group: 工具
+      homepage.group: 家庭
       homepage.href: https://immich.lab.bone6.com
 
   immich-machine-learning:
