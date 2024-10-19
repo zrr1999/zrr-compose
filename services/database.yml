@@ -1,4 +1,20 @@
 services:
+  influxdb:
+    image: influxdb:2-alpine
+    restart: always
+    ports:
+      - 20000:8086
+    volumes:
+      - ../volumes/influxdb/data:/var/lib/influxdb
+    environment:
+      - TZ=Asia/Shanghai
+      - INFLUXDB_HTTP_AUTH_ENABLED=true
+      - INFLUXDB_DB=telegraf
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8086}}"
+      homepage.name: influxdb
+      homepage.description: 时序数据库。
+
   postgres:
     image: postgres:16
     restart: unless-stopped

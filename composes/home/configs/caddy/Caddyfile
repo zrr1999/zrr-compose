@@ -19,5 +19,5 @@ incus.home.bone6.com {
 }
 
 hass.home.bone6.com {
-	reverse_proxy 192.168.10.10:8123
+	reverse_proxy 192.168.11.10:8123
 }
