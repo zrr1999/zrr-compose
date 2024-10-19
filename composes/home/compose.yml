@@ -58,7 +58,7 @@ services:
   qinglong:
     container_name: qinglong
     extends:
-      file: ../../services/qinglong.yml
+      file: ../../services/automation.yml
       service: qinglong
     labels:
       caddy: qinglong.home.bone6.com
@@ -68,7 +68,7 @@ services:
   speedtest:
     container_name: speedtest
     extends:
-      file: ../../services/speedtest.yml
+      file: ../../services/monitor.yml
       service: speedtest
     labels:
       caddy: speedtest.home.bone6.com
@@ -76,7 +76,7 @@ services:
   speedtest-tracker:
     container_name: speedtest-tracker
     extends:
-      file: ../../services/speedtest.yml
+      file: ../../services/monitor.yml
       service: speedtest-tracker
     environment:
       - APP_URL=https://speedtest-tracker.home.bone6.com
@@ -96,3 +96,21 @@ services:
       homepage.group: 工具
       homepage.href: https://upsnap.home.bone6.com
       homepage.icon: https://upsnap.home.bone6.com/gopher.svg
+
+  influxdb:
+    container_name: influxdb
+    extends:
+      file: ../../services/database.yml
+      service: influxdb
+    labels:
+      caddy: influxdb.home.bone6.com
+      homepage.group: 工具
+      homepage.href: https://influxdb.home.bone6.com
+      homepage.icon: https://influxdb.home.bone6.com/gopher.svg
+
+  telegraf:
+    container_name: telegraf
+    user: telegraf:969
+    extends:
+      file: ../../services/monitor.yml
+      service: telegraf

@@ -101,7 +101,7 @@ services:
   n8n:
     container_name: n8n
     extends:
-      file: ../../services/n8n.yml
+      file: ../../services/automation.yml
       service: n8n
     links:
       - n8n-db:postgres

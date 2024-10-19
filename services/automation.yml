@@ -1,4 +1,13 @@
 services:
+  qinglong:
+    image: whyour/qinglong:latest
+    restart: unless-stopped
+    environment:
+      QlBaseUrl: '/'
+    volumes:
+      - ../volumes/qinglong:/ql/data
+    labels:
+      caddy.reverse_proxy: "{{upstreams 5700}}"
   n8n:
     image: docker.n8n.io/n8nio/n8n:next
     restart: unless-stopped

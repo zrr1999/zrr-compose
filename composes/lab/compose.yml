@@ -55,7 +55,7 @@ services:
   qinglong:
     container_name: qinglong
     extends:
-      file: ../../services/qinglong.yml
+      file: ../../services/automation.yml
       service: qinglong
     labels:
       caddy: qinglong.lab.bone6.com
@@ -63,7 +63,7 @@ services:
   speedtest:
     container_name: speedtest
     extends:
-      file: ../../services/speedtest.yml
+      file: ../../services/monitor.yml
       service: speedtest
     labels:
       caddy: speedtest.lab.bone6.com
@@ -71,7 +71,7 @@ services:
   speedtest-tracker:
     container_name: speedtest-tracker
     extends:
-      file: ../../services/speedtest.yml
+      file: ../../services/monitor.yml
       service: speedtest-tracker
     environment:
       - APP_URL=https://speedtest-tracker.lab.bone6.com
