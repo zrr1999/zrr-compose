@@ -1,6 +1,6 @@
 services:
   alist:
-    image: "xhofe/alist:latest"
+    image: xhofe/alist:latest
     container_name: alist
     volumes:
       - ../volumes/alist:/opt/alist/data
@@ -14,7 +14,8 @@ services:
     labels:
       caddy.reverse_proxy: "{{upstreams 5244}}"
   aria2:
-    restart: always
+    image: p3terx/aria2-pro
+    restart: unless-stopped
     environment:
       - DISK_CACHE=64M
       - TZ=Asia/Shanghai
@@ -28,7 +29,6 @@ services:
     volumes:
       - ../volumes/aria2/config:/config
       - ../volumes/aria2/downloads:/downloads
-    image: p3terx/aria2-pro
     labels:
       caddy.reverse_proxy: "{{upstreams 6800}}"
   ariang:
