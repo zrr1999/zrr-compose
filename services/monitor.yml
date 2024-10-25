@@ -24,3 +24,17 @@ services:
       homepage.description: 最近网络速度
       homepage.icon: librespeed.svg
       homepage.widget.type: speedtest
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:master-omnibus
+    cap_add:
+      - SYS_RAWIO
+    ports:
+      - "8866:8080" # webapp
+      - "8867:8086" # influxDB admin
+    volumes:
+      - /run/udev:/run/udev:ro
+      - ../volumes/scrutiny/config:/opt/scrutiny/config
+      - ../volumes/scrutiny/influxdb:/opt/scrutiny/influxdb
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8080}}"
