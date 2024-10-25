@@ -82,7 +82,7 @@ services:
   scrutiny:
     container_name: scrutiny
     extends:
-      file: ../../services/scrutiny.yml
+      file: ../../services/monitor.yml
       service: scrutiny
     devices:
       - "/dev/nvme0"

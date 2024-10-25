@@ -53,3 +53,12 @@ services:
       homepage.name: LobeChat
       homepage.description: 开源的高性能聊天机器人框架 LobeChat。
       homepage.icon: https://registry.npmmirror.com/@lobehub/assets-favicons/1.4.0/files/assets/favicon.ico
+  langflow:
+    image: langflowai/langflow:latest
+    restart: unless-stopped
+    environment:
+      - LANGFLOW_DATABASE_URL=postgresql://langflow:langflow@postgres:5432/langflow
+    volumes:
+      - ../volumes/langflow/data:/app/langflow
+    labels:
+      caddy.reverse_proxy: "{{upstreams 7860}}"

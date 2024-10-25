@@ -46,7 +46,7 @@ services:
   one-api:
     container_name: one-api
     extends:
-      file: ../../services/chat.yml
+      file: ../../services/llm.yml
       service: one-api
     links:
       - one-api-db:db
@@ -59,7 +59,7 @@ services:
   portkeyai:
     container_name: portkeyai
     extends:
-      file: ../../services/chat.yml
+      file: ../../services/llm.yml
       service: portkeyai
     labels:
       caddy: llm-api.bone6.com
@@ -77,7 +77,7 @@ services:
   lobe-chat:
     container_name: lobe-chat
     extends:
-      file: ../../services/chat.yml
+      file: ../../services/llm.yml
       service: lobe-chat
     environment:
       APP_URL: https://lobe.bone6.com
@@ -126,7 +126,7 @@ services:
   # langflow:
   #   container_name: langflow
   #   extends:
-  #     file: ../../services/langflow.yml
+  #     file: ../../services/llm.yml
   #     service: langflow
   #   links:
   #     - langflow-db:postgres
