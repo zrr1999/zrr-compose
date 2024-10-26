@@ -266,3 +266,14 @@ services:
       homepage.group: 工具
       homepage.icon: https://searxng.bone6.com/favicon.ico
       homepage.href: https://searxng.bone6.com
+
+  wallos:
+    container_name: wallos
+    extends:
+      file: ../../services/wallos.yml
+      service: wallos
+    labels:
+      caddy: wallos.bone6.com
+      homepage.group: 工具
+      homepage.icon: https://wallos.bone6.com/favicon.ico
+      homepage.href: https://wallos.bone6.com
