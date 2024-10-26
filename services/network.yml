@@ -1,0 +1,83 @@
+services:
+  caddy:
+    image: zrr1999/zrr-caddy
+    restart: unless-stopped
+    command: "caddy docker-proxy --caddyfile-path /etc/caddy/Caddyfile"
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../volumes/caddy/data:/data
+      - ../volumes/caddy/config:/config
+    env_file:
+      - path: ${AUTO_TOKEN_ENV_DIR}/tencentcloud.env
+      - path: ${AUTO_TOKEN_ENV_DIR}/lexicon.env
+        required: true
+    environment:
+      - ACME_AGREE=true
+      - TZ=Asia/Shanghai
+    labels:
+      caddy.reverse_proxy: "127.0.0.1:2019"
+      caddy.reverse_proxy.header_up: Host 127.0.0.1:2019
+      homepage.name: Caddy
+      homepage.description: Caddy Web Server
+      homepage.icon: https://caddyserver.com/resources/images/favicon.png
+      homepage.widget.type: caddy
+  headscale-server:
+    image: headscale/headscale:stable
+    restart: unless-stopped
+    volumes:
+      - ./configs/headscale:/etc/headscale
+      - ../volumes/headscale:/var/lib/headscale
+      - /var/run/headscale
+    command: serve
+    labels:
+      caddy.redir: / /web
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+  headscale-derper:
+    image: fredliang/derper
+    restart: unless-stopped
+    ports:
+      - 3478:3478/udp
+    environment:
+      DERP_DOMAIN: ghk.derp.bone6.com
+      DERP_ADDR: ":8080"
+      DERP_VERIFY_CLIENTS: true
+    volumes:
+      - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+  headscale-ui:
+    image: ghcr.io/gurucomputing/headscale-ui:latest
+    restart: unless-stopped
+    environment:
+      HTTP_PORT: 8080
+    labels:
+      caddy.reverse_proxy: "/web* {{upstreams 8080}}"
+      homepage.name: Headscale
+      homepage.description: Headscale 组网管理。
+      homepage.icon: https://tailscale.com/favicon.ico
+  upsnap:
+    image: seriousm4x/upsnap:4
+    restart: unless-stopped
+    ports:
+      - 5000
+    volumes:
+      - ../volumes/upsnap/data:/app/pb_data
+    environment:
+      - TZ=Asia/Shanghai
+      - UPSNAP_INTERVAL=@every 600s
+      - UPSNAP_SCAN_RANGE=192.168.0.0/16
+      - UPSNAP_SCAN_TIMEOUT=500ms
+      - UPSNAP_PING_PRIVILEGED=true
+      - UPSNAP_WEBSITE_TITLE=UpSnap
+    labels:
+      caddy.reverse_proxy: "{{upstreams 5000}}"
+      homepage.name: UpSnap
+      homepage.description: A simple wake on lan web app written with SvelteKit, Go and PocketBase.
+    entrypoint: /bin/sh -c "./upsnap serve --http 0.0.0.0:5000"
+    healthcheck:
+      test: curl -fs "http://localhost:5000/api/health" || exit 1
+      interval: 10s
