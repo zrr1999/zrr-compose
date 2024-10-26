@@ -2,7 +2,7 @@ services:
   caddy:
     container_name: caddy
     extends:
-      file: ../../services/caddy.yml
+      file: ../../services/network.yml
       service: caddy
     volumes:
       - ./configs/caddy/:/etc/caddy/
@@ -89,7 +89,7 @@ services:
   upsnap:
     container_name: upsnap
     extends:
-      file: ../../services/upsnap.yml
+      file: ../../services/network.yml
       service: upsnap
     labels:
       caddy: upsnap.home.bone6.com
