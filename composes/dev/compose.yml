@@ -35,3 +35,7 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+  zrr-tools:
+    image: zrr1999/zrr-tools:latest
+    ports:
+      - 20001:8000
