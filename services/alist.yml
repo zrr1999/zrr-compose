@@ -13,31 +13,3 @@ services:
     restart: unless-stopped
     labels:
       caddy.reverse_proxy: "{{upstreams 5244}}"
-  aria2:
-    image: p3terx/aria2-pro
-    restart: unless-stopped
-    environment:
-      - DISK_CACHE=64M
-      - TZ=Asia/Shanghai
-    env_file:
-      - path: ${AUTO_TOKEN_ENV_DIR}/aria2.env
-        required: false
-    ports:
-      - 6800:6800
-      - 6881:6881
-      - 6881:6881/udp
-    volumes:
-      - ../volumes/aria2/config:/config
-      - ../volumes/aria2/downloads:/downloads
-    labels:
-      caddy.reverse_proxy: "{{upstreams 6800}}"
-  ariang:
-    image: p3terx/ariang
-    command: --port 80 --ipv6
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: 1m
-    labels:
-      caddy.reverse_proxy: "{{upstreams 80}}"

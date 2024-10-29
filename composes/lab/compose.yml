@@ -29,7 +29,7 @@ services:
   aria2:
     container_name: aria2
     extends:
-      file: ../../services/alist.yml
+      file: ../../services/downloader.yml
       service: aria2 
     labels:
       caddy: rpc.aria2.lab.bone6.com
@@ -37,7 +37,7 @@ services:
   ariang:
     container_name: ariang
     extends:
-      file: ../../services/alist.yml
+      file: ../../services/downloader.yml
       service: ariang 
     labels:
       caddy: aria2.lab.bone6.com
@@ -130,3 +130,43 @@ services:
     extends:
       file: ../../services/immich.yml
       service: immich-machine-learning
+
+  jellyfin:
+    container_name: jellyfin
+    extends:
+      file: ../../services/media.yml
+      service: jellyfin
+    labels:
+      caddy: jellyfin.lab.bone6.com
+
+  jellyseerr:
+    container_name: jellyseerr
+    extends:
+      file: ../../services/media.yml
+      service: jellyseerr
+    labels:
+      caddy: jellyseerr.lab.bone6.com
+  
+  sonarr:
+    container_name: sonarr
+    extends:
+      file: ../../services/media.yml
+      service: sonarr
+    labels:
+      caddy: sonarr.lab.bone6.com
+
+  radarr:
+    container_name: radarr
+    extends:
+      file: ../../services/media.yml
+      service: radarr
+    labels:
+      caddy: radarr.lab.bone6.com
+
+  prowlarr:
+    container_name: prowlarr
+    extends:
+      file: ../../services/media.yml
+      service: prowlarr
+    labels:
+      caddy: prowlarr.lab.bone6.com

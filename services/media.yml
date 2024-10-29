@@ -1,65 +1,83 @@
 services:
+  jellyfin:
+    image: linuxserver/jellyfin:10.9.11
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      - ../volumes/jellyfin:/config
+      # - torrent-downloads:/data
+    devices:
+      - /dev/dri:/dev/dri
+    ports:
+      - 8096:8096
+      - 7359:7359/udp
+      - 1900:1900/udp
+    restart: unless-stopped
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8096}}"
+
   flaresolverr:
     image: flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
     ports:
       - '8191:8191'
     environment:
       - LOG_LEVEL=info
     restart: unless-stopped
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8191}}"
 
   jellyseerr:
     image: fallenbagel/jellyseerr
-    container_name: jellyseerr
     environment:
       - TZ=Asia/Shanghai
     ports:
       - '5055:5055'
     volumes:
-      - '~/workspace/compose-config/jellyfin/config/jellyseerr:/app/config'
+      - '../volumes/jellyseerr:/app/config'
     restart: unless-stopped
-
+    labels:
+      caddy.reverse_proxy: "{{upstreams 5055}}"
+    dns:
+      - 8.8.8.8
   sonarr:
-    container_name: sonarr
     image: lscr.io/linuxserver/sonarr:latest
-    ports:
-      - "8989:8989"
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Shanghai
     volumes:
-      - ~/workspace/compose-config/jellyfin/config/sonarr:/config
-      - /mnt/d/jellyfin/tv:/tv
-      - /mnt/d/jellyfin/下载:/downloads
+      - ../volumes/sonarr:/config
+      # - /mnt/d/jellyfin/tv:/tv
+      # - /mnt/d/jellyfin/下载:/downloads
     restart: unless-stopped
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8989}}"
 
   radarr:
-    container_name: radarr
     image: lscr.io/linuxserver/radarr:latest
-    ports:
-      - "7878:7878"
     environment:
       - PUID=1000
       - PGID=1000
       - UMASK=002
       - TZ=Asia/Shanghai
     volumes:
-      - ~/workspace/compose-config/jellyfin/config/radarr:/config
-      - /mnt/d/jellyfin/movies:/movies
-      - /mnt/d/jellyfin/下载:/downloads
+      - ../volumes/radarr:/config
+      # - /mnt/d/jellyfin/movies:/movies
+      # - /mnt/d/jellyfin/下载:/downloads
     restart: unless-stopped
+    labels:
+      caddy.reverse_proxy: "{{upstreams 7878}}"
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Shanghai
-    ports:
-      - 9696:9696
     volumes:
-      - ~/workspace/compose-config/jellyfin/config/prowlarr:/config
+      - ../volumes/prowlarr:/config
     restart: unless-stopped
-
+    labels:
+      caddy.reverse_proxy: "{{upstreams 9696}}"

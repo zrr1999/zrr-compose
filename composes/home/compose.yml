@@ -32,7 +32,7 @@ services:
   aria2:
     container_name: aria2
     extends:
-      file: ../../services/alist.yml
+      file: ../../services/downloader.yml
       service: aria2 
     labels:
       caddy: rpc.aria2.home.bone6.com
@@ -40,7 +40,7 @@ services:
   ariang:
     container_name: ariang
     extends:
-      file: ../../services/alist.yml
+      file: ../../services/downloader.yml
       service: ariang 
     labels:
       caddy: aria2.home.bone6.com
