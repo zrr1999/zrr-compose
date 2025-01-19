@@ -1,0 +1,22 @@
+services:
+  maybe:
+    image: ghcr.io/maybe-finance/maybe:latest
+    volumes:
+      - ../volumes/maybe/app-storage:/rails/storage
+    restart: unless-stopped
+    env_file:
+      - path: ${AUTO_TOKEN_ENV_DIR}/maybe.env
+        required: true
+    environment:
+      SELF_HOSTED: "true"
+      RAILS_FORCE_SSL: "false"
+      RAILS_ASSUME_SSL: "false"
+      GOOD_JOB_EXECUTION_MODE: async
+      DB_HOST: postgres
+      POSTGRES_DB: default
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    labels:
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+      homepage.name: maybe
+      homepage.description: 一个开源的金融管理应用。

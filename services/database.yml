@@ -19,6 +19,7 @@ services:
     image: postgres:16
     restart: unless-stopped
     environment:
+      POSTGRES_DB: default
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data
@@ -32,6 +33,7 @@ services:
     image: pgvector/pgvector:pg16
     restart: unless-stopped
     environment:
+      POSTGRES_DB: default
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data
@@ -45,6 +47,7 @@ services:
     image: tensorchord/pgvecto-rs:pg16-v0.2.1
     restart: unless-stopped
     environment:
+      POSTGRES_DB: default
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_INITDB_ARGS: '--data-checksums'
