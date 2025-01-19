@@ -11,6 +11,14 @@ services:
       homepage.group: 网络
       homepage.widget.url: https://caddy.bone6.com
 
+  dozzle:
+    container_name: dozzle
+    extends:
+      file: ../../services/dozzle.yml
+      service: dozzle
+    labels:
+      caddy: dozzle.bone6.com
+
   rclone:
     container_name: rclone
     extends:
