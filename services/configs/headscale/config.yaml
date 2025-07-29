@@ -1,5 +1,5 @@
 ---
-server_url: https://headscale.bone6.com:443
+server_url: https://headscale.sixbones.dev:443
 
 listen_addr: 0.0.0.0:8080
 metrics_listen_addr: 0.0.0.0:9090
@@ -151,7 +151,7 @@ dns:
     - 8.8.8.8
     - 114.114.114.114
   magic_dns: true
-  base_domain: clients.headscale.bone6.com
+  base_domain: clients.headscale.sixbones.dev
 
 # Unix socket used for the CLI to connect without authentication
 # Note: for production you will want to set this to something like:

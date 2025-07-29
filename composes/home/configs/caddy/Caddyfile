@@ -2,15 +2,15 @@
 	acme_dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
 }
 
-ikuai.home.bone6.com {
+ikuai.home.sixbones.dev {
 	reverse_proxy 192.168.10.1
 }
 
-clash.home.bone6.com {
+clash.home.sixbones.dev {
 	reverse_proxy 192.168.10.2:9090
 }
 
-incus.home.bone6.com {
+incus.home.sixbones.dev {
 	reverse_proxy 192.168.10.5:8443 {
 		transport http {
 			tls_insecure_skip_verify
@@ -18,6 +18,6 @@ incus.home.bone6.com {
 	}
 }
 
-hass.home.bone6.com {
+hass.home.sixbones.dev {
 	reverse_proxy 192.168.11.10:8123
 }

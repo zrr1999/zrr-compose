@@ -7,16 +7,16 @@ services:
     volumes:
       - ./configs/caddy/:/etc/caddy/
     labels:
-      caddy: caddy.home.bone6.com
+      caddy: caddy.home.sixbones.dev
       homepage.group: 网络
-      homepage.widget.url: https://caddy.home.bone6.com
+      homepage.widget.url: https://caddy.home.sixbones.dev
 
   rclone:
     container_name: rclone
     extends:
       file: ../../services/rclone.yml
       service: rclone
-    command: sync /source/volumes/ onedrive:/rclone-volumes-backup/home/ --exclude "cache/" --local-no-check-updated --ignore-size --ignore-checksum
+    command: sync /source/volumes/ onedrive:/rclone-volumes-backup/home/ --exclude "cache/" --copy-links --local-no-check-updated --ignore-size --ignore-checksum
     volumes:
       - ../../volumes:/source/volumes:ro
     
@@ -26,7 +26,7 @@ services:
       file: ../../services/alist.yml
       service: alist 
     labels:
-      caddy: alist.home.bone6.com
+      caddy: alist.home.sixbones.dev
       homepage.group: 工具
   
   aria2:
@@ -35,7 +35,7 @@ services:
       file: ../../services/downloader.yml
       service: aria2 
     labels:
-      caddy: rpc.aria2.home.bone6.com
+      caddy: rpc.aria2.home.sixbones.dev
       homepage.group: 工具
   ariang:
     container_name: ariang
@@ -43,7 +43,7 @@ services:
       file: ../../services/downloader.yml
       service: ariang 
     labels:
-      caddy: aria2.home.bone6.com
+      caddy: aria2.home.sixbones.dev
       homepage.group: 工具
 
   homepage:
@@ -54,16 +54,16 @@ services:
     volumes:
       - ./configs/homepage:/app/config:ro
     labels:
-      caddy: homepage.home.bone6.com
+      caddy: homepage.home.sixbones.dev
   qinglong:
     container_name: qinglong
     extends:
       file: ../../services/automation.yml
       service: qinglong
     labels:
-      caddy: qinglong.home.bone6.com
+      caddy: qinglong.home.sixbones.dev
       homepage.group: 工具
-      homepage.href: https://qinglong.home.bone6.com
+      homepage.href: https://qinglong.home.sixbones.dev
 
   speedtest:
     container_name: speedtest
@@ -71,7 +71,7 @@ services:
       file: ../../services/monitor.yml
       service: speedtest
     labels:
-      caddy: speedtest.home.bone6.com
+      caddy: speedtest.home.sixbones.dev
 
   speedtest-tracker:
     container_name: speedtest-tracker
@@ -79,12 +79,12 @@ services:
       file: ../../services/monitor.yml
       service: speedtest-tracker
     environment:
-      - APP_URL=https://speedtest-tracker.home.bone6.com
+      - APP_URL=https://speedtest-tracker.home.sixbones.dev
     labels:
-      caddy: speedtest-tracker.home.bone6.com
+      caddy: speedtest-tracker.home.sixbones.dev
       homepage.group: 工具
-      homepage.href: https://speedtest-tracker.home.bone6.com
-      homepage.widget.url: https://speedtest-tracker.home.bone6.com
+      homepage.href: https://speedtest-tracker.home.sixbones.dev
+      homepage.widget.url: https://speedtest-tracker.home.sixbones.dev
 
   upsnap:
     container_name: upsnap
@@ -92,10 +92,10 @@ services:
       file: ../../services/network.yml
       service: upsnap
     labels:
-      caddy: upsnap.home.bone6.com
+      caddy: upsnap.home.sixbones.dev
       homepage.group: 工具
-      homepage.href: https://upsnap.home.bone6.com
-      homepage.icon: https://upsnap.home.bone6.com/gopher.svg
+      homepage.href: https://upsnap.home.sixbones.dev
+      homepage.icon: https://upsnap.home.sixbones.dev/gopher.svg
 
   influxdb:
     container_name: influxdb
@@ -103,10 +103,10 @@ services:
       file: ../../services/database.yml
       service: influxdb
     labels:
-      caddy: influxdb.home.bone6.com
+      caddy: influxdb.home.sixbones.dev
       homepage.group: 工具
-      homepage.href: https://influxdb.home.bone6.com
-      homepage.icon: https://influxdb.home.bone6.com/gopher.svg
+      homepage.href: https://influxdb.home.sixbones.dev
+      homepage.icon: https://influxdb.home.sixbones.dev/gopher.svg
 
   telegraf:
     container_name: telegraf

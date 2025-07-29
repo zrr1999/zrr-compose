@@ -6,7 +6,7 @@ regions:
     nodes:
       - name: 1
         regionid: 901
-        hostname: ghk.derp.bone6.com
+        hostname: ghk.derp.sixbones.dev
         stunport: 3478
         stunonly: false
         derpport: 443

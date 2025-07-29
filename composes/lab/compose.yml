@@ -7,7 +7,7 @@ services:
     volumes:
       - ./configs/caddy/:/etc/caddy/
     labels:
-      caddy: caddy.lab.bone6.com
+      caddy: caddy.lab.sixbones.dev
 
   rclone:
     container_name: rclone
@@ -24,7 +24,7 @@ services:
       file: ../../services/alist.yml
       service: alist 
     labels:
-      caddy: alist.lab.bone6.com
+      caddy: alist.lab.sixbones.dev
   
   aria2:
     container_name: aria2
@@ -32,7 +32,7 @@ services:
       file: ../../services/downloader.yml
       service: aria2 
     labels:
-      caddy: rpc.aria2.lab.bone6.com
+      caddy: rpc.aria2.lab.sixbones.dev
   
   ariang:
     container_name: ariang
@@ -40,7 +40,7 @@ services:
       file: ../../services/downloader.yml
       service: ariang 
     labels:
-      caddy: aria2.lab.bone6.com
+      caddy: aria2.lab.sixbones.dev
   
   homepage:
     container_name: homepage
@@ -50,7 +50,7 @@ services:
     volumes:
       - ./configs/homepage:/app/config:ro
     labels:
-      caddy: homepage.lab.bone6.com
+      caddy: homepage.lab.sixbones.dev
 
   qinglong:
     container_name: qinglong
@@ -58,7 +58,7 @@ services:
       file: ../../services/automation.yml
       service: qinglong
     labels:
-      caddy: qinglong.lab.bone6.com
+      caddy: qinglong.lab.sixbones.dev
 
   speedtest:
     container_name: speedtest
@@ -66,7 +66,7 @@ services:
       file: ../../services/monitor.yml
       service: speedtest
     labels:
-      caddy: speedtest.lab.bone6.com
+      caddy: speedtest.lab.sixbones.dev
 
   speedtest-tracker:
     container_name: speedtest-tracker
@@ -74,10 +74,10 @@ services:
       file: ../../services/monitor.yml
       service: speedtest-tracker
     environment:
-      - APP_URL=https://speedtest-tracker.lab.bone6.com
+      - APP_URL=https://speedtest-tracker.lab.sixbones.dev
     labels:
-      caddy: speedtest-tracker.lab.bone6.com
-      homepage.widget.type: https://speedtest-tracker.lab.bone6.com
+      caddy: speedtest-tracker.lab.sixbones.dev
+      homepage.widget.type: https://speedtest-tracker.lab.sixbones.dev
 
   scrutiny:
     container_name: scrutiny
@@ -87,7 +87,7 @@ services:
     devices:
       - "/dev/nvme0"
     labels:
-      caddy: scrutiny.lab.bone6.com
+      caddy: scrutiny.lab.sixbones.dev
 
   immich-db:
     container_name: immich-db
@@ -121,9 +121,9 @@ services:
       - DB_USERNAME=postgres
       - DB_DATABASE_NAME=immich
     labels:
-      caddy: immich.lab.bone6.com
+      caddy: immich.lab.sixbones.dev
       homepage.group: 家庭
-      homepage.href: https://immich.lab.bone6.com
+      homepage.href: https://immich.lab.sixbones.dev
 
   immich-machine-learning:
     container_name: immich-machine-learning
@@ -137,7 +137,7 @@ services:
       file: ../../services/media.yml
       service: jellyfin
     labels:
-      caddy: jellyfin.lab.bone6.com
+      caddy: jellyfin.lab.sixbones.dev
 
   jellyseerr:
     container_name: jellyseerr
@@ -145,7 +145,7 @@ services:
       file: ../../services/media.yml
       service: jellyseerr
     labels:
-      caddy: jellyseerr.lab.bone6.com
+      caddy: jellyseerr.lab.sixbones.dev
   
   sonarr:
     container_name: sonarr
@@ -153,7 +153,7 @@ services:
       file: ../../services/media.yml
       service: sonarr
     labels:
-      caddy: sonarr.lab.bone6.com
+      caddy: sonarr.lab.sixbones.dev
 
   radarr:
     container_name: radarr
@@ -161,7 +161,7 @@ services:
       file: ../../services/media.yml
       service: radarr
     labels:
-      caddy: radarr.lab.bone6.com
+      caddy: radarr.lab.sixbones.dev
 
   prowlarr:
     container_name: prowlarr
@@ -169,4 +169,4 @@ services:
       file: ../../services/media.yml
       service: prowlarr
     labels:
-      caddy: prowlarr.lab.bone6.com
+      caddy: prowlarr.lab.sixbones.dev
