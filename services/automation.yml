@@ -18,7 +18,7 @@ services:
       - DB_POSTGRESDB_DATABASE=zeabur
       - DB_POSTGRESDB_USER=root
       - DB_POSTGRESDB_PASSWORD=***REMOVED***
-      - WEBHOOK_URL=https://n8n.bone6.com
+      - WEBHOOK_URL=https://n8n.sixbones.dev
     volumes:
       - ../volumes/n8n/node:/home/node/.n8n
     labels:

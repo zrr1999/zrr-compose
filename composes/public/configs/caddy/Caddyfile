@@ -2,6 +2,6 @@
 	acme_dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
 }
 
-coolify.bone6.com {
+coolify.sixbones.dev {
 	reverse_proxy 192.168.1.2:8080
 }

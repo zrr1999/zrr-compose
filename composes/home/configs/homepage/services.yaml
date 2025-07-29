@@ -2,18 +2,18 @@
 - 网络:
     - ikuai:
         icon: router.svg
-        href: https://ikuai.home.bone6.com
+        href: https://ikuai.home.sixbones.dev
         description: 主路由 iKuai
     - clash:
         # icon: clash.svg
-        href: https://clash.home.bone6.com/ui
+        href: https://clash.home.sixbones.dev/ui
         description: Clash Meta
     - incus:
         # icon: incus.svg
-        href: https://incus.home.bone6.com
+        href: https://incus.home.sixbones.dev
         description: Incus
 - 家庭:
     - Home Assistant:
         # icon: hass.svg
-        href: https://hass.home.bone6.com
+        href: https://hass.home.sixbones.dev
         description: Home Assistant

@@ -1,7 +1,7 @@
 ---
 title: 导航主页
 language: zh-CN
-base: https://homepage.bone6.com
+base: https://homepage.sixbones.dev
 logpath: /logs
 
 quicklaunch:

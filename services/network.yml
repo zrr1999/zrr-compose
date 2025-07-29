@@ -42,7 +42,7 @@ services:
     ports:
       - 3478:3478/udp
     environment:
-      DERP_DOMAIN: ghk.derp.bone6.com
+      DERP_DOMAIN: ghk.derp.sixbones.dev
       DERP_ADDR: ":8080"
       DERP_VERIFY_CLIENTS: true
     volumes:
