@@ -66,14 +66,3 @@ services:
       homepage.group: 工具
       homepage.icon: https://memos.sixbones.dev/apple-touch-icon.png
       homepage.href: https://memos.sixbones.dev
-
-  wallos:
-    container_name: wallos
-    extends:
-      file: ../../services/wallos.yml
-      service: wallos
-    labels:
-      caddy: wallos.sixbones.dev
-      homepage.group: 工具
-      homepage.icon: https://wallos.sixbones.dev/favicon.ico
-      homepage.href: https://wallos.sixbones.dev
