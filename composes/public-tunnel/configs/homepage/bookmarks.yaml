@@ -1,0 +1,32 @@
+---
+
+- 开发主页:
+  - Github:
+    - abbr: GH
+      href: https://github.com/zrr1999
+  - Gitee:
+    - abbr: GT
+      href: https://gitee.com/zrr1999
+  - Gitea:
+    - abbr: GT
+      href: https://git.sixbones.dev/zrr
+
+- 常用工具:
+  - Composerize:
+    - abbr: CR
+      href: https://www.composerize.com/
+  - Dub.io:
+    - abbr: DB
+      href: https://app.dub.co/zrr1999
+      
+- 文档资源:
+  - Simple Icon:
+    - abbr: SI
+      href: https://simpleicons.org
+  - Dashboard Icons:
+    - abbr: DI
+      href: https://github.com/walkxcode/dashboard-icons
+  - Homepage docs:
+    - abbr: HP
+      href: https://gethomepage.dev/
+
