@@ -80,3 +80,19 @@ services:
     healthcheck:
       test: curl -fs "http://localhost:5000/api/health" || exit 1
       interval: 10s
+
+  rathole-server:
+    image: rapiz1/rathole:latest
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ../volumes/rathole/server.toml:/app/server.toml
+    command: --server /app/server.toml
+
+  rathole-client:
+    image: rapiz1/rathole:latest
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ../volumes/rathole/client.toml:/app/client.toml
+    command: --client /app/client.toml

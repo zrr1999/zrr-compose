@@ -11,14 +11,20 @@ services:
       homepage.group: 网络
       homepage.widget.url: https://caddy.sixbones.dev
 
-  rclone:
-    container_name: rclone
+  rathole:
+    container_name: rathole
     extends:
-      file: ../../services/rclone.yml
-      service: rclone
-    command: sync /source/volumes/ cf:volumes-backup/public/ --local-no-check-updated --ignore-size --ignore-checksum
-    volumes:
-      - ../../volumes:/source/volumes:ro
+      file: ../../services/network.yml
+      service: rathole-client
+
+  # rclone:
+  #   container_name: rclone
+  #   extends:
+  #     file: ../../services/storage.yml
+  #     service: rclone
+  #   command: sync /source/volumes/ cf:volumes-backup/public/ --local-no-check-updated --ignore-size --ignore-checksum
+  #   volumes:
+  #     - ../../volumes:/source/volumes:ro
     
   dozzle:
     container_name: dozzle
@@ -165,19 +171,19 @@ services:
     volumes:
       - ../../volumes/gitea/postgres:/var/lib/postgresql/data
   
-  gitea:
-    container_name: gitea
-    extends:
-      file: ../../services/gitea.yml
-      service: server
-    depends_on:
-      - gitea-db
-    links:
-      - gitea-db:db
-    labels:
-      caddy: git.sixbones.dev gitea.sixbones.dev
-      homepage.group: 工具
-      homepage.href: git.sixbones.dev
+  # gitea:
+  #   container_name: gitea
+  #   extends:
+  #     file: ../../services/gitea.yml
+  #     service: server
+  #   depends_on:
+  #     - gitea-db
+  #   links:
+  #     - gitea-db:db
+  #   labels:
+  #     caddy: git.sixbones.dev gitea.sixbones.dev
+  #     homepage.group: 工具
+  #     homepage.href: git.sixbones.dev
 
   it-tools:
     container_name: it-tools
