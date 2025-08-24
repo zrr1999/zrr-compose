@@ -18,6 +18,8 @@ services:
     env_file:
       - path: ${AUTO_TOKEN_ENV_DIR}/restic.env
         required: true
+      - path: ${AUTO_TOKEN_ENV_DIR}/cloudflare-r2.env
+        required: true
     environment:
       - RESTIC_REPOSITORY=s3:$RESTIC_ENDPOINT/test
       - BACKUP_CRON=0 4 * * *
