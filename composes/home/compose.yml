@@ -14,7 +14,7 @@ services:
   rclone:
     container_name: rclone
     extends:
-      file: ../../services/rclone.yml
+      file: ../../services/storage.yml
       service: rclone
     command: sync /source/volumes/ onedrive:/rclone-volumes-backup/home/ --exclude "cache/" --copy-links --local-no-check-updated --ignore-size --ignore-checksum
     volumes:

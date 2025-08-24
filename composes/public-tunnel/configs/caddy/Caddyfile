@@ -1,3 +1,0 @@
-{
-	acme_dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
-}

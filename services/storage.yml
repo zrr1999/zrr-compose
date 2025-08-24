@@ -1,0 +1,26 @@
+services:
+  rclone:
+    image: rclone/rclone
+    restart: unless-stopped
+    volumes:
+      - ~/.config/rclone/:/root/.config/rclone/
+    entrypoint: ["watch", "-n", "3600", "rclone"]
+  
+  restic:
+    image: ghcr.io/lobaro/restic-backup-docker:latest
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - ../volumes:/data/Backup:ro
+      # - ./post-backup.sh:/hooks/post-backup.sh:ro     # Run script post-backup.sh after every backup
+      # - ./post-check.sh:/hooks/post-check.sh:ro       # Run script post-check.sh after every check
+      - ./ssh:/root/.ssh
+    env_file:
+      - path: ${AUTO_TOKEN_ENV_DIR}/restic.env
+        required: true
+    environment:
+      - RESTIC_REPOSITORY=s3:$RESTIC_ENDPOINT/test
+      - BACKUP_CRON=0 4 * * *
+      - CHECK_CRON=0 3 * * *
+      - RESTIC_DATA_SUBSET=1G                              
+      - RESTIC_FORGET_ARGS=--prune --keep-last 6
