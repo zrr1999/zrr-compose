@@ -16,7 +16,20 @@ services:
     extends:
       file: ../../services/network.yml
       service: rathole-server
-
+    ports:
+      - 2333:2333
+      - 80:80
+      - 443:443
+      - 443:443/udp
+  
+  restic:
+    container_name: restic
+    extends:
+      file: ../../services/storage.yml
+      service: restic
+    environment:
+      - RESTIC_REPOSITORY=s3:${RESTIC_ENDPOINT}/public
+    
   # rclone:
   #   container_name: rclone
   #   extends:

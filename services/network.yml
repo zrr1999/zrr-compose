@@ -84,7 +84,7 @@ services:
   rathole-server:
     image: rapiz1/rathole:latest
     restart: unless-stopped
-    network_mode: host
+    privileged: true
     volumes:
       - ../volumes/rathole/server.toml:/app/server.toml
     command: --server /app/server.toml
