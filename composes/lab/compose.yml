@@ -261,7 +261,7 @@ services:
       file: ../../services/database.yml
       service: postgres
     environment:
-      POSTGRES_DB: zeabur
+      POSTGRES_DB: n8n
     volumes:
       - ../../volumes/n8n/db/pgdata:/var/lib/postgresql/data
   

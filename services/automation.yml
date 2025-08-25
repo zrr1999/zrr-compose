@@ -15,7 +15,7 @@ services:
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=postgres
       - DB_POSTGRESDB_PORT=5432
-      - DB_POSTGRESDB_DATABASE=zeabur
+      - DB_POSTGRESDB_DATABASE=n8n
       - DB_POSTGRESDB_USER=root
       - DB_POSTGRESDB_PASSWORD=Z5jox6A72cIKbU93P1nsJFwfki0E84uH
       - WEBHOOK_URL=https://n8n.sixbones.dev
