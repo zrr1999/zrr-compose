@@ -17,7 +17,7 @@ services:
       - DB_POSTGRESDB_PORT=5432
       - DB_POSTGRESDB_DATABASE=n8n
       - DB_POSTGRESDB_USER=root
-      - DB_POSTGRESDB_PASSWORD=Z5jox6A72cIKbU93P1nsJFwfki0E84uH
+      - DB_POSTGRESDB_PASSWORD=password
       - WEBHOOK_URL=https://n8n.sixbones.dev
     volumes:
       - ../volumes/n8n/node:/home/node/.n8n
