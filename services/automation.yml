@@ -9,7 +9,7 @@ services:
     labels:
       caddy.reverse_proxy: "{{upstreams 5700}}"
   n8n:
-    image: docker.n8n.io/n8nio/n8n:next
+    image: n8nio/n8n:next
     restart: unless-stopped
     environment:
       - DB_TYPE=postgresdb
