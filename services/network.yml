@@ -1,6 +1,6 @@
 services:
   caddy:
-    image: zrr1999/zrr-caddy
+    image: zrr1999/caddy
     restart: unless-stopped
     command: "caddy docker-proxy --caddyfile-path /etc/caddy/Caddyfile"
     ports:

@@ -1,10 +1,5 @@
 ---
 - 网络:    
-    - OpenWRT:
-        icon: openwrt.svg
-        href: https://openwrt.lab.sixbones.dev
-        description: OpenWRT 软路由管理界面
-
     # ddns-go
     # smartdns
     # openclash

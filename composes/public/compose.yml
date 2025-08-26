@@ -1,15 +1,13 @@
 services:
-  # caddy:
-  #   container_name: caddy
-  #   extends:
-  #     file: ../../services/network.yml
-  #     service: caddy
-  #   volumes:
-  #     - ./configs/caddy/:/etc/caddy/
-  #   labels:
-  #     caddy: caddy.sixbones.dev
-  #     homepage.group: 网络
-  #     homepage.widget.url: https://caddy.sixbones.dev
+  caddy:
+    container_name: caddy
+    extends:
+      file: ../../services/network.yml
+      service: caddy
+    volumes:
+      - ./configs/caddy/:/etc/caddy/
+    labels:
+      caddy: caddy.sixbones.dev
 
   rathole:
     container_name: rathole
@@ -18,9 +16,11 @@ services:
       service: rathole-server
     ports:
       - 2333:2333
-      - 80:80
-      - 443:443
-      - 443:443/udp
+    labels:
+      caddy.layer4.:443:
+      caddy.layer4.:443.1_@secure: tls sni *.home.sixbones.dev lobe.sixbones.dev
+      caddy.layer4.:443.2_route: "@secure"
+      caddy.layer4.:443.2_route.proxy: "{{upstreams 443}}"
   
   restic:
     container_name: restic
@@ -39,49 +39,38 @@ services:
   #   volumes:
   #     - ../../volumes:/source/volumes:ro
     
-  # vaultwarden:
-  #   container_name: vaultwarden
-  #   extends:
-  #     file: ../../services/vaultwarden.yml
-  #     service: vaultwarden
-  #   labels:
-  #     caddy: password.sixbones.dev pw.sixbones.dev
-  #     homepage.group: 工具
-  #     homepage.href: https://pw.sixbones.dev
+  vaultwarden:
+    container_name: vaultwarden
+    extends:
+      file: ../../services/vaultwarden.yml
+      service: vaultwarden
+    labels:
+      caddy: password.sixbones.dev pw.sixbones.dev
+      homepage.group: 工具
+      homepage.href: https://pw.sixbones.dev
 
-  # headscale:
-  #   container_name: headscale
-  #   extends:
-  #     file: ../../services/network.yml
-  #     service: headscale-server
-  #   labels:
-  #     caddy: headscale.sixbones.dev
+  headscale:
+    container_name: headscale
+    extends:
+      file: ../../services/network.yml
+      service: headscale-server
+    labels:
+      caddy: headscale.sixbones.dev
 
-  # headscale-derper:
-  #   container_name: headscale-derper
-  #   extends:
-  #     file: ../../services/network.yml
-  #     service: headscale-derper
-  #   labels:
-  #     caddy: ghk.derp.sixbones.dev
+  headscale-derper:
+    container_name: headscale-derper
+    extends:
+      file: ../../services/network.yml
+      service: headscale-derper
+    labels:
+      caddy: ghk.derp.sixbones.dev
   
-  # headscale-ui:
-  #   container_name: headscale-ui
-  #   extends:
-  #     file: ../../services/network.yml
-  #     service: headscale-ui
-  #   labels:
-  #     caddy: headscale.sixbones.dev
-  #     homepage.group: 网络
-  #     homepage.href: https://headscale.sixbones.dev
-
-  # memos:
-  #   container_name: memos
-  #   extends:
-  #     file: ../../services/memos.yml
-  #     service: memos
-  #   labels:
-  #     caddy: memos.sixbones.dev
-  #     homepage.group: 工具
-  #     homepage.icon: https://memos.sixbones.dev/apple-touch-icon.png
-  #     homepage.href: https://memos.sixbones.dev
+  headscale-ui:
+    container_name: headscale-ui
+    extends:
+      file: ../../services/network.yml
+      service: headscale-ui
+    labels:
+      caddy: headscale.sixbones.dev
+      homepage.group: 网络
+      homepage.href: https://headscale.sixbones.dev

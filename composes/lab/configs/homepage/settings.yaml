@@ -1,7 +1,7 @@
 ---
 title: 导航主页
 language: zh-CN
-base: https://homepage.lab.sixbones.dev
+base: https://homepage.home.sixbones.dev
 logpath: /logs
 
 quicklaunch:

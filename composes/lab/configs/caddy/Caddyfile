@@ -2,26 +2,22 @@
 	acme_dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
 }
 
-ikuai.lab.sixbones.dev {
-	reverse_proxy 192.168.1.1
+ikuai.home.sixbones.dev {
+	reverse_proxy 10.0.0.1
 }
 
-openwrt.lab.sixbones.dev {
-	reverse_proxy 192.168.1.2:8080
-}
-
-pve.lab.sixbones.dev {
-	reverse_proxy 192.168.1.5:8006 {
+pve.home.sixbones.dev {
+	reverse_proxy 10.0.0.5:8006 {
 		transport http {
 			tls_insecure_skip_verify
 		}
 	}
 }
 
-hass.lab.sixbones.dev {
+hass.home.sixbones.dev {
 	reverse_proxy 192.168.1.10:8123
 }
 
-omv.lab.sixbones.dev {
+omv.home.sixbones.dev {
 	reverse_proxy 192.168.1.11:80
 }
