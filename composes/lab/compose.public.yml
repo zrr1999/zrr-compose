@@ -1,0 +1,221 @@
+services:
+  dozzle:
+    container_name: dozzle
+    extends:
+      file: ../../services/dozzle.yml
+      service: dozzle
+    labels:
+      caddy: dozzle.sixbones.dev
+
+  one-api-db:
+    container_name: one-api-db
+    extends:
+      file: ../../services/database.yml
+      service: mysql
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_USER: oneapi
+      MYSQL_PASSWORD: "123456"
+      MYSQL_DATABASE: one-api
+    volumes:
+      - ../../volumes/one-api/db:/var/lib/mysql
+  
+  one-api:
+    container_name: one-api
+    extends:
+      file: ../../services/llm.yml
+      service: one-api
+    links:
+      - one-api-db:db
+    labels:
+      caddy: one-api.sixbones.dev
+      homepage.group: 智能
+      homepage.href: https://one-api.sixbones.dev
+      homepage.icon: https://one-api.sixbones.dev/logo.png
+
+  portkeyai:
+    container_name: portkeyai
+    extends:
+      file: ../../services/llm.yml
+      service: portkeyai
+    labels:
+      caddy: llm-api.sixbones.dev
+      homepage.group: 智能
+      homepage.href: https://llm-api.sixbones.dev
+  
+  lobe-chat-db:
+    container_name: lobe-chat-db
+    extends:
+      file: ../../services/database.yml
+      service: pgvector
+    volumes:
+      - ../../volumes/lobe/db/pgdata:/var/lib/postgresql/data
+
+  lobe-chat:
+    container_name: lobe-chat
+    extends:
+      file: ../../services/llm.yml
+      service: lobe-chat
+    environment:
+      APP_URL: https://lobe.sixbones.dev
+    links:
+      - lobe-chat-db:postgres
+    labels:
+      caddy: lobe.sixbones.dev chat.sixbones.dev
+      homepage.group: 智能
+      homepage.href: https://lobe.sixbones.dev
+  
+  n8n-db:
+    container_name: n8n-db
+    extends:
+      file: ../../services/database.yml
+      service: postgres
+    environment:
+      POSTGRES_DB: n8n
+    volumes:
+      - ../../volumes/n8n/db/pgdata:/var/lib/postgresql/data
+  
+  n8n:
+    container_name: n8n
+    extends:
+      file: ../../services/automation.yml
+      service: n8n
+    links:
+      - n8n-db:postgres
+    labels:
+      caddy: n8n.sixbones.dev
+      homepage.group: 工具
+      homepage.icon: https://n8n.sixbones.dev/favicon.ico
+      homepage.href: https://n8n.sixbones.dev
+
+  # langflow-db:
+  #   container_name: langflow-db
+  #   extends:
+  #     file: ../../services/database.yml
+  #     service: postgres
+  #   environment:
+  #     POSTGRES_USER: langflow
+  #     POSTGRES_PASSWORD: langflow
+  #     POSTGRES_DB: langflow
+  #   volumes:
+  #     - ../../volumes/langflow/db:/var/lib/postgresql/data
+  
+  # langflow:
+  #   container_name: langflow
+  #   extends:
+  #     file: ../../services/llm.yml
+  #     service: langflow
+  #   links:
+  #     - langflow-db:postgres
+  #   labels:
+  #     caddy: flow.sixbones.dev
+  #     homepage.group: 智能
+  #     homepage.icon: https://flow.sixbones.dev/favicon.ico
+  #     homepage.href: https://flow.sixbones.dev
+
+  # illa:
+  #   container_name: illa
+  #   extends:
+  #     file: ../../services/illa.yml
+  #     service: illa
+  #   labels:
+  #     caddy: illa.sixbones.dev
+  #     homepage.group: 工具
+  #     homepage.icon: https://illa.sixbones.dev/cloud/favicon.ico
+  #     homepage.href: https://illa.sixbones.dev
+
+  gitea-db:
+    container_name: gitea-db
+    extends:
+      file: ../../services/database.yml
+      service: postgres
+    environment:
+      - POSTGRES_DB=gitea
+    volumes:
+      - ../../volumes/gitea/postgres:/var/lib/postgresql/data
+  
+  # gitea:
+  #   container_name: gitea
+  #   extends:
+  #     file: ../../services/gitea.yml
+  #     service: server
+  #   depends_on:
+  #     - gitea-db
+  #   links:
+  #     - gitea-db:db
+  #   labels:
+  #     caddy: git.sixbones.dev gitea.sixbones.dev
+  #     homepage.group: 工具
+  #     homepage.href: git.sixbones.dev
+
+  it-tools:
+    container_name: it-tools
+    extends:
+      file: ../../services/it-tools.yml
+      service: it-tools
+    labels:
+      caddy: tools.sixbones.dev
+      homepage.group: 工具
+      homepage.icon: https://tools.sixbones.dev/favicon.ico
+      homepage.href: https://tools.sixbones.dev
+
+  miniflux-db:
+    container_name: miniflux-db
+    extends:
+      file: ../../services/database.yml
+      service: postgres
+    environment:
+      - POSTGRES_DB=miniflux
+    volumes:
+      - ../../volumes/miniflux/postgres:/var/lib/postgresql/data
+
+  miniflux:
+    container_name: miniflux
+    extends:
+      file: ../../services/rss.yml
+      service: miniflux
+    depends_on:
+      - miniflux-db
+    links:
+      - miniflux-db:db
+    labels:
+      caddy: miniflux.sixbones.dev rss.sixbones.dev
+      homepage.group: 工具
+      homepage.icon: https://rss.sixbones.dev/icon/icon-128.png
+      homepage.href: https://rss.sixbones.dev
+
+  searxng:
+    container_name: searxng
+    extends:
+      file: ../../services/searxng.yml
+      service: searxng
+    environment:
+      - BASE_URL=https://searxng.sixbones.dev
+    labels:
+      caddy: searxng.sixbones.dev
+      homepage.group: 工具
+      homepage.icon: https://searxng.sixbones.dev/favicon.ico
+      homepage.href: https://searxng.sixbones.dev
+
+  wallos:
+    container_name: wallos
+    extends:
+      file: ../../services/wallos.yml
+      service: wallos
+    labels:
+      caddy: wallos.sixbones.dev
+      homepage.group: 工具
+      homepage.icon: https://wallos.sixbones.dev/favicon.ico
+      homepage.href: https://wallos.sixbones.dev
+
+  memos:
+    container_name: memos
+    extends:
+      file: ../../services/memos.yml
+      service: memos
+    labels:
+      caddy: memos.sixbones.dev
+      homepage.group: 工具
+      homepage.icon: https://memos.sixbones.dev/apple-touch-icon.png
+      homepage.href: https://memos.sixbones.dev
+
