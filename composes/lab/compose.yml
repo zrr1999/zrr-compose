@@ -112,7 +112,7 @@ services:
     container_name: immich-db
     extends:
       file: ../../services/database.yml
-      service: pgvecto-rs
+      service: vectorchord
     environment:
       - POSTGRES_DB=immich
     volumes:
