@@ -223,8 +223,8 @@ services:
     extends:
       file: ../../services/memos.yml
       service: memos
-    links:
-      - memos-db:postgres
+    # links:
+    #   - memos-db:postgres
     labels:
       caddy: memos.sixbones.dev
       homepage.group: 工具
