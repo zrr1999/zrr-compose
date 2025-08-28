@@ -4,8 +4,8 @@ services:
     volumes:
       - ../volumes/memos/:/var/opt/memos
     environment:
-      - MEMOS_DRIVER: postgres
-      - MEMOS_DSN: 'postgresql://root:password@postgres:5432/memos'
+      MEMOS_DRIVER: postgres
+      MEMOS_DSN: 'postgresql://root:password@postgres:5432/memos'
     labels:
       caddy.reverse_proxy: "{{upstreams 5230}}"
       homepage.name: Memos
