@@ -21,7 +21,6 @@ services:
       - path: ${AUTO_TOKEN_ENV_DIR}/cloudflare-r2.env
         required: true
     environment:
-      - RESTIC_REPOSITORY=s3:$RESTIC_ENDPOINT/test
       - BACKUP_CRON=0 4 * * *
       - CHECK_CRON=0 3 * * *
       - RESTIC_DATA_SUBSET=1G                              
