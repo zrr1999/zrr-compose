@@ -208,18 +208,15 @@ services:
       homepage.icon: https://wallos.sixbones.dev/favicon.ico
       homepage.href: https://wallos.sixbones.dev
 
-  memos-db:
-    container_name: memos-db
-    extends:
-      file: ../../services/database.yml
-      service: postgres
-    environment:
-      - POSTGRES_DB=memos
-    labels:
-      caddy: memos.sixbones.dev
-      homepage.group: 工具
-      homepage.icon: https://memos.sixbones.dev/apple-touch-icon.png
-      homepage.href: https://memos.sixbones.dev
+  # memos-db:
+  #   container_name: memos-db
+  #   extends:
+  #     file: ../../services/database.yml
+  #     service: postgres
+  #   environment:
+  #     - POSTGRES_DB=memos
+  #   volumes:
+  #     - ../../volumes/memos/postgres:/var/lib/postgresql/data
 
   memos:
     container_name: memos
