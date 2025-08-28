@@ -18,7 +18,7 @@ services:
       - 2333:2333
     labels:
       caddy.layer4.:443:
-      caddy.layer4.:443.1_@secure: tls sni *.home.sixbones.dev lobe.sixbones.dev
+      caddy.layer4.:443.1_@secure: tls sni *.home.sixbones.dev lobe.sixbones.dev memos.sixbones.dev
       caddy.layer4.:443.2_route: "@secure"
       caddy.layer4.:443.2_route.proxy: "{{upstreams 443}}"
   
@@ -29,16 +29,7 @@ services:
       service: restic
     environment:
       - RESTIC_REPOSITORY=s3:${RESTIC_ENDPOINT}/public
-    
-  # rclone:
-  #   container_name: rclone
-  #   extends:
-  #     file: ../../services/storage.yml
-  #     service: rclone
-  #   command: sync /source/volumes/ onedrive:/rclone-volumes-backup/public/ --local-no-check-updated --ignore-size --ignore-checksum
-  #   volumes:
-  #     - ../../volumes:/source/volumes:ro
-    
+
   vaultwarden:
     container_name: vaultwarden
     extends:

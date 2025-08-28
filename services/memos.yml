@@ -1,8 +1,11 @@
 services:
   memos:
-    image: neosmemo/memos:stable
+    image: neosmemo/memos:0.23.1
     volumes:
       - ../volumes/memos/:/var/opt/memos
+    environment:
+      - MEMOS_DRIVER: postgres
+      - MEMOS_DSN: 'postgresql://root:password@postgres:5432/memos'
     labels:
       caddy.reverse_proxy: "{{upstreams 5230}}"
       homepage.name: Memos

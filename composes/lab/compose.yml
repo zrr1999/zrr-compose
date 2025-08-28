@@ -71,14 +71,6 @@ services:
     labels:
       caddy: homepage.home.sixbones.dev
 
-  qinglong:
-    container_name: qinglong
-    extends:
-      file: ../../services/automation.yml
-      service: qinglong
-    labels:
-      caddy: qinglong.home.sixbones.dev
-
   speedtest:
     container_name: speedtest
     extends:
