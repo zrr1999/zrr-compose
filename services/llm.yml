@@ -46,7 +46,7 @@ services:
       - path: ${AUTO_TOKEN_ENV_DIR}/lobechat.env
         required: false
     environment:
-      DATABASE_URL: postgresql://root:password@postgres:5432/postgres
+      DATABASE_URL: postgresql://root:password@postgres:5432/postgres?sslmode=disable
     container_name: lobe-chat
     labels:
       caddy.reverse_proxy: "{{upstreams 3210}}"
@@ -58,7 +58,7 @@ services:
     image: langflowai/langflow:latest
     restart: unless-stopped
     environment:
-      - LANGFLOW_DATABASE_URL=postgresql://langflow:langflow@postgres:5432/langflow
+      LANGFLOW_DATABASE_URL: postgresql://langflow:langflow@postgres:5432/langflow?sslmode=disable
     volumes:
       - ../volumes/langflow/data:/app/langflow
     labels:

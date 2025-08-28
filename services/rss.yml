@@ -2,8 +2,8 @@ services:
   miniflux:
     image: miniflux/miniflux:latest
     environment:
-      - DATABASE_URL=postgresql://root:password@db:5432/miniflux?sslmode=disable
-      - RUN_MIGRATIONS=1
+      DATABASE_URL: postgresql://root:password@db:5432/miniflux?sslmode=disable
+      RUN_MIGRATIONS: 1
     labels:
       caddy.reverse_proxy: "{{upstreams 8080}}"
       homepage.name: miniflux
