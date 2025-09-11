@@ -40,7 +40,7 @@ services:
   alist:
     container_name: alist
     extends:
-      file: ../../services/alist.yml
+      file: ../../services/media.yml
       service: alist 
     labels:
       caddy: alist.home.sixbones.dev
@@ -48,7 +48,7 @@ services:
   aria2:
     container_name: aria2
     extends:
-      file: ../../services/downloader.yml
+      file: ../../services/media.yml
       service: aria2 
     labels:
       caddy: rpc.aria2.home.sixbones.dev
@@ -56,7 +56,7 @@ services:
   ariang:
     container_name: ariang
     extends:
-      file: ../../services/downloader.yml
+      file: ../../services/media.yml
       service: ariang 
     labels:
       caddy: aria2.home.sixbones.dev

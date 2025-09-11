@@ -1,5 +1,5 @@
 services:
-  server:
+  gitea:
     image: gitea/gitea:1.18.5
     restart: unless-stopped
     environment:
@@ -19,3 +19,11 @@ services:
       homepage.name: Gitea
       homepage.description: 自部署 git 服务。
       homepage.icon: gitea.svg
+
+  dozzle:
+    image: amir20/dozzle:latest
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      caddy.reverse_proxy: "{{upstreams 8080}}"

@@ -2,7 +2,7 @@ services:
   dozzle:
     container_name: dozzle
     extends:
-      file: ../../services/dozzle.yml
+      file: ../../services/devops.yml
       service: dozzle
     labels:
       caddy: dozzle.sixbones.dev
@@ -137,8 +137,8 @@ services:
   # gitea:
   #   container_name: gitea
   #   extends:
-  #     file: ../../services/gitea.yml
-  #     service: server
+  #     file: ../../services/devops.yml
+  #     service: gitea
   #   depends_on:
   #     - gitea-db
   #   links:
@@ -151,7 +151,7 @@ services:
   it-tools:
     container_name: it-tools
     extends:
-      file: ../../services/it-tools.yml
+      file: ../../services/tools.yml
       service: it-tools
     labels:
       caddy: tools.sixbones.dev
