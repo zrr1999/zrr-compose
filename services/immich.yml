@@ -1,6 +1,6 @@
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:v1.139.4
+    image: ghcr.io/immich-app/immich-server:v3.0.2
     extends:
       file: immich/hwaccel.transcoding.yml
       service: quicksync
@@ -20,7 +20,7 @@ services:
       homepage.icon: https://github.com/immich-app/immich/raw/main/design/immich-logo-stacked-light.svg
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v1.139.4-openvino
+    image: ghcr.io/immich-app/immich-machine-learning:v3.0.2-openvino
     restart: unless-stopped
     extends:
       file: immich/hwaccel.ml.yml

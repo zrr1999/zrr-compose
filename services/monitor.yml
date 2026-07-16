@@ -6,7 +6,7 @@ services:
       MODE: standalone
       TITLE: "LibreSpeed"
     labels:
-      caddy.reverse_proxy: "{{upstreams 80}}"
+      caddy.reverse_proxy: "{{upstreams 8080}}"
 
   speedtest-tracker:
     image: lscr.io/linuxserver/speedtest-tracker:latest

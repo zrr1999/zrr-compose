@@ -57,11 +57,11 @@ services:
       file: ../../services/llm.yml
       service: lobe-chat
     environment:
-      APP_URL: https://lobe.sixbones.dev
+      APP_URL: https://lobe.zrr.dev
     links:
       - lobe-chat-db:postgres
     labels:
-      caddy: lobe.sixbones.dev chat.sixbones.dev
+      caddy: lobe.sixbones.dev chat.sixbones.dev lobe.zrr.dev chat.zrr.dev
       homepage.group: 智能
       homepage.href: https://lobe.sixbones.dev
   
@@ -83,7 +83,7 @@ services:
     links:
       - n8n-db:postgres
     labels:
-      caddy: n8n.sixbones.dev
+      caddy: n8n.sixbones.dev n8n.zrr.dev
       homepage.group: 工具
       homepage.icon: https://n8n.sixbones.dev/favicon.ico
       homepage.href: https://n8n.sixbones.dev
@@ -154,7 +154,7 @@ services:
       file: ../../services/tools.yml
       service: it-tools
     labels:
-      caddy: tools.sixbones.dev
+      caddy: tools.sixbones.dev tools.zrr.dev
       homepage.group: 工具
       homepage.icon: https://tools.sixbones.dev/favicon.ico
       homepage.href: https://tools.sixbones.dev
@@ -203,7 +203,7 @@ services:
       file: ../../services/wallos.yml
       service: wallos
     labels:
-      caddy: wallos.sixbones.dev
+      caddy: wallos.sixbones.dev wallos.zrr.dev
       homepage.group: 工具
       homepage.icon: https://wallos.sixbones.dev/favicon.ico
       homepage.href: https://wallos.sixbones.dev
@@ -226,7 +226,7 @@ services:
     # links:
     #   - memos-db:postgres
     labels:
-      caddy: memos.sixbones.dev
+      caddy: memos.sixbones.dev memos.zrr.dev
       homepage.group: 工具
       homepage.icon: https://memos.sixbones.dev/apple-touch-icon.png
       homepage.href: https://memos.sixbones.dev
