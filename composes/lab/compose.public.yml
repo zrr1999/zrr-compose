@@ -1,4 +1,14 @@
 services:
+  vaultwarden:
+    container_name: vaultwarden
+    extends:
+      file: ../../services/vaultwarden.yml
+      service: vaultwarden
+    labels:
+      caddy: password.sixbones.dev pw.sixbones.dev
+      homepage.group: 工具
+      homepage.href: https://pw.sixbones.dev
+
   dozzle:
     container_name: dozzle
     extends:

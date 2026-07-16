@@ -1,10 +1,11 @@
 services:
   vaultwarden:
-    image: vaultwarden/server:latest
+    image: vaultwarden/server@sha256:d89a6d21e361254670c24a4272b4b5f245e402c284f2f55de2c379fdbcfa1fa5
     restart: unless-stopped
     volumes:
       - ../volumes/vaultwarden/data:/data
     environment:
+      DOMAIN: https://password.sixbones.dev
       SIGNUPS_ALLOWED: "false"
     labels:
       caddy.reverse_proxy: "{{upstreams 80}}"
