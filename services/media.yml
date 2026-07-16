@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.9.11
+    image: linuxserver/jellyfin:10.11.11
     environment:
       - PUID=1000
       - PGID=1000
@@ -83,7 +83,7 @@ services:
       caddy.reverse_proxy: "{{upstreams 9696}}"
 
   alist:
-    image: openlistteam/openlist:latest
+    image: xhofe/alist:latest
     container_name: alist
     volumes:
       - ../volumes/alist:/opt/alist/data
