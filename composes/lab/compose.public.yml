@@ -5,9 +5,9 @@ services:
       file: ../../services/vaultwarden.yml
       service: vaultwarden
     labels:
-      caddy: password.sixbones.dev pw.sixbones.dev
+      caddy: password.zrr.dev pw.zrr.dev password.sixbones.dev pw.sixbones.dev
       homepage.group: 工具
-      homepage.href: https://pw.sixbones.dev
+      homepage.href: https://pw.zrr.dev
 
   dozzle:
     container_name: dozzle

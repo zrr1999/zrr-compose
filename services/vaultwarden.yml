@@ -5,7 +5,7 @@ services:
     volumes:
       - ../volumes/vaultwarden/data:/data
     environment:
-      DOMAIN: https://password.sixbones.dev
+      DOMAIN: https://password.zrr.dev
       SIGNUPS_ALLOWED: "false"
     labels:
       caddy.reverse_proxy: "{{upstreams 80}}"
