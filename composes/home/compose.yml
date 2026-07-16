@@ -13,12 +13,6 @@ services:
       homepage.group: 网络
       homepage.widget.url: https://caddy.home.sixbones.dev
 
-  rathole:
-    container_name: rathole
-    extends:
-      file: ../../services/network.yml
-      service: rathole-client
-
   restic:
     hostname: home
     container_name: restic

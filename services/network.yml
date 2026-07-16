@@ -24,40 +24,6 @@ services:
       homepage.description: Caddy Web Server
       homepage.icon: https://caddyserver.com/resources/images/favicon.png
       homepage.widget.type: caddy
-  headscale-server:
-    image: headscale/headscale:stable
-    restart: unless-stopped
-    volumes:
-      - ./configs/headscale:/etc/headscale
-      - ../volumes/headscale:/var/lib/headscale
-      - /var/run/headscale
-    command: serve
-    labels:
-      caddy.redir: / /web
-      caddy.reverse_proxy: "{{upstreams 8080}}"
-  headscale-derper:
-    image: fredliang/derper
-    restart: unless-stopped
-    ports:
-      - 3478:3478/udp
-    environment:
-      DERP_DOMAIN: ghk.derp.sixbones.dev
-      DERP_ADDR: ":8080"
-      DERP_VERIFY_CLIENTS: true
-    volumes:
-      - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
-    labels:
-      caddy.reverse_proxy: "{{upstreams 8080}}"
-  headscale-ui:
-    image: ghcr.io/gurucomputing/headscale-ui:latest
-    restart: unless-stopped
-    environment:
-      HTTP_PORT: 8080
-    labels:
-      caddy.reverse_proxy: "/web* {{upstreams 8080}}"
-      homepage.name: Headscale
-      homepage.description: Headscale 组网管理。
-      homepage.icon: https://tailscale.com/favicon.ico
   upsnap:
     image: seriousm4x/upsnap:4
     restart: unless-stopped
@@ -80,19 +46,3 @@ services:
     healthcheck:
       test: curl -fs "http://localhost:5000/api/health" || exit 1
       interval: 10s
-
-  rathole-server:
-    image: rapiz1/rathole:latest
-    restart: unless-stopped
-    privileged: true
-    volumes:
-      - ../volumes/rathole/server.toml:/app/server.toml
-    command: --server /app/server.toml
-
-  rathole-client:
-    image: rapiz1/rathole:latest
-    restart: unless-stopped
-    network_mode: host
-    volumes:
-      - ../volumes/rathole/client.toml:/app/client.toml
-    command: --client /app/client.toml
