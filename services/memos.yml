@@ -1,6 +1,7 @@
 services:
   memos:
     image: neosmemo/memos:0.29.1
+    restart: unless-stopped
     volumes:
       - ../volumes/memos/:/var/opt/memos
     # environment:
@@ -10,4 +11,3 @@ services:
       caddy.reverse_proxy: "{{upstreams 5230}}"
       homepage.name: Memos
       homepage.description: 一个开源、轻量级的笔记记录服务。
-
