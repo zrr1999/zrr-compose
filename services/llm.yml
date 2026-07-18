@@ -37,6 +37,7 @@ services:
     command: --log-dir /app/logs
     labels:
       caddy.reverse_proxy: "{{upstreams 3000}}"
+      caddy.reverse_proxy.header_up: X-Forwarded-For {http.request.header.Cf-Connecting-Ip}
       homepage.name: New API
       homepage.description: LLM API 统一网关。
 
