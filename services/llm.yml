@@ -36,8 +36,14 @@ services:
       retries: 3
     command: --log-dir /app/logs
     labels:
-      caddy.reverse_proxy: "{{upstreams 3000}}"
-      caddy.reverse_proxy.header_up: X-Forwarded-For {http.request.header.Cf-Connecting-Ip}
+      caddy.@scanner_buyvm.header: Cf-Connecting-Ip 104.244.74.39
+      caddy.@scanner_maroc_telecom.header: Cf-Connecting-Ip 160.179.166.222
+      caddy.@sensitive_probe.path: /.env* /.git* /.svn* /.hg* /actuator* /wp-admin* /wp-login.php /xmlrpc.php /phpmyadmin* /phpMyAdmin* /vendor/phpunit* /server-status
+      caddy.0_respond: "@scanner_buyvm 403"
+      caddy.1_respond: "@scanner_maroc_telecom 403"
+      caddy.2_respond: "@sensitive_probe 404"
+      caddy.3_reverse_proxy: "{{upstreams 3000}}"
+      caddy.3_reverse_proxy.header_up: X-Forwarded-For {http.request.header.Cf-Connecting-Ip}
       homepage.name: New API
       homepage.description: LLM API 统一网关。
 
