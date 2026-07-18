@@ -8,21 +8,28 @@ services:
       homepage.description: LLM API 统一网关。
       homepage.icon: https://framerusercontent.com/images/pkFK3AGXHirogqiN67JGtlnMVM.png
 
-  one-api:
-    image: justsong/one-api:latest
+  new-api:
+    image: calciumion/new-api:latest
     restart: unless-stopped
+    env_file:
+      - path: ${AUTO_TOKEN_ENV_DIR}/new-api.env
+        required: true
     environment:
-      - PORT=3000
-      - SQL_DSN=***REMOVED***
-      - TZ=Asia/Shanghai
+      PORT: 3000
+      TZ: Asia/Shanghai
+      NODE_NAME: home
+      ERROR_LOG_ENABLED: "true"
+      BATCH_UPDATE_ENABLED: "true"
+      SESSION_COOKIE_SECURE: "true"
+      SESSION_COOKIE_TRUSTED_URL: https://new-api.zrr.dev
     volumes:
-      - ../volumes/one-api/data:/data
-      - ../volumes/one-api/logs:/app/logs
+      - ../volumes/new-api/data:/data
+      - ../volumes/new-api/logs:/app/logs
     healthcheck:
       test:
         [
           "CMD-SHELL",
-          "wget -q -O - http://localhost:3000/api/status | grep -o '\"success\":\\s*true' | awk -F: '{print $2}'",
+          "wget -q -O /dev/null http://localhost:3000/api/status",
         ]
       interval: 30s
       timeout: 10s
@@ -30,7 +37,7 @@ services:
     command: --log-dir /app/logs
     labels:
       caddy.reverse_proxy: "{{upstreams 3000}}"
-      homepage.name: One API
+      homepage.name: New API
       homepage.description: LLM API 统一网关。
 
   lobe-chat:

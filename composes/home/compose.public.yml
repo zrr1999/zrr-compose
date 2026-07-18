@@ -17,31 +17,31 @@ services:
     labels:
       caddy: dozzle.sixbones.dev
 
-  one-api-db:
-    container_name: one-api-db
+  new-api-db:
+    container_name: new-api-db
     extends:
       file: ../../services/database.yml
       service: mysql
+    env_file:
+      - path: ${AUTO_TOKEN_ENV_DIR}/new-api-db.env
+        required: true
     environment:
       TZ: Asia/Shanghai
-      MYSQL_USER: oneapi
-      MYSQL_PASSWORD: ***REMOVED***
-      MYSQL_DATABASE: one-api
     volumes:
-      - ../../volumes/one-api/db:/var/lib/mysql
+      - ../../volumes/new-api/db:/var/lib/mysql
   
-  one-api:
-    container_name: one-api
+  new-api:
+    container_name: new-api
     extends:
       file: ../../services/llm.yml
-      service: one-api
+      service: new-api
     links:
-      - one-api-db:db
+      - new-api-db:db
     labels:
-      caddy: one-api.sixbones.dev
+      caddy: new-api.zrr.dev new-api.sixbones.dev one-api.zrr.dev one-api.sixbones.dev
       homepage.group: 智能
-      homepage.href: https://one-api.sixbones.dev
-      homepage.icon: https://one-api.sixbones.dev/logo.png
+      homepage.href: https://new-api.zrr.dev
+      homepage.icon: https://new-api.zrr.dev/logo.png
 
   portkeyai:
     container_name: portkeyai
@@ -228,4 +228,3 @@ services:
       homepage.group: 工具
       homepage.icon: https://memos.sixbones.dev/apple-touch-icon.png
       homepage.href: https://memos.sixbones.dev
-
