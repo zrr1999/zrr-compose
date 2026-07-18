@@ -21,7 +21,7 @@ services:
       service: restic
     environment:
       - RESTIC_REPOSITORY=s3:$RESTIC_ENDPOINT/home
-      - RESTIC_JOB_ARGS=--exclude="immich/immich-machine-learning"
+      - RESTIC_JOB_ARGS=--exclude=Backup/immich/immich-machine-learning
 
   # rclone:
   #   container_name: rclone
