@@ -25,5 +25,3 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-      caddy.reverse_proxy: "{{upstreams 8080}}"

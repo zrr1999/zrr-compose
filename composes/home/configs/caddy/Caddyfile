@@ -1,7 +1,15 @@
 {
 	cert_issuer acme {
 		dns cloudflare {env.LEXICON_CLOUDFLARE_AUTH_TOKEN}
+		propagation_delay 20s
+		propagation_timeout -1
 		resolvers 1.1.1.1 8.8.8.8
+	}
+
+	servers {
+		trusted_proxies static 10.200.0.3/32
+		trusted_proxies_strict
+		client_ip_headers Cf-Connecting-Ip X-Forwarded-For
 	}
 }
 
@@ -9,18 +17,68 @@ ikuai.home.sixbones.dev {
 	reverse_proxy 10.0.0.1
 }
 
-pve.home.sixbones.dev {
-	reverse_proxy 10.0.0.5:8006 {
-		transport http {
-			tls_insecure_skip_verify
-		}
+hass.home.sixbones.dev ha.sixbones.dev hass.sixbones.dev ha.zrr.dev hass.zrr.dev {
+	@trusted_origin remote_ip 10.0.0.0/16 10.200.0.3/32
+	handle @trusted_origin {
+		reverse_proxy 10.0.1.16:8123
+	}
+	handle {
+		respond "Forbidden" 403
 	}
 }
 
-hass.home.sixbones.dev {
-	reverse_proxy 192.168.1.10:8123
+frigate.sixbones.dev frigate.zrr.dev {
+	@trusted_origin remote_ip 10.0.0.0/16 10.200.0.3/32
+	handle @trusted_origin {
+		reverse_proxy https://10.0.1.15:8971 {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+	handle {
+		respond "Forbidden" 403
+	}
 }
 
-omv.home.sixbones.dev {
-	reverse_proxy 192.168.1.11:80
+dozzle.sixbones.dev {
+	@trusted_lan remote_ip 10.0.0.0/16 10.200.0.3/32
+	handle @trusted_lan {
+		reverse_proxy dozzle:8080
+	}
+	handle {
+		respond "Forbidden" 403
+	}
+}
+
+incus-7505.zrr.dev {
+	@cloudflare_tunnel remote_ip 10.200.0.3/32
+	handle @cloudflare_tunnel {
+		reverse_proxy https://10.0.0.11:8443 {
+			transport http {
+				tls_client_auth /etc/caddy/incus-certs/caddy-client.crt /etc/caddy/incus-certs/caddy-client.key
+				tls_trust_pool file /etc/caddy/incus-certs/server-arch-7505.crt
+				tls_server_name Arch-7505
+			}
+		}
+	}
+	handle {
+		respond "Forbidden" 403
+	}
+}
+
+incus-sei12pro.zrr.dev {
+	@cloudflare_tunnel remote_ip 10.200.0.3/32
+	handle @cloudflare_tunnel {
+		reverse_proxy https://10.0.0.12:8443 {
+			transport http {
+				tls_client_auth /etc/caddy/incus-certs/caddy-client.crt /etc/caddy/incus-certs/caddy-client.key
+				tls_trust_pool file /etc/caddy/incus-certs/server-sei12pro.crt
+				tls_server_name incus-host
+			}
+		}
+	}
+	handle {
+		respond "Forbidden" 403
+	}
 }

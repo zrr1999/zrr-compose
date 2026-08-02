@@ -14,8 +14,6 @@ services:
     extends:
       file: ../../services/devops.yml
       service: dozzle
-    labels:
-      caddy: dozzle.sixbones.dev
 
   new-api-db:
     container_name: new-api-db
@@ -29,7 +27,7 @@ services:
       TZ: Asia/Shanghai
     volumes:
       - ../../volumes/new-api/db:/var/lib/mysql
-  
+
   new-api:
     container_name: new-api
     extends:
@@ -52,7 +50,7 @@ services:
       caddy: llm-api.sixbones.dev
       homepage.group: 智能
       homepage.href: https://llm-api.sixbones.dev
-  
+
   lobe-chat-db:
     container_name: lobe-chat-db
     extends:
@@ -74,7 +72,7 @@ services:
       caddy: lobe.sixbones.dev chat.sixbones.dev lobe.zrr.dev chat.zrr.dev
       homepage.group: 智能
       homepage.href: https://lobe.sixbones.dev
-  
+
   n8n-db:
     container_name: n8n-db
     extends:
@@ -84,7 +82,7 @@ services:
       POSTGRES_DB: n8n
     volumes:
       - ../../volumes/n8n/db/pgdata:/var/lib/postgresql/data
-  
+
   n8n:
     container_name: n8n
     extends:
@@ -109,7 +107,7 @@ services:
   #     POSTGRES_DB: langflow
   #   volumes:
   #     - ../../volumes/langflow/db:/var/lib/postgresql/data
-  
+
   # langflow:
   #   container_name: langflow
   #   extends:
@@ -143,7 +141,7 @@ services:
       - POSTGRES_DB=gitea
     volumes:
       - ../../volumes/gitea/postgres:/var/lib/postgresql/data
-  
+
   # gitea:
   #   container_name: gitea
   #   extends:

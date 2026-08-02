@@ -9,9 +9,7 @@ services:
     volumes:
       - ./configs/caddy/:/etc/caddy/
     labels:
-      caddy: caddy.home.sixbones.dev
       homepage.group: 网络
-      homepage.widget.url: https://caddy.home.sixbones.dev
 
   restic:
     hostname: home
@@ -19,9 +17,19 @@ services:
     extends:
       file: ../../services/storage.yml
       service: restic
+    volumes:
+      - /media/immich:/data/Immich:ro
+      - /root/zrr-compose/composes:/data/Recovery/zrr-compose/composes:ro
+      - /root/zrr-compose/services:/data/Recovery/zrr-compose/services:ro
+      - /etc/zrr-compose:/data/Recovery/runtime:ro
     environment:
       - RESTIC_REPOSITORY=s3:$RESTIC_ENDPOINT/home
-      - RESTIC_JOB_ARGS=--exclude=Backup/immich/immich-machine-learning
+      - >-
+        RESTIC_JOB_ARGS=--exclude=Backup/immich/immich-machine-learning
+        --exclude=Immich/thumbs
+        --exclude=Immich/encoded-video
+        --exclude=Recovery/zrr-compose/services/ssh
+        --exclude=Recovery/runtime/env
 
   # rclone:
   #   container_name: rclone
