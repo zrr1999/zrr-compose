@@ -1,0 +1,17 @@
+{
+	admin off
+	auto_https off
+}
+
+http://spark.zrr.dev:8080 {
+	reverse_proxy 127.0.0.1:5173 {
+		header_up Host spark.zrr.dev
+		header_up X-Forwarded-Host spark.zrr.dev
+		header_up X-Forwarded-Proto https
+		header_up X-Forwarded-For {http.request.header.Cf-Connecting-Ip}
+	}
+}
+
+http://:8080 {
+	respond 404
+}
