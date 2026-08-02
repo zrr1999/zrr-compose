@@ -1,10 +1,7 @@
 services:
   spark:
     container_name: spark
-    build:
-      context: ../../services/spark
-      args:
-        SPARK_IMAGE: ghcr.io/zendev-lab/spark:0.2.0
+    image: ghcr.io/zendev-lab/spark:0.2.1
     network_mode: service:caddy
     depends_on:
       caddy:
@@ -15,22 +12,6 @@ services:
       SPARK_COCKPIT_PUBLIC_URL: https://spark.zrr.dev
       SPARK_COCKPIT_TRUST_PROXY: loopback
       SPARK_COCKPIT_PROXY_HOPS: "1"
-    healthcheck:
-      test:
-        - CMD
-        - node
-        - -e
-        - >-
-          fetch('http://127.0.0.1:5173/api/v1/health', {headers:
-          {host:'spark.zrr.dev', 'x-forwarded-for':'127.0.0.1',
-          'x-forwarded-proto':'https'}}).then(async (response) => { const body =
-          await response.json(); if (!response.ok || body.service !==
-          'spark-cockpit' || body.status !== 'ok') process.exit(1);
-          }).catch(() => process.exit(1))
-      interval: 30s
-      timeout: 5s
-      start_period: 10s
-      retries: 3
     restart: unless-stopped
     volumes:
       - ../../volumes/spark:/var/lib/spark
