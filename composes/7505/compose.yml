@@ -6,7 +6,6 @@ services:
       context: ../../services/spark
       args:
         SPARK_IMAGE: ghcr.io/zendev-lab/spark:0.2.0
-    image: spark-cockpit:0.2.0
     network_mode: host
     environment:
       HOST: 127.0.0.1
