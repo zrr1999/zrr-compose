@@ -1,0 +1,12 @@
+[Unit]
+Description=Encrypt and upload Komodo Core database backups with Restic
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/komodo-restic-backup
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+UMask=0077

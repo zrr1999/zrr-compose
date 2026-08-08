@@ -1,0 +1,58 @@
+name: home-monitor
+
+services:
+  speedtest:
+    container_name: speedtest
+    image: ghcr.io/librespeed/speedtest:5.4.1@sha256:0e0d9c8c2e5aa362164cf0bf25a48a606b5701f6bc7fa1695975b687aaec26a9
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/speedtest.env
+        required: true
+    networks: [default, edge]
+    labels:
+      caddy: speedtest.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+
+  speedtest-tracker:
+    container_name: speedtest-tracker
+    image: lscr.io/linuxserver/speedtest-tracker:v1.14.5-ls162@sha256:e4732e8e9073bdd5b419959c1151b761afa591166328d2ab751adc1e3d070563
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/speedtest-tracker.env
+        required: true
+    volumes:
+      - /root/zrr-compose/volumes/speedtest:/config
+    networks: [default, edge]
+    labels:
+      caddy: speedtest-tracker.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 80}}"
+      homepage.name: Speedtest Tracker
+      homepage.description: 最近网络速度
+      homepage.icon: librespeed.svg
+      homepage.widget.type: https://speedtest-tracker.home.sixbones.dev
+
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:v0.9.3-omnibus@sha256:2f3d23edadf6d12f9c26d16808bd8620852a37dd3074e814352a2328d48fccb0
+    restart: unless-stopped
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    devices:
+      - /dev/nvme0:/dev/nvme0
+    ports:
+      - 8866:8080
+      - 8867:8086
+    volumes:
+      - /run/udev:/run/udev:ro
+      - /root/zrr-compose/volumes/scrutiny/config:/opt/scrutiny/config
+      - /root/zrr-compose/volumes/scrutiny/influxdb:/opt/scrutiny/influxdb
+    networks: [default, edge]
+    labels:
+      caddy: scrutiny.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+
+networks:
+  edge:
+    external: true
+    name: edge

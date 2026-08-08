@@ -1,0 +1,24 @@
+root_directory = "/etc/komodo"
+stack_dir = "/etc/komodo/stacks"
+repo_dir = "/etc/komodo/repos"
+build_dir = "/etc/komodo/builds"
+
+default_terminal_command = "bash"
+# The fixed backup and verification Actions require server-terminal access.
+disable_terminals = false
+# Container exec and attach are disabled globally.
+disable_container_terminals = true
+
+private_key = "file:/etc/komodo/keys/periphery.key"
+core_address = "ws://10.0.0.13:9120"
+connect_as = "home-docker"
+server_enabled = false
+
+stats_polling_rate = "15-sec"
+container_stats_polling_rate = "30-sec"
+include_disk_mounts = ["/etc/hostname"]
+
+[logging]
+level = "info"
+stdio = "standard"
+pretty = false

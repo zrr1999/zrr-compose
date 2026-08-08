@@ -1,0 +1,53 @@
+name: komodo-core
+
+services:
+  mongo:
+    container_name: komodo-mongo
+    image: mongo:8.0.28@sha256:98605bfa1bb2a15dd82109e1d78ad31527a9a744909fab4606076fa71a0ae515
+    command: ["--quiet", "--wiredTigerCacheSizeGB", "0.5"]
+    restart: unless-stopped
+    env_file:
+      - path: /etc/komodo/core.env
+        required: true
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          mongosh --quiet
+          --username "$${KOMODO_DATABASE_USERNAME}"
+          --password "$${KOMODO_DATABASE_PASSWORD}"
+          --authenticationDatabase admin
+          --eval 'quit(db.adminCommand({ ping: 1 }).ok ? 0 : 2)'
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - /var/lib/komodo/mongo-data:/data/db
+      - /var/lib/komodo/mongo-config:/data/configdb
+    labels:
+      komodo.skip: ""
+
+  core:
+    container_name: komodo-core
+    image: ghcr.io/moghtech/komodo-core:2.2.0@sha256:7afbcfa99674bf3f51539ec3aa7235795e9b994af9b7099a6c4c654d5d8a5b6b
+    init: true
+    restart: unless-stopped
+    env_file:
+      - path: /etc/komodo/core.env
+        required: true
+    environment:
+      KOMODO_DATABASE_ADDRESS: mongo:27017
+    depends_on:
+      mongo:
+        condition: service_healthy
+        restart: true
+    ports:
+      - 9120:9120
+    volumes:
+      - /var/lib/komodo/keys:/config/keys
+      - /var/lib/komodo/backups:/backups
+      - /var/lib/komodo/syncs:/syncs
+      - /var/lib/komodo/repo-cache:/repo-cache
+      - /var/lib/komodo/action-cache:/action-cache
+    labels:
+      komodo.skip: ""

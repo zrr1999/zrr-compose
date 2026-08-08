@@ -1,0 +1,14 @@
+# Remove this file from the Komodo Stack after all services leave the old home project.
+services:
+  caddy:
+    environment:
+      CADDY_INGRESS_NETWORKS: edge,home_default
+    networks:
+      - default
+      - edge
+      - home_default
+
+networks:
+  home_default:
+    external: true
+    name: home_default

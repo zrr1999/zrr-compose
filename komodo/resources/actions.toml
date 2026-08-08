@@ -1,0 +1,234 @@
+[[action]]
+name = "home-backup-before-stateful"
+description = "Run the fixed logical-backup systemd unit only when a stateful Stack has source changes"
+tags = ["home", "production", "backup"]
+
+[action.config]
+webhook_enabled = false
+failure_alert = true
+file_contents = '''
+const STATEFUL_STACKS = [
+  "home-control",
+  "home-monitor",
+  "home-tools",
+  "home-media",
+  "home-automation",
+  "home-ai",
+  "home-immich",
+  "home-backup",
+];
+
+function normalizedFiles(files: any[] | null | undefined): string {
+  return JSON.stringify(
+    (files ?? [])
+      .map((file: any) => ({
+        path: file.path ?? file.file_path ?? "",
+        contents: file.contents ?? "",
+      }))
+      .sort((left: any, right: any) => left.path.localeCompare(right.path)),
+  );
+}
+
+const changed: string[] = [];
+for (const name of STATEFUL_STACKS) {
+  const stack = await komodo.read("GetStack", { stack: name });
+  if (
+    normalizedFiles(stack.info.deployed_contents) !==
+    normalizedFiles(stack.info.remote_contents)
+  ) {
+    changed.push(name);
+  }
+}
+
+if (changed.length === 0) {
+  console.log("No stateful Stack source changes; logical backup skipped.");
+} else {
+  console.log(`Stateful Stack changes: ${changed.join(", ")}`);
+  let exitCode = -1;
+  await komodo.execute_server_terminal(
+    {
+      server: "home-docker",
+      command:
+        "systemctl start zrr-logical-backup.service && " +
+        "test \"$(systemctl show zrr-logical-backup.service -p Result --value)\" = success && " +
+        "test -s /root/zrr-compose/volumes/.backup-staging/current/manifests/inventory.tsv",
+      init: { command: "bash" },
+    },
+    {
+      onLine: (line: string) => console.log(line),
+      onFinish: (code: number) => { exitCode = code; },
+    },
+  );
+  if (exitCode !== 0) {
+    throw new Error(`Logical backup failed with exit code ${exitCode}`);
+  }
+}
+'''
+
+[[action]]
+name = "home-verify"
+description = "Verify target containers, projects, database readiness, and public HTTP routes"
+tags = ["home", "production", "verification"]
+
+[action.config]
+webhook_enabled = false
+failure_alert = true
+file_contents = '''
+const PROJECTS: Record<string, string[]> = {
+  "home-edge": ["caddy"],
+  "home-control": ["spark", "homepage", "dozzle"],
+  "home-monitor": ["speedtest", "speedtest-tracker", "scrutiny"],
+  "home-tools": ["vaultwarden", "wallos", "memos", "it-tools", "searxng", "miniflux-db", "miniflux", "gitea-db"],
+  "home-media": ["alist", "aria2", "ariang", "jellyfin", "jellyseerr", "sonarr", "radarr", "prowlarr"],
+  "home-automation": ["n8n-db", "n8n"],
+  "home-ai": ["new-api-db", "new-api", "lobe-chat-db", "lobe-chat", "portkeyai"],
+  "home-immich": ["immich-db", "immich-redis", "immich-server", "immich-machine-learning"],
+  "home-backup": ["restic"],
+};
+
+const shellPairs = Object.entries(PROJECTS)
+  .flatMap(([project, services]) => services.map((service) => `${service}:${project}`))
+  .join(" ");
+
+const TCP_CHECKS: Record<string, number> = {
+  "caddy": 80,
+  "spark": 5173,
+  "homepage": 3000,
+  "dozzle": 8080,
+  "immich-server": 2283,
+  "immich-machine-learning": 3003,
+  "lobe-chat": 3210,
+  "portkeyai": 8787,
+  "n8n": 5678,
+  "alist": 5244,
+  "aria2": 6800,
+  "ariang": 6880,
+  "jellyfin": 8096,
+  "jellyseerr": 5055,
+  "sonarr": 8989,
+  "radarr": 7878,
+  "prowlarr": 9696,
+  "vaultwarden": 80,
+  "wallos": 80,
+  "memos": 5230,
+  "it-tools": 80,
+  "searxng": 8080,
+  "speedtest": 8080,
+  "speedtest-tracker": 80,
+  "scrutiny": 8080,
+};
+const tcpPairs = Object.entries(TCP_CHECKS)
+  .map(([container, port]) => `${container}:${port}`)
+  .join(" ");
+
+let exitCode = -1;
+await komodo.execute_server_terminal(
+  {
+    server: "home-docker",
+    command:
+      "set -euo pipefail; docker network inspect edge >/dev/null; " +
+      `for pair in ${shellPairs}; do ` +
+      "container=${pair%%:*}; project=${pair#*:}; " +
+      "test \"$(docker inspect --format '{{.State.Status}}' \"$container\")\" = running; " +
+      "test \"$(docker inspect --format '{{index .Config.Labels \"com.docker.compose.project\"}}' \"$container\")\" = \"$project\"; " +
+      "health=$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' \"$container\"); " +
+      "test \"$health\" != unhealthy; test \"$health\" != starting; done; " +
+      "test -z \"$(docker ps -aq --filter label=com.docker.compose.project=home)\"; " +
+      "docker exec immich-db sh -ec 'pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'; " +
+      "docker exec lobe-chat-db sh -ec 'pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'; " +
+      "docker exec n8n-db sh -ec 'pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'; " +
+      "docker exec miniflux-db sh -ec 'pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'; " +
+      "docker exec gitea-db sh -ec 'pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'; " +
+      "docker exec new-api-db sh -ec 'MYSQL_PWD=\"$MYSQL_ROOT_PASSWORD\" mysqladmin ping -h localhost -u root --silent'; " +
+      "test \"$(docker exec immich-redis redis-cli ping)\" = PONG; " +
+      `for pair in ${tcpPairs}; do ` +
+      "container=${pair%%:*}; port=${pair#*:}; " +
+      "ip=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{println .IPAddress}}{{end}}' \"$container\" | sed -n '1p'); " +
+      "test -n \"$ip\"; timeout 5 bash -c \"exec 3<>/dev/tcp/$ip/$port\"; done; " +
+      "docker exec restic restic snapshots --latest 1 --json >/dev/null",
+    init: { command: "bash" },
+  },
+  {
+    onLine: (line: string) => console.log(line),
+    onFinish: (code: number) => { exitCode = code; },
+  },
+);
+if (exitCode !== 0) {
+  throw new Error(`Container verification failed with exit code ${exitCode}`);
+}
+
+const PUBLIC_URLS = [
+  "https://homepage.home.sixbones.dev",
+  "https://immich.home.sixbones.dev",
+  "https://new-api.zrr.dev",
+  "https://new-api.sixbones.dev",
+  "https://one-api.zrr.dev",
+  "https://one-api.sixbones.dev",
+  "https://lobe.zrr.dev",
+  "https://lobe.sixbones.dev",
+  "https://chat.zrr.dev",
+  "https://chat.sixbones.dev",
+  "https://llm-api.sixbones.dev",
+  "https://n8n.zrr.dev",
+  "https://n8n.sixbones.dev",
+  "https://alist.home.sixbones.dev",
+  "https://aria2.home.sixbones.dev",
+  "https://jellyfin.home.sixbones.dev",
+  "https://jellyseerr.home.sixbones.dev",
+  "https://sonarr.home.sixbones.dev",
+  "https://radarr.home.sixbones.dev",
+  "https://prowlarr.home.sixbones.dev",
+  "https://pw.zrr.dev",
+  "https://password.zrr.dev",
+  "https://password.sixbones.dev",
+  "https://pw.sixbones.dev",
+  "https://wallos.zrr.dev",
+  "https://wallos.sixbones.dev",
+  "https://memos.zrr.dev",
+  "https://memos.sixbones.dev",
+  "https://tools.zrr.dev",
+  "https://tools.sixbones.dev",
+  "https://searxng.sixbones.dev",
+  "https://miniflux.sixbones.dev",
+  "https://rss.sixbones.dev",
+  "https://speedtest.home.sixbones.dev",
+  "https://speedtest-tracker.home.sixbones.dev",
+  "https://scrutiny.home.sixbones.dev",
+];
+
+const PUBLIC_REACHABLE_URLS = [
+  "https://rpc.aria2.home.sixbones.dev",
+];
+
+const PUBLIC_AUTHENTICATED_URLS = [
+  "https://spark.zrr.dev",
+];
+
+for (const url of PUBLIC_URLS) {
+  const response = await fetch(url, { redirect: "manual" });
+  console.log(`${url}: ${response.status}`);
+  if (response.status < 200 || response.status >= 400) {
+    throw new Error(`Public HTTP verification failed for ${url}: ${response.status}`);
+  }
+}
+
+for (const url of PUBLIC_REACHABLE_URLS) {
+  const response = await fetch(url, { redirect: "manual" });
+  console.log(`${url}: ${response.status}`);
+  if (response.status >= 500 || response.status === 404) {
+    throw new Error(`Public route verification failed for ${url}: ${response.status}`);
+  }
+}
+
+for (const url of PUBLIC_AUTHENTICATED_URLS) {
+  const response = await fetch(url, { redirect: "manual" });
+  console.log(`${url}: ${response.status}`);
+  if (
+    (response.status < 200 || response.status >= 400) &&
+    response.status !== 401 &&
+    response.status !== 403
+  ) {
+    throw new Error(`Authenticated route verification failed for ${url}: ${response.status}`);
+  }
+}
+'''

@@ -1,0 +1,138 @@
+name: home-media
+
+services:
+  alist:
+    container_name: alist
+    image: xhofe/alist:v3.61.0@sha256:29502955e86f39d4215f78d18d42d085a1b560180e7a8958041cfb83ee05e2c4
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/alist.env
+        required: true
+    ports:
+      - 5244:5244
+    volumes:
+      - /root/zrr-compose/volumes/alist:/opt/alist/data
+    networks: [default, edge]
+    labels:
+      caddy: alist.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 5244}}"
+
+  aria2:
+    container_name: aria2
+    image: p3terx/aria2-pro:202209060423@sha256:086d1a37c586edb07ec0fb956bf9edd89d1d38d138ad5309ff96d510c8c9a011
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/aria2.env
+        required: true
+    ports:
+      - 6800:6800
+      - 6881:6881
+      - 6881:6881/udp
+    volumes:
+      - /root/zrr-compose/volumes/aria2/config:/config
+      - /root/zrr-compose/volumes/aria2/downloads:/downloads
+    networks: [default, edge]
+    labels:
+      caddy: rpc.aria2.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 6800}}"
+
+  ariang:
+    container_name: ariang
+    # Upstream only publishes floating Docker tags; v1.2.3 is the version embedded in this immutable image.
+    image: p3terx/ariang:v1.2.3@sha256:66291d92e2aa3b4a376042f34b7cba3776d3d478ddc8f87578df2878d2e92e22
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+    networks: [default, edge]
+    labels:
+      caddy: aria2.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 6880}}"
+
+  jellyfin:
+    container_name: jellyfin
+    image: linuxserver/jellyfin:10.11.11ubu2404-ls41@sha256:32aa0d4565c633db95af29a58e8a5dc9becdfa58564a3aea68436623fd45f5a1
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/jellyfin.env
+        required: true
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    group_add:
+      - "991"
+    ports:
+      - 8096:8096
+      - 7359:7359/udp
+      - 1900:1900/udp
+    volumes:
+      - /root/zrr-compose/volumes/jellyfin:/config
+    networks: [default, edge]
+    labels:
+      caddy: jellyfin.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 8096}}"
+
+  jellyseerr:
+    container_name: jellyseerr
+    image: fallenbagel/jellyseerr:2.7.3@sha256:4538137bc5af902dece165f2bf73776d9cf4eafb6dd714670724af8f3eb77764
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/jellyseerr.env
+        required: true
+    dns:
+      - 8.8.8.8
+    ports:
+      - 5055:5055
+    volumes:
+      - /root/zrr-compose/volumes/jellyseerr:/app/config
+    networks: [default, edge]
+    labels:
+      caddy: jellyseerr.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 5055}}"
+
+  sonarr:
+    container_name: sonarr
+    image: lscr.io/linuxserver/sonarr:4.0.19.2979-ls319@sha256:4b025354d338999e03bf6dbdadcdde94815d39d4a5aba5de3cdc86a56d7d6c51
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/sonarr.env
+        required: true
+    volumes:
+      - /root/zrr-compose/volumes/sonarr:/config
+    networks: [default, edge]
+    labels:
+      caddy: sonarr.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 8989}}"
+
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr:6.3.0.10514-ls311@sha256:2b2c1c05eb3f648d2c80dfab9486147dd7bb0ad4d77fa972fc1c5de8f1da3738
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/radarr.env
+        required: true
+    volumes:
+      - /root/zrr-compose/volumes/radarr:/config
+    networks: [default, edge]
+    labels:
+      caddy: radarr.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 7878}}"
+
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:2.4.0.5397-ls154@sha256:4fd7a166c8f46dd3370a871c250ee577d6c2ae97a0dbe0e3614b5ef736205620
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/prowlarr.env
+        required: true
+    volumes:
+      - /root/zrr-compose/volumes/prowlarr:/config
+    networks: [default, edge]
+    labels:
+      caddy: prowlarr.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 9696}}"
+
+networks:
+  edge:
+    external: true
+    name: edge

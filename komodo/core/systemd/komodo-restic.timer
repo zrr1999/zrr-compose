@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily encrypted off-site backup for Komodo Core
+
+[Timer]
+OnCalendar=*-*-* 02:15:00 Asia/Shanghai
+Persistent=true
+RandomizedDelaySec=10m
+Unit=komodo-restic.service
+
+[Install]
+WantedBy=timers.target

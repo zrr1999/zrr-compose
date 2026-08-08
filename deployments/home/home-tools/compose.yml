@@ -1,0 +1,153 @@
+name: home-tools
+
+services:
+  vaultwarden:
+    container_name: vaultwarden
+    image: vaultwarden/server:1.37.1@sha256:ebdfe70701c60ac0c28c697e787cea767d7972940b786037b29fe0d507f821e8
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/vaultwarden.env
+        required: true
+    volumes:
+      - /root/zrr-compose/volumes/vaultwarden/data:/data
+    networks: [default, edge]
+    labels:
+      caddy: password.zrr.dev pw.zrr.dev password.sixbones.dev pw.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 80}}"
+      homepage.name: vaultwarden
+      homepage.description: 密码管理工具。
+      homepage.icon: bitwarden.svg
+      homepage.group: 工具
+      homepage.href: https://pw.zrr.dev
+
+  wallos:
+    container_name: wallos
+    image: bellamy/wallos:5.2.0@sha256:81dadf61da303fd199701c7eec426f4cf7fba32d137b9b167f67433d4fa98dc8
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/wallos.env
+        required: true
+    volumes:
+      - /root/zrr-compose/volumes/wallos/db:/var/www/html/db
+      - /root/zrr-compose/volumes/wallos/logos:/var/www/html/images/uploads/logos
+    networks: [default, edge]
+    labels:
+      caddy: wallos.sixbones.dev wallos.zrr.dev
+      caddy.reverse_proxy: "{{upstreams 80}}"
+      homepage.group: 工具
+      homepage.icon: https://wallos.sixbones.dev/favicon.ico
+      homepage.href: https://wallos.sixbones.dev
+
+  memos:
+    container_name: memos
+    image: neosmemo/memos:0.29.1@sha256:3e1253477066eb2aefa91145f7f9038bb931ed88c8a3ee05310a933594cdba7d
+    restart: unless-stopped
+    volumes:
+      - /root/zrr-compose/volumes/memos:/var/opt/memos
+    networks: [default, edge]
+    labels:
+      caddy: memos.sixbones.dev memos.zrr.dev
+      caddy.reverse_proxy: "{{upstreams 5230}}"
+      homepage.name: Memos
+      homepage.description: 一个开源、轻量级的笔记记录服务。
+      homepage.icon: https://memos.sixbones.dev/apple-touch-icon.png
+      homepage.group: 工具
+      homepage.href: https://memos.sixbones.dev
+
+  it-tools:
+    container_name: it-tools
+    image: corentinth/it-tools:2024.10.22-7ca5933@sha256:8b8128748339583ca951af03dfe02a9a4d7363f61a216226fc28030731a5a61f
+    restart: unless-stopped
+    networks: [default, edge]
+    labels:
+      caddy: tools.sixbones.dev tools.zrr.dev
+      caddy.reverse_proxy: "{{upstreams 80}}"
+      homepage.name: IT-Tools
+      homepage.description: 为开发人员提供的方便的在线工具集合，具有出色的用户体验。
+      homepage.group: 工具
+      homepage.href: https://tools.sixbones.dev
+      homepage.icon: https://tools.sixbones.dev/favicon.ico
+
+  searxng:
+    container_name: searxng
+    image: ghcr.io/searxng/searxng:2026.7.28-c01178d03@sha256:5d6d903ab82afa56ee32792d477f36bc63d3e5ca04fcb6947e28a5cfd987fad3
+    restart: unless-stopped
+    environment:
+      INSTANCE_NAME: searxng
+      BASE_URL: https://searxng.sixbones.dev
+    volumes:
+      - /root/zrr-compose/volumes/searxng:/etc/searxng
+    networks: [default, edge]
+    labels:
+      caddy: searxng.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+      homepage.name: SearxNG
+      homepage.description: 搜索
+      homepage.icon: https://searxng.sixbones.dev/favicon.ico
+      homepage.group: 工具
+      homepage.href: https://searxng.sixbones.dev
+
+  miniflux-db:
+    container_name: miniflux-db
+    image: postgres:16.14@sha256:17e67d7b9890c99b055ba1e0d5c5be4ec27c9d3a72bda32db24a5e5d8a85af0c
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/miniflux-db.env
+        required: true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - /root/zrr-compose/volumes/miniflux/postgres:/var/lib/postgresql/data
+    networks:
+      default:
+        aliases:
+          - db
+
+  miniflux:
+    container_name: miniflux
+    image: miniflux/miniflux:2.3.3@sha256:49d7b60987616387c306a8023087b31f2c9b7b21288b523026cb04058e8b6dbb
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/miniflux.env
+        required: true
+    depends_on:
+      miniflux-db:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      test: ["CMD", "/usr/bin/miniflux", "-healthcheck", "auto"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks: [default, edge]
+    labels:
+      caddy: miniflux.sixbones.dev rss.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+      homepage.name: miniflux
+      homepage.description: RSS 服务。
+      homepage.icon: https://rss.sixbones.dev/icon/icon-128.png
+      homepage.group: 工具
+      homepage.href: https://rss.sixbones.dev
+
+  gitea-db:
+    container_name: gitea-db
+    image: postgres:16.14@sha256:17e67d7b9890c99b055ba1e0d5c5be4ec27c9d3a72bda32db24a5e5d8a85af0c
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/gitea-db.env
+        required: true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - /root/zrr-compose/volumes/gitea/postgres:/var/lib/postgresql/data
+
+networks:
+  edge:
+    external: true
+    name: edge

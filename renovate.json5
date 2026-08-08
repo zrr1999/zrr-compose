@@ -1,0 +1,46 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended"],
+  dependencyDashboard: true,
+  labels: ["dependencies"],
+  rangeStrategy: "pin",
+  packageRules: [
+    {
+      description: "All image changes require review by default",
+      matchDatasources: ["docker"],
+      automerge: false,
+    },
+    {
+      description: "Automerge explicitly approved low-risk patch releases",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "amir20/dozzle",
+        "corentinth/it-tools",
+        "ghcr.io/librespeed/speedtest",
+        "p3terx/ariang",
+      ],
+      matchUpdateTypes: ["patch"],
+      automerge: true,
+      automergeType: "pr",
+      platformAutomerge: true,
+    },
+    {
+      description: "Digest rebuilds always require manual review",
+      matchDatasources: ["docker"],
+      matchUpdateTypes: ["digest"],
+      automerge: false,
+    },
+    {
+      description: "Database updates always require manual review",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "postgres",
+        "mysql",
+        "redis",
+        "pgvector/pgvector",
+        "ghcr.io/immich-app/postgres",
+      ],
+      automerge: false,
+    },
+  ],
+}

@@ -1,0 +1,9 @@
+[[server]]
+name = "home-docker"
+description = "Docker workload instance at 10.0.0.5; Periphery connects outbound to Core over LAN"
+tags = ["home", "production", "docker"]
+
+[server.config]
+enabled = true
+region = "home-lan"
+auto_rotate_keys = true
