@@ -33,5 +33,7 @@ jobs:
           mkdir -p "$HOME/.local/bin"
           tar --extract --gzip --file "$archive" --directory "$HOME/.local/bin" gitleaks
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Prepare empty Compose env fixtures
+        run: scripts/prepare-compose-fixtures.sh
       - name: Validate repository
         run: just check
