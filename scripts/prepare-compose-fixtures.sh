@@ -19,8 +19,8 @@ ruby -ryaml -e '
 ' | sort -u | while IFS= read -r env_file; do
   [[ $env_file =~ ^/etc/zrr-compose/env/[A-Za-z0-9._-]+\.env$ ]]
   [[ ! -e $env_file ]]
-  sudo install -m 0600 /dev/null "$env_file"
+  sudo install -o "$(id -u)" -g "$(id -g)" -m 0600 /dev/null "$env_file"
 done
 
 [[ ! -e /etc/komodo/core.env ]]
-sudo install -m 0600 /dev/null /etc/komodo/core.env
+sudo install -o "$(id -u)" -g "$(id -g)" -m 0600 /dev/null /etc/komodo/core.env
