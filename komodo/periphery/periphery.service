@@ -1,0 +1,17 @@
+[Unit]
+Description=Komodo Periphery 2.2.0
+After=docker.service network-online.target
+Wants=docker.service network-online.target
+
+[Service]
+Type=simple
+Environment=HOME=/root
+EnvironmentFile=-/etc/komodo/periphery.env
+ExecStart=/usr/local/bin/periphery --config-path /etc/komodo/periphery.config.toml
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=0
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

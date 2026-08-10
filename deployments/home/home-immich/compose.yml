@@ -1,0 +1,87 @@
+name: home-immich
+
+services:
+  immich-db:
+    container_name: immich-db
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvector0.8.1-pgvectors0.2.1@sha256:13d1ff1638f54be482620d0ef1eb2b004c99bfd674d06359ae0b91d8f5b5696b
+    restart: unless-stopped
+    shm_size: 128mb
+    env_file:
+      - path: /etc/zrr-compose/env/immich-db.env
+        required: true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - /root/zrr-compose/volumes/immich/postgres:/var/lib/postgresql/data
+    networks:
+      default:
+        aliases:
+          - database
+
+  immich-redis:
+    container_name: immich-redis
+    image: redis:6.2.22-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - /root/zrr-compose/volumes/.restored-anonymous/immich-redis-data:/data
+    networks:
+      default:
+        aliases:
+          - redis
+
+  immich-server:
+    container_name: immich-server
+    image: ghcr.io/immich-app/immich-server:v3.0.2@sha256:14390f3dc9512dc3273b12ccee6363d9be16c388699abc3f3fe0498bb9829937
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/immich-server.env
+        required: true
+    depends_on:
+      immich-db:
+        condition: service_healthy
+        restart: true
+      immich-redis:
+        condition: service_healthy
+        restart: true
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    group_add:
+      - "991"
+    volumes:
+      - /media/immich:/usr/src/app/upload
+      - /root/zrr-compose/volumes/.restored-anonymous/immich-server-data:/data
+    networks:
+      - default
+      - edge
+    labels:
+      caddy: immich.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 2283}}"
+      homepage.name: Immich
+      homepage.description: 一个开源的、自托管的、AI驱动的照片管理平台。
+      homepage.icon: https://github.com/immich-app/immich/raw/main/design/immich-logo-stacked-light.svg
+      homepage.group: 家庭
+      homepage.href: https://immich.home.sixbones.dev
+
+  immich-machine-learning:
+    container_name: immich-machine-learning
+    image: ghcr.io/immich-app/immich-machine-learning:v3.0.2-openvino@sha256:6b3c1f779df2e0f93be57bb2ad15681a43b7731cb325e8e66be7d984eca1949d
+    restart: unless-stopped
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    group_add:
+      - "991"
+    volumes:
+      - /root/zrr-compose/volumes/immich/immich-machine-learning/cache:/cache
+
+networks:
+  edge:
+    external: true
+    name: edge

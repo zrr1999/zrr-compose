@@ -1,0 +1,13 @@
+# Create this single resource manually during bootstrap. All other resources are
+# owned by the sync and become read-only in the UI after bootstrap completes.
+[[resource_sync]]
+name = "home-gitops"
+description = "Bootstrap sync for the zrr-compose GitOps resources"
+tags = ["home", "gitops", "bootstrap"]
+
+[resource_sync.config]
+repo = "zrr1999/zrr-compose"
+branch = "main"
+resource_path = ["komodo/resources"]
+managed = false
+webhook_enabled = false

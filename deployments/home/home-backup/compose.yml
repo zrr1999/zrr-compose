@@ -1,0 +1,22 @@
+name: home-backup
+
+services:
+  restic:
+    container_name: restic
+    hostname: home
+    image: ghcr.io/lobaro/restic-backup-docker:v1.4.2@sha256:3601eb9ea043d44686d1a6b154b7b039da97b5d3b3fe2c39d0130932f70ab736
+    restart: unless-stopped
+    privileged: false
+    entrypoint: ["/usr/local/sbin/restic-entrypoint-no-init.sh"]
+    env_file:
+      - path: /etc/zrr-compose/env/restic.env
+        required: true
+    volumes:
+      - /root/zrr-compose/volumes:/data/Backup:ro
+      - /root/zrr-compose/volumes/.restored-anonymous/restic-data:/data
+      - /etc/zrr-compose/restic-entrypoint-no-init.sh:/usr/local/sbin/restic-entrypoint-no-init.sh:ro
+      - /etc/zrr-compose/restic-backup-gate.sh:/hooks/restic-backup-gate.sh:ro
+      - /var/lib/zrr-backup:/coord
+      - /media/immich:/data/Immich:ro
+      - /etc/komodo/stacks:/data/Recovery/komodo/stacks:ro
+      - /etc/zrr-compose:/data/Recovery/runtime:ro

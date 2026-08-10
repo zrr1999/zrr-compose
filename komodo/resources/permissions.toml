@@ -1,0 +1,19 @@
+[[user_group]]
+name = "home-observers"
+everyone = false
+users = []
+all.Server = { level = "Read", specific = ["Logs"] }
+all.Stack = { level = "Read", specific = ["Logs"] }
+all.Procedure = { level = "Read", specific = [] }
+all.Action = { level = "Read", specific = [] }
+all.ResourceSync = { level = "Read", specific = [] }
+
+[[alerter]]
+name = "home-alerts"
+description = "Disabled until an operator supplies the alert endpoint outside Git"
+tags = ["home", "production"]
+
+[alerter.config]
+enabled = false
+endpoint.type = "Custom"
+endpoint.params.url = "http://127.0.0.1:9"

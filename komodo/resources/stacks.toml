@@ -1,0 +1,169 @@
+[[stack]]
+name = "home-edge"
+description = "Public ingress and certificate automation"
+tags = ["home", "production", "edge"]
+deploy = false
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-edge"
+run_directory = "deployments/home/home-edge"
+file_paths = ["compose.yml", "compose.migration.yml"]
+project_name = "home-edge"
+poll_for_updates = true
+auto_update = false
+send_alerts = true
+
+[[stack]]
+name = "home-control"
+description = "Spark Hub, Homepage, and Dozzle"
+tags = ["home", "production", "control", "stateful"]
+deploy = false
+after = ["home-edge"]
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-control"
+run_directory = "deployments/home/home-control"
+file_paths = ["compose.yml"]
+project_name = "home-control"
+poll_for_updates = true
+auto_update = false
+send_alerts = true
+
+[[stack]]
+name = "home-monitor"
+description = "Network and disk monitoring"
+tags = ["home", "production", "monitor", "stateful"]
+deploy = false
+after = ["home-control"]
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-monitor"
+run_directory = "deployments/home/home-monitor"
+file_paths = ["compose.yml"]
+project_name = "home-monitor"
+poll_for_updates = true
+auto_update = false
+send_alerts = true
+
+[[stack]]
+name = "home-tools"
+description = "Personal tools, search, feeds, and the retained Gitea database"
+tags = ["home", "production", "tools", "stateful"]
+deploy = false
+after = ["home-control"]
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-tools"
+run_directory = "deployments/home/home-tools"
+file_paths = ["compose.yml"]
+project_name = "home-tools"
+poll_for_updates = true
+auto_update = false
+send_alerts = true
+
+[[stack]]
+name = "home-media"
+description = "Media library, request, indexer, and download services"
+tags = ["home", "production", "media", "stateful"]
+deploy = false
+after = ["home-control"]
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-media"
+run_directory = "deployments/home/home-media"
+file_paths = ["compose.yml"]
+project_name = "home-media"
+poll_for_updates = true
+auto_update = false
+send_alerts = true
+
+[[stack]]
+name = "home-automation"
+description = "n8n and its PostgreSQL database"
+tags = ["home", "production", "automation", "stateful"]
+deploy = false
+after = ["home-monitor", "home-tools", "home-media"]
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-automation"
+run_directory = "deployments/home/home-automation"
+file_paths = ["compose.yml"]
+project_name = "home-automation"
+poll_for_updates = true
+auto_update = false
+send_alerts = true
+
+[[stack]]
+name = "home-ai"
+description = "New API, LobeChat, Portkey, and databases"
+tags = ["home", "production", "ai", "stateful"]
+deploy = false
+after = ["home-monitor", "home-tools", "home-media"]
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-ai"
+run_directory = "deployments/home/home-ai"
+file_paths = ["compose.yml"]
+project_name = "home-ai"
+poll_for_updates = true
+auto_update = false
+send_alerts = true
+
+[[stack]]
+name = "home-immich"
+description = "Immich application, machine learning, PostgreSQL, and Redis"
+tags = ["home", "production", "immich", "stateful"]
+deploy = false
+after = ["home-monitor", "home-tools", "home-media"]
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-immich"
+run_directory = "deployments/home/home-immich"
+file_paths = ["compose.yml"]
+project_name = "home-immich"
+poll_for_updates = true
+auto_update = false
+send_alerts = true
+
+[[stack]]
+name = "home-backup"
+description = "Encrypted Restic backup pipeline"
+tags = ["home", "production", "backup", "stateful"]
+deploy = false
+after = ["home-automation", "home-ai", "home-immich"]
+
+[stack.config]
+server = "home-docker"
+repo = "zrr1999/zrr-compose"
+branch = "main"
+clone_path = "/etc/komodo/stacks/home-backup"
+run_directory = "deployments/home/home-backup"
+file_paths = ["compose.yml"]
+project_name = "home-backup"
+poll_for_updates = true
+auto_update = false
+send_alerts = true

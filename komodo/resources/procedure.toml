@@ -1,0 +1,75 @@
+[[procedure]]
+name = "Backup Core Database"
+description = "Create the daily gzip-compressed Komodo database backup before the encrypted Restic upload"
+tags = ["system", "backup"]
+
+[procedure.config]
+schedule_format = "English"
+schedule = "Every day at 01:00"
+schedule_enabled = true
+schedule_timezone = "Asia/Shanghai"
+schedule_alert = true
+failure_alert = true
+
+[[procedure.config.stage]]
+name = "Back up Core database"
+enabled = true
+executions = [
+  { execution.type = "BackupCoreDatabase", execution.params = {}, enabled = true },
+]
+
+[[procedure]]
+name = "home-gitops-apply"
+description = "Sync resources, back up stateful changes, deploy changed Stacks in dependency order, then verify"
+tags = ["home", "production", "gitops"]
+
+[procedure.config]
+webhook_enabled = true
+failure_alert = true
+
+[[procedure.config.stage]]
+name = "Sync declarative resources"
+executions = [
+  { execution.type = "RunSync", execution.params.sync = "home-gitops" },
+]
+
+[[procedure.config.stage]]
+name = "Back up stateful changes"
+executions = [
+  { execution.type = "RunAction", execution.params.action = "home-backup-before-stateful" },
+]
+
+[[procedure.config.stage]]
+name = "Deploy edge and control"
+executions = [
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-edge" },
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-control" },
+]
+
+[[procedure.config.stage]]
+name = "Deploy monitor, tools, and media"
+executions = [
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-monitor" },
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-tools" },
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-media" },
+]
+
+[[procedure.config.stage]]
+name = "Deploy automation, AI, and Immich"
+executions = [
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-automation" },
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-ai" },
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-immich" },
+]
+
+[[procedure.config.stage]]
+name = "Deploy backup"
+executions = [
+  { execution.type = "DeployStackIfChanged", execution.params.stack = "home-backup" },
+]
+
+[[procedure.config.stage]]
+name = "Verify"
+executions = [
+  { execution.type = "RunAction", execution.params.action = "home-verify" },
+]

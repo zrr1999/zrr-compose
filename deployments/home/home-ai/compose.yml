@@ -1,0 +1,123 @@
+name: home-ai
+
+services:
+  new-api-db:
+    container_name: new-api-db
+    image: mysql:8.4.10@sha256:c831a0f11348d402b43d77453e17d770be2eef356615a2823fe0f5a0d6c8b9af
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/new-api-db.env
+        required: true
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p\"$${MYSQL_ROOT_PASSWORD}\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - /root/zrr-compose/volumes/new-api/db:/var/lib/mysql
+    networks:
+      default:
+        aliases:
+          - db
+
+  new-api:
+    container_name: new-api
+    image: calciumion/new-api:v1.0.0-rc.21@sha256:428018a37c0b26c163a3367c18401161707cd0e08d0f26a3dde9ff0caa05e34c
+    command: ["--log-dir", "/app/logs"]
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/new-api.env
+        required: true
+    depends_on:
+      new-api-db:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:3000/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - /root/zrr-compose/volumes/new-api/data:/data
+      - /root/zrr-compose/volumes/new-api/logs:/app/logs
+    networks:
+      - default
+      - edge
+    labels:
+      caddy: new-api.zrr.dev new-api.sixbones.dev one-api.zrr.dev one-api.sixbones.dev
+      caddy.@scanner_buyvm.header: Cf-Connecting-Ip 104.244.74.39
+      caddy.@scanner_maroc_telecom.header: Cf-Connecting-Ip 160.179.166.222
+      caddy.@sensitive_probe.path: /.env* /.git* /.svn* /.hg* /actuator* /wp-admin* /wp-login.php /xmlrpc.php /phpmyadmin* /phpMyAdmin* /vendor/phpunit* /server-status
+      caddy.0_respond: "@scanner_buyvm 403"
+      caddy.1_respond: "@scanner_maroc_telecom 403"
+      caddy.2_respond: "@sensitive_probe 404"
+      caddy.3_reverse_proxy: "{{upstreams 3000}}"
+      caddy.3_reverse_proxy.header_up: X-Forwarded-For {http.request.header.Cf-Connecting-Ip}
+      homepage.name: New API
+      homepage.description: LLM API 统一网关。
+      homepage.group: 智能
+      homepage.href: https://new-api.zrr.dev
+      homepage.icon: https://new-api.zrr.dev/logo.png
+
+  lobe-chat-db:
+    container_name: lobe-chat-db
+    image: pgvector/pgvector:0.8.5-pg16@sha256:1d533553fefe4f12e5d80c7b80622ba0c382abb5758856f52983d8789179f0fb
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/lobe-chat-db.env
+        required: true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - /root/zrr-compose/volumes/lobe/db/pgdata:/var/lib/postgresql/data
+    networks:
+      default:
+        aliases:
+          - postgres
+
+  lobe-chat:
+    container_name: lobe-chat
+    image: lobehub/lobe-chat-database:1.143.3@sha256:20136c08da376da970ad659d58c553effa739cb7cde8b936eb1d30716649b893
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/lobe-chat.env
+        required: true
+    depends_on:
+      lobe-chat-db:
+        condition: service_healthy
+        restart: true
+    networks:
+      - default
+      - edge
+    labels:
+      caddy: lobe.sixbones.dev chat.sixbones.dev lobe.zrr.dev chat.zrr.dev
+      caddy.reverse_proxy: "{{upstreams 3210}}"
+      homepage.name: LobeChat
+      homepage.description: 开源的高性能聊天机器人框架 LobeChat。
+      homepage.icon: https://registry.npmmirror.com/@lobehub/assets-favicons/1.4.0/files/assets/favicon.ico
+      homepage.group: 智能
+      homepage.href: https://lobe.sixbones.dev
+
+  portkeyai:
+    container_name: portkeyai
+    image: portkeyai/gateway:1.15.2@sha256:97f094d9c8a764cbfaa2a7138c0017b247ca923bb06db1b4c13b7f8a33b5200d
+    restart: unless-stopped
+    networks:
+      - default
+      - edge
+    labels:
+      caddy: llm-api.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 8787}}"
+      homepage.name: Portkey-AI
+      homepage.description: LLM API 统一网关。
+      homepage.icon: https://framerusercontent.com/images/pkFK3AGXHirogqiN67JGtlnMVM.png
+      homepage.group: 智能
+      homepage.href: https://llm-api.sixbones.dev
+
+networks:
+  edge:
+    external: true
+    name: edge

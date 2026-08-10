@@ -1,0 +1,55 @@
+name: home-control
+
+services:
+  spark:
+    container_name: spark
+    image: ghcr.io/zendev-lab/spark:0.3.0@sha256:656c3f6b6871aa60482658d27b40b9d83049f2bddf4c76fe22328fa61b4f1ec8
+    restart: unless-stopped
+    environment:
+      HOST: 0.0.0.0
+      PORT: "5173"
+      SPARK_HUB_PUBLIC_URL: https://spark.zrr.dev
+      SPARK_HUB_TRUST_PROXY: loopback
+      SPARK_HUB_PROXY_HOPS: "1"
+    volumes:
+      - /root/zrr-compose/volumes/spark:/var/lib/spark
+    networks:
+      - default
+      - edge
+    labels:
+      caddy: spark.zrr.dev
+      caddy.reverse_proxy: "{{upstreams 5173}}"
+      homepage.group: 工具
+      homepage.href: https://spark.zrr.dev
+
+  homepage:
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:v1.13.2@sha256:a0b71c8e757298d02560186bab9fbe3fc2d375c523a62cc1019177b37e48aa28
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/homepage.env
+        required: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/komodo/stacks/home-control/deployments/home/home-control/configs/homepage:/app/config:ro
+    networks:
+      - default
+      - edge
+    labels:
+      caddy: homepage.home.sixbones.dev
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:v10.6.10@sha256:ea95d22b51f985564fdf22432b0c98fccf7c01653a51cf5403d39933d2724310
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - default
+      - edge
+
+networks:
+  edge:
+    external: true
+    name: edge

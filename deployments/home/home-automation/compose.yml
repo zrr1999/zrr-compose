@@ -1,0 +1,51 @@
+name: home-automation
+
+services:
+  n8n-db:
+    container_name: n8n-db
+    image: postgres:16.14@sha256:17e67d7b9890c99b055ba1e0d5c5be4ec27c9d3a72bda32db24a5e5d8a85af0c
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/n8n-db.env
+        required: true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - /root/zrr-compose/volumes/n8n/db/pgdata:/var/lib/postgresql/data
+    networks:
+      default:
+        aliases:
+          - postgres
+
+  n8n:
+    container_name: n8n
+    image: n8nio/n8n:2.31.2@sha256:85e7388a0b4d40705726b9669e8b7e14962b572f24020a3ee89c649bb7295530
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/n8n.env
+        required: true
+    depends_on:
+      n8n-db:
+        condition: service_healthy
+        restart: true
+    volumes:
+      - /root/zrr-compose/volumes/n8n/node:/home/node/.n8n
+    networks:
+      - default
+      - edge
+    labels:
+      caddy: n8n.sixbones.dev n8n.zrr.dev
+      caddy.reverse_proxy: "{{upstreams 5678}}"
+      homepage.name: n8n
+      homepage.description: 流程自动化工具。
+      homepage.group: 工具
+      homepage.icon: https://n8n.sixbones.dev/favicon.ico
+      homepage.href: https://n8n.sixbones.dev
+
+networks:
+  edge:
+    external: true
+    name: edge

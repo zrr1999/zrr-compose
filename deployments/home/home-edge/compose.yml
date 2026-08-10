@@ -1,0 +1,35 @@
+name: home-edge
+
+services:
+  caddy:
+    container_name: caddy
+    image: zrr1999/caddy:922cac3d968f1d50fe3a4f7eeb4aef690af940dc@sha256:7cdd2f150ac4b3282752eef5df225d3bf3696d6ec72321e09ffc310a75d57b3b
+    command: ["caddy", "docker-proxy", "--caddyfile-path", "/etc/caddy/Caddyfile"]
+    restart: unless-stopped
+    env_file:
+      - path: /etc/zrr-compose/env/caddy.env
+        required: true
+    environment:
+      CADDY_INGRESS_NETWORKS: edge
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /root/zrr-compose/volumes/caddy/data:/data
+      - /root/zrr-compose/volumes/caddy/config:/config
+      - /etc/komodo/stacks/home-edge/deployments/home/home-edge/configs/caddy:/etc/caddy:ro
+    networks:
+      - default
+      - edge
+    labels:
+      homepage.name: Caddy
+      homepage.description: Caddy Web Server
+      homepage.icon: https://caddyserver.com/resources/images/favicon.png
+      homepage.group: 网络
+
+networks:
+  edge:
+    external: true
+    name: edge
