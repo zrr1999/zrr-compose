@@ -14,7 +14,7 @@ services:
       - /root/zrr-compose/volumes/alist:/opt/alist/data
     networks: [default, edge]
     labels:
-      caddy: alist.home.sixbones.dev
+      caddy: alist.zrr.dev alist.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 5244}}"
 
   aria2:
@@ -33,7 +33,7 @@ services:
       - /root/zrr-compose/volumes/aria2/downloads:/downloads
     networks: [default, edge]
     labels:
-      caddy: rpc.aria2.home.sixbones.dev
+      caddy: aria2-rpc.zrr.dev rpc.aria2.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 6800}}"
 
   ariang:
@@ -47,7 +47,7 @@ services:
         max-size: 1m
     networks: [default, edge]
     labels:
-      caddy: aria2.home.sixbones.dev
+      caddy: aria2.zrr.dev aria2.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 6880}}"
 
   jellyfin:
@@ -69,7 +69,7 @@ services:
       - /root/zrr-compose/volumes/jellyfin:/config
     networks: [default, edge]
     labels:
-      caddy: jellyfin.home.sixbones.dev
+      caddy: jellyfin.zrr.dev jellyfin.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 8096}}"
 
   jellyseerr:
@@ -87,7 +87,7 @@ services:
       - /root/zrr-compose/volumes/jellyseerr:/app/config
     networks: [default, edge]
     labels:
-      caddy: jellyseerr.home.sixbones.dev
+      caddy: jellyseerr.zrr.dev jellyseerr.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 5055}}"
 
   sonarr:
@@ -101,7 +101,7 @@ services:
       - /root/zrr-compose/volumes/sonarr:/config
     networks: [default, edge]
     labels:
-      caddy: sonarr.home.sixbones.dev
+      caddy: sonarr.zrr.dev sonarr.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 8989}}"
 
   radarr:
@@ -115,7 +115,7 @@ services:
       - /root/zrr-compose/volumes/radarr:/config
     networks: [default, edge]
     labels:
-      caddy: radarr.home.sixbones.dev
+      caddy: radarr.zrr.dev radarr.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 7878}}"
 
   prowlarr:
@@ -129,7 +129,7 @@ services:
       - /root/zrr-compose/volumes/prowlarr:/config
     networks: [default, edge]
     labels:
-      caddy: prowlarr.home.sixbones.dev
+      caddy: prowlarr.zrr.dev prowlarr.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 9696}}"
 
 networks:

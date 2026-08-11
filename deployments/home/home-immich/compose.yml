@@ -62,13 +62,13 @@ services:
       - default
       - edge
     labels:
-      caddy: immich.home.sixbones.dev
+      caddy: immich.zrr.dev immich.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 2283}}"
       homepage.name: Immich
       homepage.description: 一个开源的、自托管的、AI驱动的照片管理平台。
       homepage.icon: https://github.com/immich-app/immich/raw/main/design/immich-logo-stacked-light.svg
       homepage.group: 家庭
-      homepage.href: https://immich.home.sixbones.dev
+      homepage.href: https://immich.zrr.dev
 
   immich-machine-learning:
     container_name: immich-machine-learning

@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "set"
 
 EXPECTED = {
   "home-edge" => %w[caddy],
@@ -14,6 +15,61 @@ EXPECTED = {
   "home-monitor" => %w[speedtest speedtest-tracker scrutiny],
   "home-backup" => %w[restic]
 }.freeze
+
+# The first hostname on every caddy-docker-proxy service is its stable public
+# name. The remaining names are migration-only aliases and must be removed in
+# the certificate-cleanup change after public and LAN validation succeeds.
+CANONICAL_CADDY_HOSTS = {
+  "new-api" => "new-api.zrr.dev",
+  "lobe-chat" => "lobe.zrr.dev",
+  "portkeyai" => "llm-api.zrr.dev",
+  "n8n" => "n8n.zrr.dev",
+  "spark" => "spark.zrr.dev",
+  "homepage" => "homepage.zrr.dev",
+  "immich-server" => "immich.zrr.dev",
+  "alist" => "alist.zrr.dev",
+  "aria2" => "aria2-rpc.zrr.dev",
+  "ariang" => "aria2.zrr.dev",
+  "jellyfin" => "jellyfin.zrr.dev",
+  "jellyseerr" => "jellyseerr.zrr.dev",
+  "sonarr" => "sonarr.zrr.dev",
+  "radarr" => "radarr.zrr.dev",
+  "prowlarr" => "prowlarr.zrr.dev",
+  "speedtest" => "speedtest.zrr.dev",
+  "speedtest-tracker" => "speedtest-tracker.zrr.dev",
+  "scrutiny" => "scrutiny.zrr.dev",
+  "vaultwarden" => "password.zrr.dev",
+  "wallos" => "wallos.zrr.dev",
+  "memos" => "memos.zrr.dev",
+  "it-tools" => "tools.zrr.dev",
+  "searxng" => "searxng.zrr.dev",
+  "miniflux" => "miniflux.zrr.dev"
+}.freeze
+
+TRANSITIONAL_CADDY_HOSTS = Set.new(%w[
+  new-api.sixbones.dev one-api.zrr.dev one-api.sixbones.dev
+  lobe.sixbones.dev chat.zrr.dev chat.sixbones.dev llm-api.sixbones.dev
+  n8n.sixbones.dev homepage.home.sixbones.dev immich.home.sixbones.dev
+  alist.home.sixbones.dev rpc.aria2.home.sixbones.dev aria2.home.sixbones.dev
+  jellyfin.home.sixbones.dev jellyseerr.home.sixbones.dev sonarr.home.sixbones.dev
+  radarr.home.sixbones.dev prowlarr.home.sixbones.dev
+  speedtest.home.sixbones.dev speedtest-tracker.home.sixbones.dev
+  scrutiny.home.sixbones.dev pw.zrr.dev password.sixbones.dev pw.sixbones.dev
+  wallos.sixbones.dev memos.sixbones.dev tools.sixbones.dev searxng.sixbones.dev
+  miniflux.sixbones.dev rss.sixbones.dev
+]).freeze
+
+STATIC_CANONICAL_CADDY_HOSTS = Set.new(%w[
+  ikuai.zrr.dev hass.zrr.dev frigate.zrr.dev dozzle.zrr.dev
+  incus-7505.zrr.dev incus-sei12pro.zrr.dev
+]).freeze
+
+STATIC_TRANSITIONAL_CADDY_HOSTS = Set.new(%w[
+  ikuai.home.sixbones.dev ha.zrr.dev hass.home.sixbones.dev
+  ha.sixbones.dev hass.sixbones.dev frigate.sixbones.dev dozzle.sixbones.dev
+]).freeze
+
+CANONICAL_HOST_PATTERN = /\A[a-z0-9-]+\.zrr\.dev\z/
 
 DATABASES = %w[
   immich-db immich-redis new-api-db lobe-chat-db n8n-db miniflux-db gitea-db
@@ -163,11 +219,55 @@ parsed_services.each do |service_name, service|
   labels = service.fetch("labels", {}) || {}
   next unless labels["caddy"]
 
-  labels["caddy"].split.each do |hostname|
+  hostnames = labels["caddy"].split
+  canonical = CANONICAL_CADDY_HOSTS.fetch(service_name) do
+    fail_check("#{service_name}: missing canonical Caddy hostname contract")
+  end
+  unless hostnames.first == canonical
+    fail_check("#{service_name}: first Caddy hostname must be #{canonical}")
+  end
+
+  unexpected_aliases = hostnames.drop(1).reject { |hostname| TRANSITIONAL_CADDY_HOSTS.include?(hostname) }
+  unless unexpected_aliases.empty?
+    fail_check("#{service_name}: unregistered Caddy aliases #{unexpected_aliases.join(', ')}")
+  end
+
+  hostnames.each do |hostname|
     unless verification_action.include?(%Q{"https://#{hostname}"})
       fail_check("home-verify does not check #{hostname} for #{service_name}")
     end
   end
+end
+
+labeled_services = parsed_services.filter_map do |name, service|
+  labels = service.fetch("labels", {}) || {}
+  name if labels["caddy"]
+end
+unless labeled_services.sort == CANONICAL_CADDY_HOSTS.keys.sort
+  fail_check("Caddy-labeled services differ from the canonical hostname contract")
+end
+
+canonical_hosts = CANONICAL_CADDY_HOSTS.values + STATIC_CANONICAL_CADDY_HOSTS.to_a
+unless canonical_hosts.all? { |hostname| hostname.match?(CANONICAL_HOST_PATTERN) }
+  fail_check("canonical Caddy hostnames must be first-level names in zrr.dev")
+end
+unless canonical_hosts.uniq.size == canonical_hosts.size
+  fail_check("canonical Caddy hostnames must be unique")
+end
+
+caddyfile = File.read("deployments/home/home-edge/configs/caddy/Caddyfile")
+unless caddyfile.match?(/^\*\.zrr\.dev\s*\{\s*\n\s*abort\s*\n\}/)
+  fail_check("Caddyfile must terminate unknown *.zrr.dev names with abort")
+end
+
+static_site_hosts = caddyfile.lines.filter_map do |line|
+  match = line.match(/\A([^\s#\{][^\{]*)\s+\{\s*\z/)
+  match[1].split if match
+end.flatten.to_set
+static_site_hosts.delete("*.zrr.dev")
+expected_static_hosts = STATIC_CANONICAL_CADDY_HOSTS | STATIC_TRANSITIONAL_CADDY_HOSTS
+unless static_site_hosts == expected_static_hosts
+  fail_check("static Caddy sites differ from the canonical and transitional hostname contract")
 end
 
 without_healthcheck = parsed_services.filter_map do |name, service|
@@ -213,4 +313,4 @@ unless File.read("komodo/periphery/install.sh").include?("readonly version=v2.2.
   fail_check("Periphery installer must be pinned to v2.2.0")
 end
 
-puts "compose contract: 9 projects, 35 unique services, Core 2.2.0, images, binds, networks, and readiness checks are valid"
+puts "compose contract: 9 projects, 35 services, 30 canonical zrr.dev hosts, images, binds, networks, readiness, and domains are valid"

@@ -37,13 +37,13 @@ services:
       - default
       - edge
     labels:
-      caddy: n8n.sixbones.dev n8n.zrr.dev
+      caddy: n8n.zrr.dev n8n.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 5678}}"
       homepage.name: n8n
       homepage.description: 流程自动化工具。
       homepage.group: 工具
-      homepage.icon: https://n8n.sixbones.dev/favicon.ico
-      homepage.href: https://n8n.sixbones.dev
+      homepage.icon: https://n8n.zrr.dev/favicon.ico
+      homepage.href: https://n8n.zrr.dev
 
 networks:
   edge:

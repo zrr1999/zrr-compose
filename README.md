@@ -24,4 +24,6 @@ Compose parsing needs Docker Compose v2. The nine production Stack files are
 also parsed against the real Docker engine before rollout.
 
 See [the Komodo operation guide](docs/operations/komodo.md) for bootstrap,
-cutover, rollback, disaster recovery, and acceptance checks.
+cutover, rollback, disaster recovery, and acceptance checks. The
+[domain and certificate guide](docs/operations/domains.md) defines the Caddy
+wildcard, canonical names, Cloudflare boundary, and two-phase alias retirement.

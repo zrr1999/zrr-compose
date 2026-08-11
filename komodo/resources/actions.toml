@@ -158,7 +158,9 @@ if (exitCode !== 0) {
 }
 
 const PUBLIC_URLS = [
+  "https://homepage.zrr.dev",
   "https://homepage.home.sixbones.dev",
+  "https://immich.zrr.dev",
   "https://immich.home.sixbones.dev",
   "https://new-api.zrr.dev",
   "https://new-api.sixbones.dev",
@@ -168,15 +170,23 @@ const PUBLIC_URLS = [
   "https://lobe.sixbones.dev",
   "https://chat.zrr.dev",
   "https://chat.sixbones.dev",
+  "https://llm-api.zrr.dev",
   "https://llm-api.sixbones.dev",
   "https://n8n.zrr.dev",
   "https://n8n.sixbones.dev",
+  "https://alist.zrr.dev",
   "https://alist.home.sixbones.dev",
+  "https://aria2.zrr.dev",
   "https://aria2.home.sixbones.dev",
+  "https://jellyfin.zrr.dev",
   "https://jellyfin.home.sixbones.dev",
+  "https://jellyseerr.zrr.dev",
   "https://jellyseerr.home.sixbones.dev",
+  "https://sonarr.zrr.dev",
   "https://sonarr.home.sixbones.dev",
+  "https://radarr.zrr.dev",
   "https://radarr.home.sixbones.dev",
+  "https://prowlarr.zrr.dev",
   "https://prowlarr.home.sixbones.dev",
   "https://pw.zrr.dev",
   "https://password.zrr.dev",
@@ -188,15 +198,21 @@ const PUBLIC_URLS = [
   "https://memos.sixbones.dev",
   "https://tools.zrr.dev",
   "https://tools.sixbones.dev",
+  "https://searxng.zrr.dev",
   "https://searxng.sixbones.dev",
+  "https://miniflux.zrr.dev",
   "https://miniflux.sixbones.dev",
   "https://rss.sixbones.dev",
+  "https://speedtest.zrr.dev",
   "https://speedtest.home.sixbones.dev",
+  "https://speedtest-tracker.zrr.dev",
   "https://speedtest-tracker.home.sixbones.dev",
+  "https://scrutiny.zrr.dev",
   "https://scrutiny.home.sixbones.dev",
 ];
 
 const PUBLIC_REACHABLE_URLS = [
+  "https://aria2-rpc.zrr.dev",
   "https://rpc.aria2.home.sixbones.dev",
 ];
 
