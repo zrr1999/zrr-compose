@@ -36,7 +36,7 @@ services:
       - default
       - edge
     labels:
-      caddy: homepage.home.sixbones.dev
+      caddy: homepage.zrr.dev homepage.home.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 3000}}"
 
   dozzle:

@@ -32,11 +32,11 @@ services:
       - /root/zrr-compose/volumes/wallos/logos:/var/www/html/images/uploads/logos
     networks: [default, edge]
     labels:
-      caddy: wallos.sixbones.dev wallos.zrr.dev
+      caddy: wallos.zrr.dev wallos.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 80}}"
       homepage.group: 工具
-      homepage.icon: https://wallos.sixbones.dev/favicon.ico
-      homepage.href: https://wallos.sixbones.dev
+      homepage.icon: https://wallos.zrr.dev/favicon.ico
+      homepage.href: https://wallos.zrr.dev
 
   memos:
     container_name: memos
@@ -46,13 +46,13 @@ services:
       - /root/zrr-compose/volumes/memos:/var/opt/memos
     networks: [default, edge]
     labels:
-      caddy: memos.sixbones.dev memos.zrr.dev
+      caddy: memos.zrr.dev memos.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 5230}}"
       homepage.name: Memos
       homepage.description: 一个开源、轻量级的笔记记录服务。
-      homepage.icon: https://memos.sixbones.dev/apple-touch-icon.png
+      homepage.icon: https://memos.zrr.dev/apple-touch-icon.png
       homepage.group: 工具
-      homepage.href: https://memos.sixbones.dev
+      homepage.href: https://memos.zrr.dev
 
   it-tools:
     container_name: it-tools
@@ -60,13 +60,13 @@ services:
     restart: unless-stopped
     networks: [default, edge]
     labels:
-      caddy: tools.sixbones.dev tools.zrr.dev
+      caddy: tools.zrr.dev tools.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 80}}"
       homepage.name: IT-Tools
       homepage.description: 为开发人员提供的方便的在线工具集合，具有出色的用户体验。
       homepage.group: 工具
-      homepage.href: https://tools.sixbones.dev
-      homepage.icon: https://tools.sixbones.dev/favicon.ico
+      homepage.href: https://tools.zrr.dev
+      homepage.icon: https://tools.zrr.dev/favicon.ico
 
   searxng:
     container_name: searxng
@@ -79,13 +79,13 @@ services:
       - /root/zrr-compose/volumes/searxng:/etc/searxng
     networks: [default, edge]
     labels:
-      caddy: searxng.sixbones.dev
+      caddy: searxng.zrr.dev searxng.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 8080}}"
       homepage.name: SearxNG
       homepage.description: 搜索
-      homepage.icon: https://searxng.sixbones.dev/favicon.ico
+      homepage.icon: https://searxng.zrr.dev/favicon.ico
       homepage.group: 工具
-      homepage.href: https://searxng.sixbones.dev
+      homepage.href: https://searxng.zrr.dev
 
   miniflux-db:
     container_name: miniflux-db
@@ -124,13 +124,13 @@ services:
       retries: 5
     networks: [default, edge]
     labels:
-      caddy: miniflux.sixbones.dev rss.sixbones.dev
+      caddy: miniflux.zrr.dev miniflux.sixbones.dev rss.sixbones.dev
       caddy.reverse_proxy: "{{upstreams 8080}}"
       homepage.name: miniflux
       homepage.description: RSS 服务。
-      homepage.icon: https://rss.sixbones.dev/icon/icon-128.png
+      homepage.icon: https://miniflux.zrr.dev/icon/icon-128.png
       homepage.group: 工具
-      homepage.href: https://rss.sixbones.dev
+      homepage.href: https://miniflux.zrr.dev
 
   gitea-db:
     container_name: gitea-db

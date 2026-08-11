@@ -37,11 +37,11 @@ Stop before creating or starting `komodo-core` unless all of these are true:
 4. Rewritten `main` and `v1` pass full-history Gitleaks and are published before
    any deployment clone is created. Old clones must never push again.
 5. The migration PR is merged into the rewritten `main`.
-6. Every existing public hostname has a valid Cloudflare edge certificate.
-   The `*.home.sixbones.dev` names are deeper than Universal SSL's full-zone
-   coverage and Cloudflare Tunnel hostnames are excluded from Total TLS. Use an
-   Advanced/Custom certificate covering `*.home.sixbones.dev`, or migrate those
-   routes to first-level names, before cutover; do not accept TLS handshake
+6. Every canonical first-level `zrr.dev` hostname has a valid Cloudflare edge
+   certificate, a working Tunnel route, and a working LAN origin path. Deep
+   `*.home.sixbones.dev` names are migration-only aliases and are not an
+   acceptance surface. Follow the ordered checks and alias-removal gate in the
+   [domain and certificate guide](domains.md); do not treat a TLS handshake
    failure as an application result.
 
 Do not move `/root/zrr-compose/volumes`, `/media/immich`, or
@@ -258,7 +258,8 @@ Acceptance requires all of the following:
 - exactly nine Komodo-owned Compose projects and no `home` project;
 - Git HEAD, each Komodo source revision, and every running image digest agree;
 - Scrutiny, Miniflux, and SearxNG login/read checks pass;
-- every existing public route, required WebSocket, and database connection passes;
+- every canonical public route, required WebSocket, and database connection passes;
+- all registered domain migration aliases are absent from Git, Tunnel routes, and DNS;
 - one low-risk update and one stateful backup-before-deploy update complete;
 - old-project rollback, Core database restore, and Core-down CLI rescue drills pass.
 
