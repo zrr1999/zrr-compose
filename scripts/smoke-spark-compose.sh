@@ -86,4 +86,4 @@ if [[ $members != spark ]]; then
   exit 1
 fi
 
-echo "spark compose smoke: 0.4.0 is healthy through the isolated loopback adapter"
+echo "spark compose smoke: $spark_image_ref is healthy through the isolated loopback adapter"
