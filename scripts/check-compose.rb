@@ -185,16 +185,53 @@ files.each do |path|
     labels = service.fetch("labels", {}) || {}
     if labels.key?("caddy")
       networks = service_networks(service)
-      fail_check("#{name}: Caddy target is not connected to edge") unless networks.include?("edge")
-      fail_check("#{name}: HTTP application is missing its Stack network") unless networks.include?("default")
+      if name == "spark"
+        unless networks == ["spark_proxy"]
+          fail_check("spark: trusted loopback adapter must use only spark_proxy")
+        end
+      else
+        fail_check("#{name}: Caddy target is not connected to edge") unless networks.include?("edge")
+        fail_check("#{name}: HTTP application is missing its Stack network") unless networks.include?("default")
+      end
     end
   end
 end
 
 fail_check("expected exactly 35 services, found #{seen_services.size}") unless seen_services.size == 35
 fail_check("project set differs from contract") unless seen_projects.keys.sort == EXPECTED.keys.sort
-unless service_networks(parsed_services.fetch("caddy")).sort == %w[default edge]
-  fail_check("final Caddy service must use only its Stack network and edge")
+unless service_networks(parsed_services.fetch("caddy")).sort == %w[default edge spark_proxy]
+  fail_check("final Caddy service must use only its Stack network, edge, and spark_proxy")
+end
+
+spark = parsed_services.fetch("spark")
+spark_environment = spark.fetch("environment")
+unless spark["command"] == ["node", "/opt/spark/loopback-proxy.mjs"]
+  fail_check("spark: command must run the audited loopback proxy adapter")
+end
+unless spark_environment.slice(
+  "HOST",
+  "PORT",
+  "SPARK_HUB_CONTAINER_PROXY_PORT",
+  "SPARK_HUB_PUBLIC_URL",
+  "SPARK_HUB_TRUST_PROXY",
+  "SPARK_HUB_PROXY_HOPS"
+) == {
+  "HOST" => "127.0.0.1",
+  "PORT" => "5174",
+  "SPARK_HUB_CONTAINER_PROXY_PORT" => "5173",
+  "SPARK_HUB_PUBLIC_URL" => "https://spark.zrr.dev",
+  "SPARK_HUB_TRUST_PROXY" => "loopback",
+  "SPARK_HUB_PROXY_HOPS" => "1"
+}
+  fail_check("spark: loopback proxy environment differs from the trust contract")
+end
+unless spark.fetch("labels", {})["caddy.reverse_proxy"] == "{{upstreams 5173}}"
+  fail_check("spark: Caddy must reach only the isolated container proxy port")
+end
+unless bind_sources(spark).include?(
+  "/etc/komodo/stacks/home-control/deployments/home/home-control/configs/spark/loopback-proxy.mjs"
+)
+  fail_check("spark: loopback proxy adapter is not mounted from the Git source")
 end
 
 DATABASES.each do |name|
@@ -299,7 +336,10 @@ end
 edge_base = File.read("deployments/home/home-edge/compose.yml")
 edge_migration = File.read("deployments/home/home-edge/compose.migration.yml")
 fail_check("final edge compose must not contain home_default") if edge_base.include?("home_default")
-unless edge_migration.include?("CADDY_INGRESS_NETWORKS: edge,home_default")
+unless edge_base.include?("CADDY_INGRESS_NETWORKS: edge,spark-proxy")
+  fail_check("final edge compose must include only the public and Spark ingress networks")
+end
+unless edge_migration.include?("CADDY_INGRESS_NETWORKS: edge,spark-proxy,home_default")
   fail_check("edge migration overlay must preserve old home ingress")
 end
 stacks_resource = File.read("komodo/resources/stacks.toml")

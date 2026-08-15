@@ -14,6 +14,11 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
+      - id: spark-loopback-proxy
+        name: spark loopback proxy
+        entry: node scripts/check-spark-loopback-proxy.mjs
+        language: system
+        pass_filenames: false
       - id: compose-contract
         name: compose contract
         entry: ruby scripts/check-compose.rb

@@ -192,12 +192,31 @@ runtime change path.
 
 ## Cut over the nine Stacks
 
-Create the external network once and verify it is initially empty:
+Create the general ingress network and the isolated Spark proxy network once.
+Stop if an existing `spark-proxy` network is not internal or already contains
+containers:
 
 ```sh
 docker network inspect edge >/dev/null 2>&1 || docker network create edge
 docker network inspect edge --format '{{.Name}} {{.Driver}} {{len .Containers}}'
+
+if docker network inspect spark-proxy >/dev/null 2>&1; then
+  test "$(docker network inspect --format '{{.Internal}}' spark-proxy)" = true
+  test "$(docker network inspect --format '{{len .Containers}}' spark-proxy)" = 0
+else
+  docker network create --internal spark-proxy
+fi
+docker network inspect spark-proxy \
+  --format '{{.Name}} {{.Driver}} internal={{.Internal}} {{len .Containers}}'
 ```
+
+Spark 0.4 accepts forwarded identity headers only from a loopback proxy. The
+small Git-owned TCP adapter in `home-control` keeps Hub on `127.0.0.1:5174`
+and exposes port 5173 only on `spark-proxy`; Caddy is the network's only other
+member. Never attach another container to this network. This adapter preserves
+WebSocket and streaming bytes without interpreting HTTP. Its exit criterion is
+a Spark release that can authenticate or explicitly trust the Caddy container
+without turning the shared `edge` network into a trusted proxy boundary.
 
 Before `home-monitor`, the Incus host must expose the real NVMe device to the
 `docker` instance. Verify `/dev/nvme0` exists on the host, is absent in the
@@ -222,10 +241,11 @@ Order:
 3. `home-automation`, `home-ai`, and `home-immich`
 4. `home-backup`
 
-The transition overlay keeps Caddy on both `edge` and `home_default` while old
-containers remain. Spark is a normal container on `edge`; it no longer shares
-Caddy's network namespace. Restore Scrutiny, Miniflux, and SearxNG. Keep
-`gitea-db` running without enabling a Gitea application.
+The transition overlay keeps Caddy on `edge`, `spark-proxy`, and `home_default`
+while old containers remain. Spark no longer shares Caddy's network namespace;
+its only Docker network is the isolated `spark-proxy`. Restore Scrutiny,
+Miniflux, and SearxNG. Keep `gitea-db` running without enabling a Gitea
+application.
 
 ### Batch rollback
 
@@ -242,7 +262,7 @@ After all 35 containers pass and the old `home` project has no containers:
    `deployments/home/home-edge/compose.migration.yml` and remove it from the
    `home-edge` Stack `file_paths`.
 2. Merge and run `home-gitops-apply`; read back
-   `CADDY_INGRESS_NETWORKS=edge` and confirm Caddy is detached from
+   `CADDY_INGRESS_NETWORKS=edge,spark-proxy` and confirm Caddy is detached from
    `home_default`.
 3. Inspect `home_default` and remove that exact network only when it has zero
    containers.
