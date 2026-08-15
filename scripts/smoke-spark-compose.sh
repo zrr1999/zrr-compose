@@ -80,7 +80,7 @@ if [[ $(docker network inspect --format '{{.Internal}}' "$network_name") != true
   exit 1
 fi
 members=$(docker network inspect \
-  --format '{{range .Containers}}{{println .Name}}{{end}}' "$network_name" | sort | paste -sd ' ' -)
+  --format '{{range .Containers}}{{println .Name}}{{end}}' "$network_name" | sed '/^[[:space:]]*$/d' | sort | paste -sd ' ' -)
 if [[ $members != spark ]]; then
   echo "$network_name has unexpected members: $members" >&2
   exit 1
