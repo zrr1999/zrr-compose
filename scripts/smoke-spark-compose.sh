@@ -54,9 +54,14 @@ if [[ $health != healthy ]]; then
   exit 1
 fi
 
-spark_image=$(docker inspect --format '{{.Config.Image}}' spark)
-[[ $spark_image == ghcr.io/zendev-lab/spark:0.4.0@sha256:* ]]
-docker run --rm --network "$network_name" "$spark_image" node -e '
+spark_image_ref=$(docker inspect --format '{{.Config.Image}}' spark)
+spark_image_id=$(docker inspect --format '{{.Image}}' spark)
+echo "Spark runtime image: $spark_image_ref ($spark_image_id)"
+if [[ $spark_image_id != sha256:* ]]; then
+  echo "Spark runtime image has no content ID" >&2
+  exit 1
+fi
+docker run --rm --network "$network_name" "$spark_image_id" node -e '
   const response = await fetch("http://spark:5173/api/v1/health", {
     headers: {
       host: "spark.zrr.dev",
@@ -70,9 +75,15 @@ docker run --rm --network "$network_name" "$spark_image" node -e '
   }
 '
 
-[[ $(docker network inspect --format '{{.Internal}}' "$network_name") == true ]]
+if [[ $(docker network inspect --format '{{.Internal}}' "$network_name") != true ]]; then
+  echo "$network_name is not internal" >&2
+  exit 1
+fi
 members=$(docker network inspect \
   --format '{{range .Containers}}{{println .Name}}{{end}}' "$network_name" | sort | paste -sd ' ' -)
-[[ $members == spark ]]
+if [[ $members != spark ]]; then
+  echo "$network_name has unexpected members: $members" >&2
+  exit 1
+fi
 
 echo "spark compose smoke: 0.4.0 is healthy through the isolated loopback adapter"
