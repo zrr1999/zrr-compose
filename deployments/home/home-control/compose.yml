@@ -3,19 +3,21 @@ name: home-control
 services:
   spark:
     container_name: spark
-    image: ghcr.io/zendev-lab/spark:0.3.0@sha256:656c3f6b6871aa60482658d27b40b9d83049f2bddf4c76fe22328fa61b4f1ec8
+    image: ghcr.io/zendev-lab/spark:0.4.0@sha256:f741f336c1ace1b5433e06f5e88e2ef25df5784decbb6dd3a9029f3d1a3145aa
+    command: ["node", "/opt/spark/loopback-proxy.mjs"]
     restart: unless-stopped
     environment:
-      HOST: 0.0.0.0
-      PORT: "5173"
+      HOST: 127.0.0.1
+      PORT: "5174"
+      SPARK_HUB_CONTAINER_PROXY_PORT: "5173"
       SPARK_HUB_PUBLIC_URL: https://spark.zrr.dev
       SPARK_HUB_TRUST_PROXY: loopback
       SPARK_HUB_PROXY_HOPS: "1"
     volumes:
       - /root/zrr-compose/volumes/spark:/var/lib/spark
+      - /etc/komodo/stacks/home-control/deployments/home/home-control/configs/spark/loopback-proxy.mjs:/opt/spark/loopback-proxy.mjs:ro
     networks:
-      - default
-      - edge
+      - spark_proxy
     labels:
       caddy: spark.zrr.dev
       caddy.reverse_proxy: "{{upstreams 5173}}"
@@ -53,3 +55,6 @@ networks:
   edge:
     external: true
     name: edge
+  spark_proxy:
+    external: true
+    name: spark-proxy

@@ -10,7 +10,7 @@ services:
       - path: /etc/zrr-compose/env/caddy.env
         required: true
     environment:
-      CADDY_INGRESS_NETWORKS: edge
+      CADDY_INGRESS_NETWORKS: edge,spark-proxy
     ports:
       - 80:80
       - 443:443
@@ -23,6 +23,7 @@ services:
     networks:
       - default
       - edge
+      - spark_proxy
     labels:
       homepage.name: Caddy
       homepage.description: Caddy Web Server
@@ -33,3 +34,6 @@ networks:
   edge:
     external: true
     name: edge
+  spark_proxy:
+    external: true
+    name: spark-proxy

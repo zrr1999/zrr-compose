@@ -2,10 +2,11 @@
 services:
   caddy:
     environment:
-      CADDY_INGRESS_NETWORKS: edge,home_default
+      CADDY_INGRESS_NETWORKS: edge,spark-proxy,home_default
     networks:
       - default
       - edge
+      - spark_proxy
       - home_default
 
 networks:

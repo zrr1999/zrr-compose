@@ -37,3 +37,5 @@ jobs:
         run: scripts/prepare-compose-fixtures.sh
       - name: Validate repository
         run: just check
+      - name: Smoke Spark 0.4.0 Compose
+        run: scripts/smoke-spark-compose.sh

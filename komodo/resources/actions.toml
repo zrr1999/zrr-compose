@@ -127,6 +127,10 @@ await komodo.execute_server_terminal(
     server: "home-docker",
     command:
       "set -euo pipefail; docker network inspect edge >/dev/null; " +
+      "docker network inspect spark-proxy >/dev/null; " +
+      "test \"$(docker network inspect --format '{{.Internal}}' spark-proxy)\" = true; " +
+      "members=$(docker network inspect --format '{{range .Containers}}{{println .Name}}{{end}}' spark-proxy | sort | paste -sd ' ' -); " +
+      "test \"$members\" = 'caddy spark'; " +
       `for pair in ${shellPairs}; do ` +
       "container=${pair%%:*}; project=${pair#*:}; " +
       "test \"$(docker inspect --format '{{.State.Status}}' \"$container\")\" = running; " +

@@ -6,6 +6,9 @@ default:
 structure:
     ruby scripts/check-compose.rb
 
+spark-proxy:
+    node scripts/check-spark-loopback-proxy.mjs
+
 compose-config:
     scripts/validate-compose.sh
 
@@ -28,4 +31,4 @@ lint:
     scripts/check-diff.sh
     prek run --all-files
 
-check: structure toml komodo-schema actions compose-config renovate secrets lint
+check: spark-proxy structure toml komodo-schema actions compose-config renovate secrets lint
