@@ -61,7 +61,7 @@ services:
 
   lobe-chat-db:
     container_name: lobe-chat-db
-    image: pgvector/pgvector:0.8.5-pg16@sha256:1d533553fefe4f12e5d80c7b80622ba0c382abb5758856f52983d8789179f0fb
+    image: pgvector/pgvector:0.8.7-pg16@sha256:7b822b0aac60967beb1ea5e576b8602c94c300a157d187f385ae3e0da199b90a
     restart: unless-stopped
     env_file:
       - path: /etc/zrr-compose/env/lobe-chat-db.env
