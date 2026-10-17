@@ -3,7 +3,7 @@ name: home-automation
 services:
   n8n-db:
     container_name: n8n-db
-    image: postgres:16.14@sha256:17e67d7b9890c99b055ba1e0d5c5be4ec27c9d3a72bda32db24a5e5d8a85af0c
+    image: postgres:16.14@sha256:95206741a5b214807675e14165369d05b93a9cf692223b616d07cca227e74b0b
     restart: unless-stopped
     env_file:
       - path: /etc/zrr-compose/env/n8n-db.env
