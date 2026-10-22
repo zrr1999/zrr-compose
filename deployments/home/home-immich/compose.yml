@@ -23,7 +23,7 @@ services:
 
   immich-redis:
     container_name: immich-redis
-    image: redis:6.2.22-alpine@sha256:c9ab371a96b057d3642be9bd71cb1b3fe97920d345dc949860578bffb3d54460
+    image: redis:6.2.24-alpine@sha256:592b215e9287182f11ba9d7c229dc0ba312bb900a016ea65ae378b0127567319
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
