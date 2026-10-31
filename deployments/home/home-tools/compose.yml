@@ -22,7 +22,7 @@ services:
 
   wallos:
     container_name: wallos
-    image: bellamy/wallos:5.2.0@sha256:81dadf61da303fd199701c7eec426f4cf7fba32d137b9b167f67433d4fa98dc8
+    image: bellamy/wallos:5.10.3@sha256:082f85de7367cdbe9c3005a3e4133b33135d204b1e0f47d760e29613a74a04d4
     restart: unless-stopped
     env_file:
       - path: /etc/zrr-compose/env/wallos.env
