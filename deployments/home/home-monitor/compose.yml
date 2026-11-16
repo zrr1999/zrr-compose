@@ -33,7 +33,7 @@ services:
 
   scrutiny:
     container_name: scrutiny
-    image: ghcr.io/analogj/scrutiny:v0.9.3-omnibus@sha256:2f3d23edadf6d12f9c26d16808bd8620852a37dd3074e814352a2328d48fccb0
+    image: ghcr.io/analogj/scrutiny:v0.10.0-omnibus@sha256:90062edac57a2bd891d641344184f5f730f19394b1124f6fc53904a3d8cb21c2
     restart: unless-stopped
     cap_add:
       - SYS_RAWIO
